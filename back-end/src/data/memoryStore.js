@@ -12,6 +12,17 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
+import { modul1SetCOptions, modul1SetCRubrics } from './modules/modul1SetC.js';
+import { sections3to10 } from './modules/sections3to10.js';
+import { modul2Questions, modul2Options, modul2Rubrics } from './modules/modul2.js';
+import { modul3Questions, modul3Options, modul3Rubrics } from './modules/modul3.js';
+import { modul4Questions, modul4Options, modul4Rubrics } from './modules/modul4.js';
+import { modul5Questions, modul5Options, modul5Rubrics } from './modules/modul5.js';
+import { modul6Questions, modul6Options, modul6Rubrics } from './modules/modul6.js';
+import { modul7Questions, modul7Options, modul7Rubrics } from './modules/modul7.js';
+import { modul8Questions, modul8Options, modul8Rubrics } from './modules/modul8.js';
+import { modul9Questions, modul9Options, modul9Rubrics } from './modules/modul9.js';
+import { modul10Questions, modul10Options, modul10Rubrics } from './modules/modul10.js';
 
 // ─── Helper ───────────────────────────────────────────────────────────────────
 const now = () => new Date().toISOString();
@@ -220,10 +231,11 @@ export const sections = [
     pdf_url: 'https://drive.google.com/file/d/1Tp17CHNjKtoU0JVsaGZrAZDIMK9JbNGE/preview',
     pdf_title: 'Slide PPT Modul 2: Studi Kasus Produk Gagal & Dosa Besar Desainer',
     created_at: now()
-  }
+  },
+  ...sections3to10
 ];
 
-// ─── 4. QUESTIONS (Modul 1 – Set A, B, C lengkap) ────────────────────────────
+// ─── 4. QUESTIONS (Modul 1–10 – Set A, B, C lengkap) ──────────────────────────
 // Kolom: id, course_id, set_paket, topik, tipe, teks, urutan, created_at
 export const questions = [
   // ════════════ SET A – 10 PG ════════════
@@ -276,10 +288,19 @@ export const questions = [
   { id: 'q1000006-0000-0000-0000-000000000002', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'C', topik: 'Problem Statement Canvas', tipe: 'essay', teks: 'Jelaskan mengapa "The Gap" adalah elemen terpenting dalam Problem Statement Canvas dari sudut pandang diferensiasi produk!', urutan: 12, created_at: now() },
   { id: 'q1000006-0000-0000-0000-000000000003', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'C', topik: 'Agility', tipe: 'essay', teks: 'Apa yang dimaksud dengan "iterasi" dalam konteks pengembangan produk agile? Mengapa iterasi cepat lebih baik dari perencanaan besar-besaran?', urutan: 13, created_at: now() },
   { id: 'q1000006-0000-0000-0000-000000000004', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'C', topik: 'Validasi Masalah', tipe: 'essay', teks: 'Sebutkan 2 cara konkret untuk memvalidasi apakah masalah yang ingin diselesaikan oleh startup benar-benar dirasakan oleh pengguna!', urutan: 14, created_at: now() },
-  { id: 'q1000006-0000-0000-0000-000000000005', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'C', topik: 'Problem Solving', tipe: 'essay', teks: 'Jelaskan konsep "Premature Scaling" dan dampaknya pada keberlangsungan startup!', urutan: 15, created_at: now() }
+  { id: 'q1000006-0000-0000-0000-000000000005', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'C', topik: 'Problem Solving', tipe: 'essay', teks: 'Jelaskan konsep "Premature Scaling" dan dampaknya pada keberlangsungan startup!', urutan: 15, created_at: now() },
+  ...modul2Questions,
+  ...modul3Questions,
+  ...modul4Questions,
+  ...modul5Questions,
+  ...modul6Questions,
+  ...modul7Questions,
+  ...modul8Questions,
+  ...modul9Questions,
+  ...modul10Questions
 ];
 
-// ─── 5. OPTIONS (Jawaban PG Set A Modul 1 – lengkap dengan kunci) ─────────────
+// ─── 5. OPTIONS (Jawaban PG Modul 1–10 – lengkap dengan kunci) ────────────────
 // Kolom: id, question_id, teks, poin (10=benar/0=salah), umpan_balik, is_correct
 export const options = [
   // Q1-A: Value-Driven vs Feature-Driven
@@ -383,7 +404,17 @@ export const options = [
   { id: 'o1-B10-1', question_id: 'q1000003-0000-0000-0000-000000000010', teks: 'Analisis SWOT', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
   { id: 'o1-B10-2', question_id: 'q1000003-0000-0000-0000-000000000010', teks: 'Lean Canvas', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
   { id: 'o1-B10-3', question_id: 'q1000003-0000-0000-0000-000000000010', teks: 'Metode 5 Whys', poin: 10, umpan_balik: 'Tepat! 5 Whys menggali lapisan demi lapisan sebab hingga ke akar terdalam.', is_correct: true },
-  { id: 'o1-B10-4', question_id: 'q1000003-0000-0000-0000-000000000010', teks: 'Benchmarking visual', poin: 0, umpan_balik: 'Keliru.', is_correct: false }
+  { id: 'o1-B10-4', question_id: 'q1000003-0000-0000-0000-000000000010', teks: 'Benchmarking visual', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
+  ...modul1SetCOptions,
+  ...modul2Options,
+  ...modul3Options,
+  ...modul4Options,
+  ...modul5Options,
+  ...modul6Options,
+  ...modul7Options,
+  ...modul8Options,
+  ...modul9Options,
+  ...modul10Options
 ];
 
 // ─── 6. ESSAY RUBRICS ─────────────────────────────────────────────────────────
@@ -452,7 +483,7 @@ export const essay_rubrics = [
     question_id: 'q1000004-0000-0000-0000-000000000003',
     kunci_jawaban: 'Empat strategi AI Prompting yaitu: 1. AI sebagai Market Researcher (memetakan data tren pasar), 2. AI sebagai Interview Simulator (mensimulasikan calon responden), 3. AI sebagai Competitor Analyst (menganalisis kelebihan/kekurangan lawan), dan 4. AI sebagai Devil’s Advocate (menguji dan mengkritisi kelemahan asumsi tim).',
     kata_kunci: ['market researcher', 'interview simulator', 'competitor analyst', 'devil advocate'],
-    rubrik_skor: { '10': 'Menyebutkan minimal 2 strategi AI Prompting', '8': 'Menyebutkan 1 strategi', '0': 'Tidak relevan' },
+    rubrik_skor: { '10': 'Menyebutkan minimal 2 strategi AI Prompting', '8': 'Menjelaskan 1 strategi', '0': 'Tidak relevan' },
     created_at: now()
   },
   {
@@ -470,7 +501,17 @@ export const essay_rubrics = [
     kata_kunci: ['segmentasi', 'spesifik', 'fokus', 'kebutuhan berbeda', 'target pengguna', 'berbeda'],
     rubrik_skor: { '10': 'Menjelaskan alasan segmentasi dan kebutuhan yang berbeda', '8': 'Menjelaskan target pasar', '0': 'Tidak relevan' },
     created_at: now()
-  }
+  },
+  ...modul1SetCRubrics,
+  ...modul2Rubrics,
+  ...modul3Rubrics,
+  ...modul4Rubrics,
+  ...modul5Rubrics,
+  ...modul6Rubrics,
+  ...modul7Rubrics,
+  ...modul8Rubrics,
+  ...modul9Rubrics,
+  ...modul10Rubrics
 ];
 
 // ─── 7. ATTEMPTS ──────────────────────────────────────────────────────────────
