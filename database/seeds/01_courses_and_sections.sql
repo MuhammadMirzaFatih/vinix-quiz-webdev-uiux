@@ -6,7 +6,7 @@
 -- 1. Insert 10 Courses
 INSERT INTO courses (id, urutan, judul, ringkasan, estimasi_waktu, pdf_url) VALUES
 ('c0000001-0000-0000-0000-000000000001', 1, 'Mindset Startup & Problem Solving', 'Memahami pola pikir value-driven, identifikasi masalah nyata vs solusi palsu, Problem Statement Canvas, dan 5 Whys.', '45 Menit', 'https://drive.google.com/file/d/1ofkBoMKz26NmUddSc5dCT3y7JexVlKnS/preview'),
-('c0000002-0000-0000-0000-000000000002', 2, 'UI/UX & Design Thinking', 'Pilar UI vs UX, 5 tahap Design Thinking, Empathy Map, dan studi kasus kegagalan produk digital nyata.', '50 Menit', NULL),
+('c0000002-0000-0000-0000-000000000002', 2, 'UI/UX & Design Thinking', 'Mengupas tuntas anatomi desain produk digital, 5 tahap Design Thinking, kurva 1:10:100, dan studi kasus produk gagal.', '50 Menit', 'https://drive.google.com/file/d/1Tp17CHNjKtoU0JVsaGZrAZDIMK9JbNGE/preview'),
 ('c0000003-0000-0000-0000-000000000003', 3, 'User Research & Persona', 'Metodologi riset kualitatif & kuantitatif, teknik wawancara bebas leading question, User Persona, dan User Journey Map.', '55 Menit', NULL),
 ('c0000004-0000-0000-0000-000000000004', 4, 'Wireframing & User Flow', 'Information Architecture (IA), F-Pattern vs Z-Pattern, prinsip Proximity & Contrast, User Flow diagram, dan Crazy 8s.', '60 Menit', NULL),
 ('c0000005-0000-0000-0000-000000000005', 5, 'UI & Prototyping', 'Low-Fidelity vs High-Fidelity prototype, komponen form interaktif, CTA efektif, dan prinsip Test Early, Learn Fast.', '50 Menit', NULL),
@@ -40,5 +40,28 @@ Sebelum menyentuh baris kode, validasi masalah adalah fondasi utama.
 '### Bacaan Pengayaan Industri
 - Eric Ries - *The Lean Startup* (Siklus Build-Measure-Learn).
 - Konsep **Problem-Solution Fit** sebagai checkpoint mutlak sebelum melangkah ke Product-Market Fit.
-- Studi Kasus: Manajemen Operasional Kos-Kosan (Manual vs Otomatisasi Terintegrasi).')
+- Studi Kasus: Manajemen Operasional Kos-Kosan (Manual vs Otomatisasi Terintegrasi).'),
+
+-- 3. Insert Sections for Course 2 (UI/UX & Design Thinking)
+('c0000002-0000-0000-0000-000000000002', 1, 'Bagian 1: Anatomi UI vs UX & Kurva Biaya 1:10:100',
+'### Anatomi UI vs UX
+- UX (User Experience): Berfokus pada strategi, psikologi, dan alur pemecahan masalah di pikiran pengguna ("mencapai tujuan tanpa berpikir keras").
+- UI (User Interface): Berfokus pada estetika visual, tata letak, dan interaksi di layar perangkat ("memandu mata secara instingtif ke aksi yang benar").
+- Kurva 1:10:100 Rule: Memperbaiki kesalahan desain setelah aplikasi dirilis 100x lipat lebih mahal dibanding saat fase riset awal.'),
+
+('c0000002-0000-0000-0000-000000000002', 2, 'Bagian 2: 5 Tahap Design Thinking & Purwarupa Kasar',
+'### 5 Tahap Design Thinking
+1. Empathize: Mengamati dan memahami rasa frustrasi pengguna secara langsung (Empathy Map).
+2. Define: Merumuskan akar permasalahan secara spesifik.
+3. Ideate: Brainstorming ide tanpa menghakimi kelayakan terlebih dahulu.
+4. Prototype: Membuat purwarupa kasar (sketsa kertas / wireframe hitam-putih).
+5. Test: Menguji langsung ke target audiens untuk menemukan kebingungan pengguna.
+> Purwarupa Kasar mencegah Sunk Cost Bias / "Baper" saat desain harus dirombak.'),
+
+('c0000002-0000-0000-0000-000000000002', 3, 'Bagian 3: Studi Kasus Produk Gagal & Dosa Besar Desainer',
+'### Studi Kasus Produk Gagal
+- Juicero ($120M): Over-engineering mesin jus canggih ber-WiFi yang tidak memiliki nilai tambah nyata.
+- Windows 8: Menghapus tombol Start dan merombak mental model kebiasaan pengguna desktop secara mendadak.
+- Google Glass: Abai terhadap konteks sosial dan etika privasi publik.
+4 Dosa Besar Desainer: Mendesain untuk diri sendiri, jebakan Lorem Ipsum, Hick\'s Law (analysis paralysis), dan estetika membunuh fungsi.')
 ON CONFLICT (course_id, urutan) DO NOTHING;

@@ -73,41 +73,70 @@ Pemilik kos dengan 10–30 kamar yang tidak tinggal di lokasi kesulitan memantau
     id: 'c2',
     urutan: 2,
     judul: 'UI/UX & Design Thinking',
-    ringkasan: 'Perbedaan mendasar UI vs UX, 5 tahap Design Thinking (EDIPT), dan studi kasus kegagalan produk.',
+    ringkasan: 'Mengupas tuntas anatomi desain produk digital, 5 tahap Design Thinking, kurva 1:10:100, dan studi kasus produk gagal.',
     kategori: 'UI/UX Design',
     estimasiWaktu: '50 Menit',
     level: 'Fondasi',
     icon: 'Palette',
-    referensiEksternal: 'Double Diamond Framework, Hukum UX (Hicks, Fittss, Jakobs Law), Studi Kasus Juicero & Windows 8',
+    referensiEksternal: 'Double Diamond Framework, Hukum UX (Hick\'s Law), Studi Kasus Juicero, Windows 8, Google Glass',
+    pdfUrl: 'https://drive.google.com/file/d/1Tp17CHNjKtoU0JVsaGZrAZDIMK9JbNGE/preview',
     sections: [
       {
         id: 's2-1',
         urutan: 1,
-        judul: 'Bagian 1: Perbedaan UI dan UX',
-        isi: `### UI (User Interface) vs UX (User Experience)
-* **UI (Antarmuka Pengguna):** Elemen visual yang tampak di layar seperti tombol, tipografi, warna, tata letak, dan ikon.
-* **UX (Pengalaman Pengguna):** Keseluruhan rasa, kemudahan, dan emosi yang dialami pengguna saat berinteraksi dengan produk dari awal hingga akhir.
+        judul: 'Bagian 1: Anatomi UI vs UX & Kurva Biaya 1:10:100',
+        pdfUrl: 'https://drive.google.com/file/d/1Tp17CHNjKtoU0JVsaGZrAZDIMK9JbNGE/preview',
+        pdfTitle: 'Slide PPT Modul 2: Anatomi UI vs UX & Kurva Biaya 1:10:100',
+        isi: `### 1. UI vs UX: Apakah Keduanya Hal yang Sama?
+Sering disatukan dalam percakapan industri, namun secara fundamental berakar pada dua dimensi ilmu yang sangat berbeda.
 
-> **Analogi:** UI adalah tampilan visual dan interior mobil; UX adalah seberapa mulus, aman, dan nyaman mobil tersebut dikendarai di jalan.`
+#### User Experience (UX):
+* **Fokus:** Strategi, psikologi, dan alur pemecahan masalah.
+* **Lokasi:** Terjadi di dalam pikiran pengguna (ekspektasi, kebingungan, rasa lega).
+* **Misi Inti:** *"Bagaimana cara termudah agar user bisa mencapai tujuannya tanpa harus berpikir keras?"*
+
+#### User Interface (UI):
+* **Fokus:** Estetika, desain interaksi, dan identitas merek.
+* **Lokasi:** Terjadi di layar perangkat (tata letak, tombol, animasi, warna).
+* **Misi Inti:** *"Bagaimana mengatur elemen visual agar mata user terpandu secara instingtif ke aksi yang benar?"*
+
+> **Kurva Biaya Perubahan Desain (1:10:100 Rule):**
+> Memperbaiki kesalahan desain setelah aplikasi dirilis adalah **100x lipat lebih mahal** dibanding saat fase riset awal. Validasi ide Anda di hulu sebelum memakan biaya coding besar!`
       },
       {
         id: 's2-2',
         urutan: 2,
-        judul: 'Bagian 2: 5 Tahap Design Thinking (EDIPT)',
-        isi: `### Alur Design Thinking
-1. **Empathize:** Memahami pengguna secara mendalam melalui observasi dan wawancara tanpa asumsi.
-2. **Define:** Merumuskan masalah utama secara spesifik berdasarkan temuan riset.
-3. **Ideate:** Menghasilkan ide-ide solusi sebanyak mungkin tanpa menghakimi kelayakannya terlebih dahulu.
-4. **Prototype:** Membuat representasi fisik/digital awal yang dapat diuji coba.
-5. **Test:** Menguji prototipe ke pengguna nyata untuk mendapatkan feedback jujur.`
+        judul: 'Bagian 2: 5 Tahap Design Thinking & Purwarupa Kasar',
+        pdfUrl: 'https://drive.google.com/file/d/1Tp17CHNjKtoU0JVsaGZrAZDIMK9JbNGE/preview',
+        pdfTitle: 'Slide PPT Modul 2: 5 Tahap Design Thinking & Purwarupa Kasar',
+        isi: `### 2. Lima Tahapan Design Thinking
+
+1. **Empathize (Turunkan Ego):** Pahami apa yang benar-benar dirasakan dan menjadi penderitaan pengguna. Observasi langsung kebiasaan dan keluhan di lapangan menggunakan *Empathy Map* (Says, Thinks, Does, Feels). Perhatikan inkonsistensi (misal: user mengaku aplikasinya mudah, tapi diam-diam mencatat password di *sticky notes*).
+2. **Define:** Rumuskan akar permasalahan psikologis secara spesifik dan tajam.
+3. **Ideate:** Momen untuk *brainstorming* sebebas mungkin. Jangan tolak ide aneh, karena seringkali inovasi disruptif lahir dari ide yang awalnya terdengar gila.
+4. **Prototype (Purwarupa Kasar):** Buat representasi murah (sketsa kertas atau *wireframe* hitam-putih).
+5. **Test:** Langsung ujikan ke target audiens. Jangan cari pujian, tapi carilah di mana pengguna merasa kebingungan.
+
+> **Mengapa Wajib Purwarupa Kasar Terlebih Dahulu?**
+> Banyak desainer pemula langsung membuat desain resolusi tinggi (*high-fidelity*) yang indah. Ini adalah jebakan! Gunakan sketsa murah agar kalian tidak terjebak **Bias Biaya Tertanam (Sunk Cost Bias / "Baper")** atau merasa keberatan membuang desain yang memakan waktu lama saat pengguna meminta perombakan total.`
       },
       {
         id: 's2-3',
         urutan: 3,
-        judul: 'Referensi Tambahan: Studi Kasus Produk Gagal',
-        isi: `### Pelajaran dari Produk Gagal
-* **Juicero ($120M):** Mesin pembuat jus canggih seharga $400 yang gagal karena kantong jusnya ternyata bisa diperas dengan tangan kosong. Pelajaran: Jangan membuat solusi teknologi yang tidak memberikan nilai tambah nyata.
-* **Windows 8:** Menghilangkan tombol Start secara drastis tanpa mempertimbangkan kebiasaan pengguna desktop, mengakibatkan penolakan pasar secara masif.`
+        judul: 'Bagian 3: Studi Kasus Produk Gagal & Dosa Besar Desainer',
+        pdfUrl: 'https://drive.google.com/file/d/1Tp17CHNjKtoU0JVsaGZrAZDIMK9JbNGE/preview',
+        pdfTitle: 'Slide PPT Modul 2: Studi Kasus Produk Gagal & Dosa Besar Desainer',
+        isi: `### 3. Studi Kasus Produk Berskala Raksasa yang Gagal
+
+* **Juicero ($120M):** Mesin jus canggih ber-WiFi seharga $400 yang gagal total karena memeras kantong jusnya dengan tangan kosong ternyata jauh lebih cepat. Pelajaran: *Over-engineering* tanpa nilai guna nyata adalah pemborosan fatal.
+* **Windows 8:** Menghapus tombol "Start" legendaris dan menggantinya dengan layar penuh kotak-kotak. Memaksa pengguna merombak kebiasaan mental secara mendadak berujung kepanikan dan disorientasi massal.
+* **Google Glass:** Secara teknis brilian, tapi abai konteks sosial. Kamera kacamata yang selalu menyala memicu kekhawatiran privasi di ruang publik hingga dilarang di berbagai bioskop dan restoran.
+
+#### 4 Dosa Besar Desainer Pemula:
+1. **Mendesain Untuk Diri Sendiri:** Terlalu terobsesi pada selera artistik pribadi dan mengabaikan apa yang sebenarnya dipahami target pengguna.
+2. **Terbiasa "Lorem Ipsum":** Mengisi *wireframe* dengan teks palsu asal-asalan, sehingga saat konten riil dimasukkan, tata letak antarmuka hancur berantakan.
+3. **Terlalu Banyak Opsi (Hick's Law):** Menghujani pengguna dengan belasan tombol pilihan di satu layar yang memicu kelumpuhan analisis (*analysis paralysis*).
+4. **Estetika Membunuh Fungsi:** Terlalu banyak efek visual, bayangan tebal, dan gradasi warna ramai hingga menenggelamkan tombol fungsi utama yang seharusnya diklik pengguna.`
       }
     ]
   },
@@ -859,6 +888,210 @@ export const MOCK_QUESTIONS = {
         teks: 'Mengapa target pengguna dalam perancangan produk tidak boleh didefinisikan sebagai "semua orang"?',
         kunciJawabanIdeal: 'Karena kebutuhan dan masalah setiap kelompok pengguna berbeda. Target yang terlalu luas membuat solusi menjadi bias, tidak fokus, dan sulit divalidasi, sedangkan segmentasi spesifik membantu menciptakan solusi yang tajam dan tepat sasaran.',
         keywords: ['segmentasi', 'spesifik', 'fokus', 'kebutuhan berbeda', 'target pengguna']
+      }
+    ]
+  },
+
+  // ================= MODUL 2 (UI/UX & Design Thinking) =================
+  c2: {
+    A: [
+      // 10 Pilihan Ganda (Set A) - Berdasarkan Slide "Week 2 UI/UX Design Thinking"
+      {
+        id: 'q2-A-1',
+        urutan: 1,
+        topik: 'UI vs UX',
+        tipe: 'pilihan_ganda',
+        teks: 'Manakah pernyataan berikut yang paling tepat membedakan esensi fokus antara User Experience (UX) dan User Interface (UI) berdasarkan materi slide?',
+        options: [
+          { id: 'opt-1', teks: 'UX berfokus pada pemilihan palet warna dan tipografi tombol, sedangkan UI berfokus pada penulisan kode logika di server backend.' },
+          { id: 'opt-2', teks: 'UX berfokus pada strategi, psikologi, dan alur pemecahan masalah di pikiran pengguna, sedangkan UI berfokus pada estetika visual, tata letak, dan panduan instingtif di layar.' },
+          { id: 'opt-3', teks: 'UX mengukur seberapa banyak animasi interaktif yang disematkan, sedangkan UI mengukur kecepatan render grafis kartu komponen.' },
+          { id: 'opt-4', teks: 'UX hanya dikerjakan oleh tim manajemen produk, sedangkan UI sepenuhnya menjadi wewenang tim pemasaran digital.' }
+        ],
+        kunciJawaban: 'opt-2',
+        pembahasan: 'UX berakar pada strategi dan psikologi di dalam pikiran pengguna (mencapai tujuan tanpa berpikir keras), sedangkan UI berfokus pada elemen visual di layar (memandu mata pengguna secara instingtif).'
+      },
+      {
+        id: 'q2-A-2',
+        urutan: 2,
+        topik: 'Kurva Biaya Desain',
+        tipe: 'pilihan_ganda',
+        teks: 'Menurut prinsip kurva biaya perubahan desain "1:10:100 Rule", mengapa tim produk digital sangat ditekankan memvalidasi ide di fase hulu (riset) sebelum coding?',
+        options: [
+          { id: 'opt-1', teks: 'Karena investor ventura hanya bersedia mencairkan 1% dana pendanaan jika tim langsung memulai proses pemrograman tanpa berkas desain lengkap.' },
+          { id: 'opt-2', teks: 'Karena rasio keterbacaan kontras warna UI wajib memenuhi standar 100:1 agar tidak dikenai sanksi hukum pelanggaran aksesibilitas.' },
+          { id: 'opt-3', teks: 'Karena setiap perubahan arsitektur basis data relasional membutuhkan waktu migrasi tepat 100 jam kerja insinyur software.' },
+          { id: 'opt-4', teks: 'Karena biaya dan beban perbaikan kesalahan desain yang baru ditemukan setelah aplikasi dirilis 100 kali lipat lebih mahal dibanding saat fase riset awal.' }
+        ],
+        kunciJawaban: 'opt-4',
+        pembahasan: 'Aturan 1:10:100 menegaskan bahwa memperbaiki kesalahan desain di tahap pasca-rilis menelan biaya 100x lipat lebih mahal dibanding memperbaikinya saat fase riset hulu.'
+      },
+      {
+        id: 'q2-A-3',
+        urutan: 3,
+        topik: 'Purwarupa Kasar',
+        tipe: 'pilihan_ganda',
+        teks: 'Mengapa desainer pemula sangat diperingatkan agar tidak langsung membuat purwarupa resolusi tinggi (high-fidelity) yang mulus di awal proses desain?',
+        options: [
+          { id: 'opt-1', teks: 'Untuk menghindari jebakan bias biaya tertanam (Sunk Cost Bias) atau "baper", sehingga tim tidak keberatan membuang dan merombak total desain saat diuji ke pengguna.' },
+          { id: 'opt-2', teks: 'Karena piranti lunak desain modern mengenakan biaya lisensi tambahan per piksel untuk setiap aset grafis resolusi tinggi yang diekspor.' },
+          { id: 'opt-3', teks: 'Karena sketsa kertas otomatis menghasilkan kode komponen HTML dan CSS secara instan melalui pemindaian kamera smartphone.' },
+          { id: 'opt-4', teks: 'Karena pengguna awam dilarang melihat warna antarmuka sebelum versi final disetujui secara resmi oleh dewan direksi perusahaan.' }
+        ],
+        kunciJawaban: 'opt-1',
+        pembahasan: 'Purwarupa kasar (sketsa kertas / wireframe hitam-putih) mencegah desainer terjebak rasa "baper" (Sunk Cost Bias) saat desain harus dirombak total berdasarkan umpan balik pengguna.'
+      },
+      {
+        id: 'q2-A-4',
+        urutan: 4,
+        topik: 'Design Thinking',
+        tipe: 'pilihan_ganda',
+        teks: 'Saat melakukan observasi pada tahap Empathize, seorang peneliti menemukan bahwa pengguna menyatakan aplikasinya sangat mudah digunakan, namun diam-diam menempelkan sticky notes berisi kata sandi di monitornya. Sikap peneliti yang paling tepat adalah...',
+        options: [
+          { id: 'opt-1', teks: 'Menyimpulkan bahwa aplikasi sudah sempurna karena pernyataan verbal pengguna secara eksplisit menyebutkan kata "mudah".' },
+          { id: 'opt-2', teks: 'Menegur pengguna di tempat karena telah melanggar prosedur standar keamanan siber dengan mencatat kata sandi di kertas.' },
+          { id: 'opt-3', teks: 'Mencatat inkonsistensi tersebut sebagai pain point nyata bahwa alur otentikasi saat ini merepotkan dan membebani kognitif pengguna.' },
+          { id: 'opt-4', teks: 'Menghapus fitur kata sandi secara sepihak dan menggantinya dengan verifikasi biometrik retina mata tanpa riset lanjutan.' }
+        ],
+        kunciJawaban: 'opt-3',
+        pembahasan: 'Perhatikan inkonsistensi antara apa yang dikatakan dan apa yang dilakukan pengguna (Says vs Does). Mencatat password di sticky notes adalah indikasi nyata bahwa alur login saat ini menyusahkan pengguna.'
+      },
+      {
+        id: 'q2-A-5',
+        urutan: 5,
+        topik: 'Studi Kasus Juicero',
+        tipe: 'pilihan_ganda',
+        teks: 'Kasus kegagalan mesin pembuat jus Juicero ($120M) menjadi peringatan monumental di industri produk digital karena startup tersebut melakukan kesalahan fatal berupa...',
+        options: [
+          { id: 'opt-1', teks: 'Gagal mengamankan pasokan listrik bertegangan tinggi di pabrik manufaktur sehingga produk mengalami korsleting massal.' },
+          { id: 'opt-2', teks: 'Melakukan over-engineering teknologi canggih berbiaya mahal untuk menyelesaikan masalah yang ternyata dapat diselesaikan lebih cepat dengan tangan kosong tanpa nilai tambah nyata.' },
+          { id: 'opt-3', teks: 'Memilih palet warna kemasan jus yang tidak sesuai dengan tren estetika visual generasi muda perkotaan.' },
+          { id: 'opt-4', teks: 'Menolak bekerja sama dengan penyedia kartu kredit internasional untuk pemrosesan transaksi langganan bulanan.' }
+        ],
+        kunciJawaban: 'opt-2',
+        pembahasan: 'Juicero membuang $120 juta untuk mesin jus canggih ber-WiFi yang kantongnya ternyata bisa diperas pakai tangan kosong. Pelajaran: Jangan over-engineering solusi yang tidak memberi nilai tambah nyata.'
+      },
+      {
+        id: 'q2-A-6',
+        urutan: 6,
+        topik: 'Studi Kasus Windows 8',
+        tipe: 'pilihan_ganda',
+        teks: 'Mengapa keputusan antarmuka pada Windows 8 yang menghapus tombol "Start" ikonik memicu penolakan dan kegagalan massal di kalangan pengguna desktop?',
+        options: [
+          { id: 'opt-1', teks: 'Karena merombak kebiasaan mental pengguna secara drastis tanpa mempertimbangkan konteks alur kerja desktop, memicu kepanikan dan disorientasi massal.' },
+          { id: 'opt-2', teks: 'Karena ikon tombol Start yang baru memiliki resolusi grafis yang terlalu tajam sehingga menyilaukan mata pengguna di malam hari.' },
+          { id: 'opt-3', teks: 'Karena sistem operasi tersebut secara otomatis menghapus seluruh dokumen kerja pengguna setiap kali sistem di-restart.' },
+          { id: 'opt-4', teks: 'Karena pengembang pihak ketiga diwajibkan membayar royalti setiap kali memanggil API tombol Start di aplikasi mereka.' }
+        ],
+        kunciJawaban: 'opt-1',
+        pembahasan: 'Menghapus tombol Start memaksa pengguna desktop merombak mental model kebiasaan mereka secara mendadak, berujung pada kebingungan dan penolakan pasar yang masif.'
+      },
+      {
+        id: 'q2-A-7',
+        urutan: 7,
+        topik: 'Studi Kasus Google Glass',
+        tipe: 'pilihan_ganda',
+        teks: 'Pelajaran desain produk paling berharga dari kegagalan komersial Google Glass di ruang publik adalah...',
+        options: [
+          { id: 'opt-1', teks: 'Kacamata pintar wajib dilengkapi panel tenaga surya agar pengguna tidak perlu mengisi daya melalui stopkontak.' },
+          { id: 'opt-2', teks: 'Desain kacamata harus dibuat dari bahan logam mulia agar dianggap sebagai produk mewah oleh kolektor barang antik.' },
+          { id: 'opt-3', teks: 'Kecanggihan teknologi mutakhir akan ditolak jika abai terhadap konteks sosial, etika privasi publik, dan kenyamanan lingkungan sekitar pengguna.' },
+          { id: 'opt-4', teks: 'Perangkat keras kamera seluler dilarang keras dioperasikan pada sistem operasi berbasis Linux open-source.' }
+        ],
+        kunciJawaban: 'opt-3',
+        pembahasan: 'Google Glass secara teknis sangat brilian, namun gagal karena mengabaikan konteks sosial di mana kamera yang selalu menyala memicu kekhawatiran privasi orang-orang di sekitarnya.'
+      },
+      {
+        id: 'q2-A-8',
+        urutan: 8,
+        topik: 'Hukum Hick',
+        tipe: 'pilihan_ganda',
+        teks: 'Menurut Hukum Hick (Hick\'s Law), mengapa menjejalkan belasan tombol pilihan aksi di dalam satu layar antarmuka merupakan "dosa besar" dalam desain UI/UX?',
+        options: [
+          { id: 'opt-1', teks: 'Karena browser web akan mengalami penurunan frame rate secara drastis jika jumlah tombol di halaman melebihi sepuluh buah.' },
+          { id: 'opt-2', teks: 'Karena algoritma Google Search Console akan mengidentifikasi halaman tersebut sebagai spam tautan duplikat.' },
+          { id: 'opt-3', teks: 'Karena pengguna smartphone bertangan kidal tidak sanggup menjangkau tombol yang berada di sisi kanan layar.' },
+          { id: 'opt-4', teks: 'Karena semakin banyak opsi yang disajikan, semakin lama waktu yang dibutuhkan pengguna untuk mengambil keputusan hingga memicu kelumpuhan analisis (analysis paralysis).' }
+        ],
+        kunciJawaban: 'opt-4',
+        pembahasan: 'Hick\'s Law menyatakan bahwa waktu yang dibutuhkan untuk mengambil keputusan meningkat seiring bertambahnya jumlah dan kompleksitas pilihan, yang dapat memicu analysis paralysis.'
+      },
+      {
+        id: 'q2-A-9',
+        urutan: 9,
+        topik: 'Jebakan Lorem Ipsum',
+        tipe: 'pilihan_ganda',
+        teks: 'Mengapa kebiasaan mengisi wireframe menggunakan teks palsu "Lorem Ipsum" secara asal-asalan dianggap sebagai jebakan berbahaya bagi desainer pemula?',
+        options: [
+          { id: 'opt-1', teks: 'Karena teks Lorem Ipsum secara otomatis memicu sanksi pelanggaran hak cipta literatur klasik berbahasa Latin.' },
+          { id: 'opt-2', teks: 'Karena saat konten riil dengan panjang kalimat nyata dimasukkan, proporsi tata letak antarmuka sering kali hancur berantakan dan membingungkan pengguna.' },
+          { id: 'opt-3', teks: 'Karena teks palsu menyebabkan ukuran file bundle JavaScript frontend membengkak hingga puluhan megabyte.' },
+          { id: 'opt-4', teks: 'Karena mesin penerjemah otomatis akan gagal mengenali bahasa default aplikasi saat diunggah ke cloud hosting.' }
+        ],
+        kunciJawaban: 'opt-2',
+        pembahasan: 'Teks Lorem Ipsum yang seragam menipu proporsi desain. Ketika teks asli dimasukkan (judul panjang, deskripsi variatif), tata letak sering rusak dan tata baca menjadi tidak intuitif.'
+      },
+      {
+        id: 'q2-A-10',
+        urutan: 10,
+        topik: 'Estetika vs Fungsi',
+        tipe: 'pilihan_ganda',
+        teks: 'Fenomena "Estetika Membunuh Fungsi" dalam desain produk digital terjadi ketika...',
+        options: [
+          { id: 'opt-1', teks: 'Desainer terlalu terobsesi pada efek visual ramai, gradasi mencolok, dan bayangan tebal hingga menenggelamkan tombol fungsi utama yang seharusnya diklik pengguna.' },
+          { id: 'opt-2', teks: 'Aplikasi menggunakan font sistem bawaan perangkat alih-alih membeli lisensi font kustom berbayar seharga ribuan dolar.' },
+          { id: 'opt-3', teks: 'Warna latar belakang antarmuka menggunakan mode gelap (dark mode) pada waktu siang hari.' },
+          { id: 'opt-4', teks: 'Desainer menggunakan format gambar vektor SVG alih-alih format bitmap JPEG beresolusi tinggi.' }
+        ],
+        kunciJawaban: 'opt-1',
+        pembahasan: 'Estetika membunuh fungsi terjadi saat dekorasi visual yang berlebihan justru mengaburkan hierarki aksi utama yang dibutuhkan pengguna.'
+      },
+
+      // 5 Soal Essay Studi Kasus (Set A) - Berdasarkan Slide "Week 2 UI/UX Design Thinking"
+      {
+        id: 'q2-A-11',
+        urutan: 11,
+        topik: 'Misi Inti UX vs UI',
+        tipe: 'essay',
+        teks: 'Jelaskan secara singkat perbedaan misi inti antara UX (User Experience) dan UI (User Interface) sesuai materi slide!',
+        kunciJawabanIdeal: 'UX berfokus pada cara termudah agar pengguna mencapai tujuannya tanpa harus berpikir keras (psikologi & alur), sedangkan UI berfokus pada mengatur elemen visual agar mata pengguna terpandu secara instingtif ke aksi yang benar (estetika & tata letak layar).',
+        keywords: ['ux', 'ui', 'psikologi', 'estetika', 'alur', 'visual', 'tata letak', 'berpikir keras', 'instingtif', 'layar', 'pikiran']
+      },
+      {
+        id: 'q2-A-12',
+        urutan: 12,
+        topik: 'Kurva Biaya 1:10:100',
+        tipe: 'essay',
+        teks: 'Apa arti aturan "1:10:100 Rule" dalam siklus perubahan desain produk digital?',
+        kunciJawabanIdeal: 'Memperbaiki kesalahan desain setelah aplikasi dirilis 100x lipat lebih mahal dibandingkan saat fase riset awal (1x di hulu riset, 10x saat pengembangan/coding, 100x setelah rilis). Validasi di awal menghemat biaya besar.',
+        keywords: ['100x', '100', 'riset', 'rilis', 'hulu', 'biaya', 'mahal', 'coding']
+      },
+      {
+        id: 'q2-A-13',
+        urutan: 13,
+        topik: 'Tahapan Design Thinking',
+        tipe: 'essay',
+        teks: 'Sebutkan 5 tahapan dalam alur Design Thinking secara berurutan!',
+        kunciJawabanIdeal: '5 tahap Design Thinking: 1. Empathize (Memahami pengguna), 2. Define (Merumuskan masalah), 3. Ideate (Menghasilkan ide), 4. Prototype (Membuat purwarupa kasar), 5. Test (Menguji ke pengguna).',
+        keywords: ['empathize', 'define', 'ideate', 'prototype', 'test']
+      },
+      {
+        id: 'q2-A-14',
+        urutan: 14,
+        topik: 'Purwarupa Kasar',
+        tipe: 'essay',
+        teks: 'Mengapa desainer pemula dianjurkan membuat purwarupa kasar (low-fidelity / sketsa kertas) terlebih dahulu sebelum mendesain versi resolusi tinggi?',
+        kunciJawabanIdeal: 'Agar terhindar dari bias biaya tertanam (Sunk Cost Bias / rasa baper) sehingga tim tidak merasa keberatan membuang atau merombak total desain saat pengguna meminta perbaikan.',
+        keywords: ['sunk cost', 'baper', 'biaya tertanam', 'rombak', 'membuang', 'kasar', 'cepat', 'murah']
+      },
+      {
+        id: 'q2-A-15',
+        urutan: 15,
+        topik: 'Studi Kasus Produk Gagal',
+        tipe: 'essay',
+        teks: 'Jelaskan secara singkat pelajaran penting dari studi kasus kegagalan produk Juicero!',
+        kunciJawabanIdeal: 'Jangan membuat produk yang over-engineering dengan teknologi canggih berbiaya mahal jika tidak memberikan nilai tambah nyata atau menyelesaikan masalah lebih baik dibanding cara manual tangan kosong.',
+        keywords: ['over-engineering', 'nilai tambah', 'nilai guna', 'tangan kosong', 'manual', 'mahal', 'canggih']
       }
     ]
   }
