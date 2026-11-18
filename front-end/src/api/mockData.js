@@ -19,6 +19,8 @@ export const INITIAL_COURSES = [
         id: 's1-1',
         urutan: 1,
         judul: 'Bagian 1: Pola Pikir Value Driven & Agility',
+        pdfUrl: '/materials/modul-1-bagian-1.pdf',
+        pdfTitle: 'Slide PPT Modul 1: Startup Mindset & Agility',
         isi: `### 1. Pola Pikir Value Driven vs Feature Driven
 Dalam pengembangan produk digital, kesalahan paling sering dari pemula adalah berfokus pada teknologi canggih atau fitur sebanyak mungkin (*feature-driven*), bukan pada nilai manfaat yang diterima pengguna (*value-driven*).
 
@@ -33,6 +35,8 @@ Dalam pengembangan produk digital, kesalahan paling sering dari pemula adalah be
         id: 's1-2',
         urutan: 2,
         judul: 'Bagian 2: Problem Statement Canvas & Teknik 5 Whys',
+        pdfUrl: '/materials/modul-1-bagian-2.pdf',
+        pdfTitle: 'Slide PPT Modul 1: Problem Canvas & 5 Whys',
         isi: `### 2. Membedah Masalah dengan Problem Statement Canvas
 Sebelum membuat antarmuka atau menulis baris kode, tim wajib membedah masalah menggunakan 4 elemen pokok:
 1. **Who (Target Pengguna):** Siapa kelompok spesifik yang paling menderita akibat masalah ini? Hindari mendefinisikan pengguna sebagai "semua orang".

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { apiClient } from '../api/client';
 import { useProgress } from '../context/ProgressContext';
@@ -14,7 +14,10 @@ import {
   ArrowRight,
   ExternalLink,
   ShieldAlert,
-  FileText
+  FileText,
+  Upload,
+  Eye,
+  Info
 } from 'lucide-react';
 
 export default function CourseDetailPage() {
@@ -27,6 +30,12 @@ export default function CourseDetailPage() {
   const [loading, setLoading] = useState(true);
   const [completingSection, setCompletingSection] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+
+  // Mode: 'pdf' (Slide PPT/PDF) vs 'text' (Ringkasan Poin Kunci)
+  const [viewMode, setViewMode] = useState('pdf');
+  // Local uploaded PDFs (temporary object URLs for live preview)
+  const [localPdfs, setLocalPdfs] = useState({});
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     async function loadCourse() {
@@ -277,58 +286,168 @@ export default function CourseDetailPage() {
         {/* Right Column: Section Reader */}
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-xs">
-            <div className="flex items-center justify-between pb-4 mb-6 border-b border-slate-100">
-              <span className="text-xs font-bold text-indigo-600 uppercase tracking-wider flex items-center gap-1.5">
-                <FileText className="w-4 h-4" />
-                {currentSection.judul}
-              </span>
-              {isCurrentSectionCompleted && (
-                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                  Selesai Dibaca
+            
+            {/* Top Toolbar: Section Title & Mode Switcher */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 mb-6 border-b border-slate-100">
+              <div>
+                <span className="text-xs font-bold text-indigo-600 uppercase tracking-wider flex items-center gap-1.5 mb-1">
+                  <FileText className="w-4 h-4" />
+                  {currentSection.judul}
                 </span>
-              )}
+                <p className="text-xs text-slate-400">
+                  {viewMode === 'pdf' ? 'Tampilan Dokumen Slide Asli' : 'Tampilan Rangkuman Poin Kunci'}
+                </p>
+              </div>
+
+              {/* View Mode Toggle */}
+              <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-xl border border-slate-200/80 self-start sm:self-auto">
+                <button
+                  type="button"
+                  onClick={() => setViewMode('pdf')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+                    viewMode === 'pdf'
+                      ? 'bg-indigo-600 text-white shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>Slide PPT / PDF</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setViewMode('text')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+                    viewMode === 'text'
+                      ? 'bg-indigo-600 text-white shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span>Ringkasan Teks</span>
+                </button>
+              </div>
             </div>
 
-            {/* Markdown Body Content Render */}
-            <div className="prose prose-slate max-w-none text-sm text-slate-700 leading-relaxed space-y-4">
-              {currentSection.isi.split('\n\n').map((paragraph, pIdx) => {
-                if (paragraph.startsWith('### ')) {
-                  return (
-                    <h3 key={pIdx} className="text-lg font-bold text-slate-900 pt-2 border-b border-slate-100 pb-2">
-                      {paragraph.replace('### ', '')}
-                    </h3>
-                  );
+            {/* Hidden File Input for uploading custom PDF */}
+            <input
+              type="file"
+              ref={fileInputRef}
+              accept="application/pdf"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  const url = URL.createObjectURL(file);
+                  setLocalPdfs(prev => ({ ...prev, [currentSection.id]: url }));
+                  setToastMessage(`File PDF '${file.name}' berhasil dimuat!`);
+                  setTimeout(() => setToastMessage(''), 3500);
                 }
-                if (paragraph.startsWith('#### ')) {
+              }}
+            />
+
+            {/* CONDITIONAL RENDER: PDF VIEWER vs TEXT SUMMARY */}
+            {viewMode === 'pdf' ? (
+              <div className="space-y-4">
+                
+                {/* PDF Header Action Bar */}
+                <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 bg-slate-900 text-white rounded-2xl">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-xs font-bold tracking-wide">
+                      {localPdfs[currentSection.id]
+                        ? '📄 Membaca PDF Pilihan Anda'
+                        : (currentSection.pdfTitle || 'Dokumen Slide PDF Modul')}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    {/* Pick from computer button */}
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold shadow-xs transition-colors"
+                      title="Pilih file PDF materi dari komputer Anda"
+                    >
+                      <Upload className="w-3.5 h-3.5" />
+                      <span>Pilih PDF dari Laptop</span>
+                    </button>
+
+                    {/* Open in new tab */}
+                    <a
+                      href={localPdfs[currentSection.id] || currentSection.pdfUrl || `/materials/modul-${course.urutan}-bagian-${currentSection.urutan}.pdf`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold border border-slate-700 transition-colors"
+                      title="Buka dokumen di tab baru atau unduh"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                      <span className="hidden sm:inline">Layar Penuh / Tab Baru</span>
+                    </a>
+                  </div>
+                </div>
+
+                {/* Embedded PDF Viewer Iframe */}
+                <div className="relative w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 shadow-inner">
+                  <iframe
+                    src={`${localPdfs[currentSection.id] || currentSection.pdfUrl || `/materials/modul-${course.urutan}-bagian-${currentSection.urutan}.pdf`}#toolbar=1`}
+                    className="w-full h-[620px] border-0"
+                    title={currentSection.judul}
+                  />
+                </div>
+
+                {/* Helpful Instruction Tip */}
+                <div className="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-200/80 text-indigo-950 flex items-start gap-3 text-xs leading-relaxed">
+                  <Info className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-bold mb-0.5">Tips Memasukkan File PDF Magang:</p>
+                    <ul className="list-disc list-inside space-y-0.5 text-indigo-900">
+                      <li><strong>Cara Instan:</strong> Klik tombol <strong>"Pilih PDF dari Laptop"</strong> di atas untuk langsung membaca slide PDF yang ada di komputer Anda.</li>
+                      <li><strong>Cara Permanen:</strong> Taruh file PDF Anda ke folder <code className="bg-indigo-100 px-1 py-0.5 rounded font-mono">front-end/public/materials/</code> dengan nama <code className="bg-indigo-100 px-1 py-0.5 rounded font-mono">{`modul-${course.urutan}-bagian-${currentSection.urutan}.pdf`}</code>. File akan otomatis muncul permanen di viewer ini!</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              /* Text / Markdown Mode */
+              <div className="prose prose-slate max-w-none text-sm text-slate-700 leading-relaxed space-y-4">
+                {currentSection.isi.split('\n\n').map((paragraph, pIdx) => {
+                  if (paragraph.startsWith('### ')) {
+                    return (
+                      <h3 key={pIdx} className="text-lg font-bold text-slate-900 pt-2 border-b border-slate-100 pb-2">
+                        {paragraph.replace('### ', '')}
+                      </h3>
+                    );
+                  }
+                  if (paragraph.startsWith('#### ')) {
+                    return (
+                      <h4 key={pIdx} className="text-sm font-bold text-indigo-900 pt-1">
+                        {paragraph.replace('#### ', '')}
+                      </h4>
+                    );
+                  }
+                  if (paragraph.startsWith('> ')) {
+                    return (
+                      <blockquote key={pIdx} className="p-4 bg-indigo-50/60 border-l-4 border-indigo-500 rounded-r-xl text-indigo-950 text-xs italic">
+                        {paragraph.replace('> ', '')}
+                      </blockquote>
+                    );
+                  }
+                  if (paragraph.startsWith('```')) {
+                    const cleaned = paragraph.replace(/```[a-z]*/g, '').trim();
+                    return (
+                      <pre key={pIdx} className="p-4 bg-slate-900 text-sky-300 font-mono text-xs rounded-xl overflow-x-auto">
+                        <code>{cleaned}</code>
+                      </pre>
+                    );
+                  }
                   return (
-                    <h4 key={pIdx} className="text-sm font-bold text-indigo-900 pt-1">
-                      {paragraph.replace('#### ', '')}
-                    </h4>
+                    <p key={pIdx} className="text-slate-700 whitespace-pre-line">
+                      {paragraph}
+                    </p>
                   );
-                }
-                if (paragraph.startsWith('> ')) {
-                  return (
-                    <blockquote key={pIdx} className="p-4 bg-indigo-50/60 border-l-4 border-indigo-500 rounded-r-xl text-indigo-950 text-xs italic">
-                      {paragraph.replace('> ', '')}
-                    </blockquote>
-                  );
-                }
-                if (paragraph.startsWith('```')) {
-                  const cleaned = paragraph.replace(/```[a-z]*/g, '').trim();
-                  return (
-                    <pre key={pIdx} className="p-4 bg-slate-900 text-sky-300 font-mono text-xs rounded-xl overflow-x-auto">
-                      <code>{cleaned}</code>
-                    </pre>
-                  );
-                }
-                return (
-                  <p key={pIdx} className="text-slate-700 whitespace-pre-line">
-                    {paragraph}
-                  </p>
-                );
-              })}
-            </div>
+                })}
+              </div>
+            )}
 
             {/* Section Reader Footer: Mark Complete Button */}
             <div className="mt-8 pt-6 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
