@@ -40,16 +40,15 @@ export default function CourseCard({ course }) {
   const IconComponent = ICON_MAP[course.icon] || BookOpen;
   const sectionsRead = course.bagianSelesai?.length || 0;
   const totalSections = course.sections?.length || 3;
-  const readPercentage = Math.round((sectionsRead / totalSections) * 100);
 
   return (
     <div
       className={`relative rounded-2xl transition-all duration-300 flex flex-col justify-between overflow-hidden border ${
         isLocked
-          ? 'bg-slate-100/70 border-slate-200 opacity-80'
+          ? 'bg-[#0D152A]/60 border-slate-800/80 opacity-70'
           : isPassed
-            ? 'bg-white border-emerald-200/80 shadow-md shadow-emerald-50/50 hover:shadow-lg hover:border-emerald-300'
-            : 'bg-white border-indigo-200/80 shadow-md shadow-indigo-50/50 hover:shadow-xl hover:border-indigo-400 group'
+            ? 'bg-[#131D35] border-emerald-500/30 shadow-lg shadow-black/20 hover:border-emerald-500/60'
+            : 'bg-[#131D35] border-slate-800 hover:border-[#0052CC]/70 shadow-lg shadow-black/20 group'
       }`}
     >
       {/* Top Banner / Status Badge */}
@@ -61,10 +60,10 @@ export default function CourseCard({ course }) {
             <div
               className={`w-12 h-12 rounded-xl flex items-center justify-center font-extrabold text-base transition-colors ${
                 isLocked
-                  ? 'bg-slate-200 text-slate-400'
+                  ? 'bg-[#0D152A] text-slate-500 border border-slate-800'
                   : isPassed
-                    ? 'bg-emerald-50 text-emerald-600 border border-emerald-200'
-                    : 'bg-indigo-50 text-indigo-600 border border-indigo-200 group-hover:bg-indigo-600 group-hover:text-white'
+                    ? 'bg-emerald-950/60 text-emerald-400 border border-emerald-800/60'
+                    : 'bg-[#0052CC]/20 text-sky-400 border border-[#0052CC]/40 group-hover:bg-[#0052CC] group-hover:text-white'
               }`}
             >
               <IconComponent className="w-6 h-6" />
@@ -73,7 +72,7 @@ export default function CourseCard({ course }) {
               <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
                 Modul {course.urutan}
               </span>
-              <h3 className="font-bold text-base text-slate-900 leading-snug line-clamp-1">
+              <h3 className="font-bold text-base text-white leading-snug line-clamp-1 group-hover:text-[#FBE156] transition-colors">
                 {course.judul}
               </h3>
             </div>
@@ -82,20 +81,20 @@ export default function CourseCard({ course }) {
           {/* Gating Status Pill */}
           <div>
             {isLocked && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-200/80 text-slate-600 border border-slate-300">
-                <Lock className="w-3.5 h-3.5 text-slate-500" />
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-800/80 text-slate-400 border border-slate-700/60">
+                <Lock className="w-3.5 h-3.5 text-slate-400" />
                 Terkunci
               </span>
             )}
             {isPassed && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-950/80 text-emerald-300 border border-emerald-800/80">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                 Lulus ({course.nilaiTerbaik} Poin)
               </span>
             )}
             {isUnlocked && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-800 border border-indigo-200">
-                <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-950/80 text-sky-300 border border-blue-800/80">
+                <Sparkles className="w-3.5 h-3.5 text-sky-400" />
                 Terbuka
               </span>
             )}
@@ -103,23 +102,23 @@ export default function CourseCard({ course }) {
         </div>
 
         {/* Course Description */}
-        <p className="text-xs text-slate-600 leading-relaxed line-clamp-2 mb-4">
+        <p className="text-xs text-slate-300 leading-relaxed line-clamp-2 mb-4">
           {course.ringkasan}
         </p>
 
         {/* Meta Info: Time, Category */}
-        <div className="flex items-center gap-4 text-[11px] font-medium text-slate-500 mb-4">
+        <div className="flex items-center gap-4 text-[11px] font-medium text-slate-400 mb-4">
           <span className="flex items-center gap-1">
             <Clock className="w-3.5 h-3.5 text-slate-400" />
             {course.estimasiWaktu || '45 Menit'}
           </span>
-          <span className="px-2 py-0.5 bg-slate-100 rounded text-slate-600 font-semibold">
+          <span className="px-2 py-0.5 bg-[#0D152A] border border-slate-800 rounded text-slate-300 font-semibold">
             {course.kategori}
           </span>
         </div>
 
         {/* Reading Progress */}
-        <div className="pt-2 border-t border-slate-100">
+        <div className="pt-2 border-t border-slate-800/80">
           <ProgressBar
             current={sectionsRead}
             total={totalSections}
@@ -130,25 +129,25 @@ export default function CourseCard({ course }) {
       </div>
 
       {/* Card Action Footer */}
-      <div className={`p-4 px-6 border-t ${isLocked ? 'bg-slate-50/60 border-slate-200' : 'bg-slate-50/40 border-slate-100'}`}>
+      <div className={`p-4 px-6 border-t ${isLocked ? 'bg-[#0D152A]/60 border-slate-800/80' : 'bg-[#0D152A]/90 border-slate-800'}`}>
         {isLocked ? (
-          <div className="flex items-center justify-between text-xs text-slate-500 font-medium">
+          <div className="flex items-center justify-between text-xs text-slate-400 font-medium">
             <span className="flex items-center gap-1.5">
-              <Lock className="w-3.5 h-3.5 text-slate-400" />
+              <Lock className="w-3.5 h-3.5 text-slate-500" />
               Syarat: Lulus Modul {course.urutan - 1} (KKM 80)
             </span>
           </div>
         ) : (
           <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-500 font-medium">
+            <span className="text-xs text-slate-400 font-medium">
               {isPassed ? 'Ujian telah tuntas' : 'Ujian Akhir: 15 Soal'}
             </span>
             <Link
               to={`/courses/${course.id}`}
               className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all shadow-sm ${
                 isPassed
-                  ? 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200'
-                  : 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-indigo-100'
+                  ? 'bg-emerald-950/80 text-emerald-300 hover:bg-emerald-900/80 border border-emerald-700/60'
+                  : 'bg-[#FBE156] text-[#0A1124] hover:bg-yellow-400 font-black'
               }`}
             >
               <span>{isPassed ? 'Buka Modul' : 'Mulai Belajar'}</span>

@@ -27,22 +27,22 @@ export default function RegisterPage() {
 
   return (
     <div className="max-w-md mx-auto py-12 px-4">
-      <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-xl">
+      <div className="bg-[#131D35] rounded-3xl border border-slate-800 p-8 shadow-2xl">
         <div className="text-center mb-8">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-sky-400 flex items-center justify-center text-white mx-auto shadow-md shadow-indigo-100 mb-3">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#0052CC] to-sky-400 flex items-center justify-center text-white mx-auto shadow-lg shadow-blue-950/40 mb-3">
             <GraduationCap className="w-6 h-6" />
           </div>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-2xl font-extrabold text-white tracking-tight">
             Daftar Akun Baru
           </h1>
-          <p className="text-xs text-slate-500 mt-1">
-            Bergabung dengan Mini-Course &amp; Evaluasi <span className="text-[#003399] font-black">VINIX</span><span className="text-[#FBE156] font-black drop-shadow-[0_1px_1px_rgba(0,0,0,0.2)]">7</span>
+          <p className="text-xs text-slate-400 mt-1">
+            Bergabung dengan Mini-Course &amp; Evaluasi <span className="text-blue-500 font-black">VINIX</span><span className="text-[#FBE156] font-black drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">7</span>
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">
+            <label className="block text-xs font-bold text-slate-300 mb-1.5">
               Nama Lengkap:
             </label>
             <input
@@ -51,12 +51,12 @@ export default function RegisterPage() {
               value={nama}
               onChange={(e) => setNama(e.target.value)}
               placeholder="Contoh: Budi Pratama"
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-800 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+              className="w-full px-4 py-2.5 rounded-xl bg-[#0D152A] border border-slate-700 text-sm text-white focus:outline-none focus:border-[#0052CC] focus:ring-2 focus:ring-[#0052CC]/30 placeholder:text-slate-500"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">
+            <label className="block text-xs font-bold text-slate-300 mb-1.5">
               Email Peserta:
             </label>
             <input
@@ -65,12 +65,12 @@ export default function RegisterPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="budi@kampus.ac.id"
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-800 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+              className="w-full px-4 py-2.5 rounded-xl bg-[#0D152A] border border-slate-700 text-sm text-white focus:outline-none focus:border-[#0052CC] focus:ring-2 focus:ring-[#0052CC]/30 placeholder:text-slate-500"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">
+            <label className="block text-xs font-bold text-slate-300 mb-1.5">
               Kata Sandi:
             </label>
             <input
@@ -79,23 +79,23 @@ export default function RegisterPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Minimal 8 karakter"
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-800 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+              className="w-full px-4 py-2.5 rounded-xl bg-[#0D152A] border border-slate-700 text-sm text-white focus:outline-none focus:border-[#0052CC] focus:ring-2 focus:ring-[#0052CC]/30 placeholder:text-slate-500"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-extrabold shadow-md shadow-indigo-100 transition-all flex items-center justify-center gap-2 mt-2"
+            className="w-full py-3 rounded-xl bg-[#FBE156] hover:bg-yellow-400 text-[#0A1124] text-xs font-black shadow-md transition-all flex items-center justify-center gap-2 mt-2"
           >
             <span>{loading ? 'Mendaftarkan...' : 'Buat Akun & Mulai Belajar'}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
-        <p className="text-center text-xs text-slate-500 mt-6">
+        <p className="text-center text-xs text-slate-400 mt-6">
           Sudah memiliki akun?{' '}
-          <Link to="/login" className="font-bold text-indigo-600 hover:underline">
+          <Link to="/login" className="font-bold text-[#FBE156] hover:underline">
             Masuk di Sini
           </Link>
         </p>

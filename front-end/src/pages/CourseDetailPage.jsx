@@ -98,7 +98,7 @@ export default function CourseDetailPage() {
         const data = await apiClient.getCourseById(id);
         setCourse(data);
       } catch (err) {
-        console.error(err);
+        console.error('Failed to load course details', err);
       } finally {
         setLoading(false);
       }
@@ -109,18 +109,18 @@ export default function CourseDetailPage() {
   const handleMarkComplete = async (sectionUrutan) => {
     try {
       setCompletingSection(true);
-      const res = await apiClient.completeSection(course.id, sectionUrutan);
-      if (res.success) {
-        setCourse(prev => ({
-          ...prev,
-          bagianSelesai: res.bagianSelesai
-        }));
-        setToastMessage(`Bagian ${sectionUrutan} berhasil ditandai selesai!`);
-        refreshProgress();
-        setTimeout(() => setToastMessage(''), 3000);
-      }
+      await apiClient.markSectionComplete(course.id, sectionUrutan);
+      setToastMessage(`Bagian ${sectionUrutan} berhasil ditandai selesai!`);
+      
+      const updated = await apiClient.getCourseById(id);
+      setCourse(updated);
+      refreshProgress();
+
+      setTimeout(() => {
+        setToastMessage('');
+      }, 3500);
     } catch (err) {
-      console.error(err);
+      console.error('Failed to complete section', err);
     } finally {
       setCompletingSection(false);
     }
@@ -128,19 +128,22 @@ export default function CourseDetailPage() {
 
   if (loading) {
     return (
-      <div className="max-w-4xl mx-auto py-12 text-center animate-pulse">
-        <div className="w-1/2 h-8 bg-slate-200 rounded mx-auto mb-4" />
-        <div className="w-3/4 h-4 bg-slate-200 rounded mx-auto mb-8" />
-        <div className="h-64 bg-slate-200 rounded-2xl" />
+      <div className="max-w-5xl mx-auto py-12 animate-pulse space-y-6">
+        <div className="h-8 w-48 bg-slate-800 rounded-lg" />
+        <div className="h-44 bg-[#131D35] rounded-3xl border border-slate-800" />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="h-96 bg-[#131D35] rounded-3xl border border-slate-800" />
+          <div className="lg:col-span-2 h-96 bg-[#131D35] rounded-3xl border border-slate-800" />
+        </div>
       </div>
     );
   }
 
   if (!course) {
     return (
-      <div className="max-w-md mx-auto py-16 text-center">
-        <h2 className="text-lg font-bold text-slate-800">Modul tidak ditemukan</h2>
-        <Link to="/courses" className="mt-4 inline-block text-xs font-bold text-indigo-600 hover:underline">
+      <div className="max-w-md mx-auto py-20 text-center">
+        <h2 className="text-xl font-bold text-white">Modul tidak ditemukan</h2>
+        <Link to="/courses" className="mt-4 inline-block text-xs font-bold text-[#FBE156]">
           &larr; Kembali ke daftar modul
         </Link>
       </div>
@@ -160,7 +163,7 @@ export default function CourseDetailPage() {
       
       {/* Toast alert */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-2 text-xs font-bold animate-in slide-in-from-bottom">
+        <div className="fixed bottom-6 right-6 z-50 bg-[#131D35] text-white px-4 py-3 rounded-xl shadow-2xl border border-slate-700 flex items-center gap-2 text-xs font-bold animate-in slide-in-from-bottom">
           <CheckCircle2 className="w-4 h-4 text-emerald-400" />
           <span>{toastMessage}</span>
         </div>
@@ -170,7 +173,7 @@ export default function CourseDetailPage() {
       <div>
         <Link
           to="/courses"
-          className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-indigo-600 transition-colors"
+          className="inline-flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-[#FBE156] transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Kembali ke Katalog Modul</span>
@@ -178,23 +181,23 @@ export default function CourseDetailPage() {
       </div>
 
       {/* Course Header Banner */}
-      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-xs">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-100">
+      <div className="bg-[#131D35] rounded-3xl border border-slate-800 p-6 sm:p-8 shadow-xl">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-800">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="px-2.5 py-0.5 rounded-md bg-indigo-50 border border-indigo-200 text-indigo-700 text-[11px] font-bold uppercase tracking-wider">
+              <span className="px-2.5 py-0.5 rounded-md bg-[#0052CC]/20 border border-[#0052CC]/40 text-sky-400 text-[11px] font-bold uppercase tracking-wider">
                 Modul {course.urutan}
               </span>
-              <span className="text-xs font-medium text-slate-400">&bull;</span>
-              <span className="text-xs font-semibold text-slate-500 flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5" />
+              <span className="text-xs font-medium text-slate-600">&bull;</span>
+              <span className="text-xs font-semibold text-slate-400 flex items-center gap-1">
+                <Clock className="w-3.5 h-3.5 text-slate-400" />
                 {course.estimasiWaktu || '45 Menit'}
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
               {course.judul}
             </h1>
-            <p className="text-xs sm:text-sm text-slate-600 mt-2 max-w-2xl leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-300 mt-2 max-w-2xl leading-relaxed">
               {course.ringkasan}
             </p>
           </div>
@@ -202,18 +205,18 @@ export default function CourseDetailPage() {
           {/* Status pill & Best score */}
           <div className="flex flex-col items-start md:items-end gap-2 shrink-0">
             {isPassed ? (
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-200">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-emerald-950/80 text-emerald-300 border border-emerald-800/80">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                 Lulus Evaluasi ({course.nilaiTerbaik} Poin)
               </span>
             ) : isLocked ? (
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-slate-100 text-slate-600 border border-slate-200">
-                <Lock className="w-4 h-4 text-slate-500" />
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-slate-800/80 text-slate-400 border border-slate-700/80">
+                <Lock className="w-4 h-4 text-slate-400" />
                 Modul Terkunci
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-indigo-100 text-indigo-800 border border-indigo-200">
-                <Sparkles className="w-4 h-4 text-indigo-600" />
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-blue-950/80 text-sky-300 border border-blue-800/80">
+                <Sparkles className="w-4 h-4 text-sky-400" />
                 Sedang Ditempuh
               </span>
             )}
@@ -236,17 +239,17 @@ export default function CourseDetailPage() {
 
       {/* Locked Notification */}
       {isLocked && (
-        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 text-amber-900 flex items-start gap-4">
-          <ShieldAlert className="w-6 h-6 text-amber-600 shrink-0 mt-0.5" />
+        <div className="bg-amber-950/40 border border-amber-800/60 rounded-2xl p-6 text-amber-200 flex items-start gap-4">
+          <ShieldAlert className="w-6 h-6 text-amber-400 shrink-0 mt-0.5" />
           <div>
-            <h3 className="text-sm font-bold text-amber-950">Akses Modul Ini Masih Terkunci</h3>
-            <p className="text-xs text-amber-800/90 mt-1 leading-relaxed">
+            <h3 className="text-sm font-bold text-amber-300">Akses Modul Ini Masih Terkunci</h3>
+            <p className="text-xs text-amber-200/90 mt-1 leading-relaxed">
               Sesuai aturan <em>Progressive Gating</em> PRD, Anda harus menyelesaikan dan lulus ujian akhir pada <strong>Modul {course.urutan - 1}</strong> dengan nilai minimal <strong>80</strong> untuk membuka modul ini.
             </p>
             <div className="mt-3">
               <Link
                 to={`/courses/c${course.urutan - 1}`}
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-xl shadow-xs"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold rounded-xl shadow-xs"
               >
                 <span>Buka Modul {course.urutan - 1} Sekarang &rarr;</span>
               </Link>
@@ -260,7 +263,7 @@ export default function CourseDetailPage() {
         
         {/* Left Column: Section List / Navigation */}
         <div className="space-y-4">
-          <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider text-slate-500">
+          <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
             Daftar Materi Modul
           </h2>
           <div className="space-y-2">
@@ -274,24 +277,24 @@ export default function CourseDetailPage() {
                   onClick={() => setActiveSectionIndex(idx)}
                   className={`w-full text-left p-4 rounded-2xl border transition-all flex items-start justify-between gap-3 ${
                     isSelected
-                      ? 'bg-indigo-50/80 border-indigo-400 ring-2 ring-indigo-200/50 shadow-sm'
-                      : 'bg-white border-slate-200 hover:bg-slate-50 hover:border-slate-300'
+                      ? 'bg-[#0052CC]/20 border-[#0052CC]/70 ring-2 ring-[#0052CC]/30 shadow-md'
+                      : 'bg-[#131D35] border-slate-800 hover:bg-[#182542] hover:border-slate-700'
                   }`}
                 >
                   <div className="flex items-start gap-3">
                     <span
                       className={`w-6 h-6 rounded-lg text-xs font-extrabold flex items-center justify-center shrink-0 mt-0.5 ${
                         isSelected
-                          ? 'bg-indigo-600 text-white'
+                          ? 'bg-[#0052CC] text-white'
                           : isDone
-                            ? 'bg-emerald-100 text-emerald-700'
-                            : 'bg-slate-100 text-slate-600'
+                            ? 'bg-emerald-950 text-emerald-400 border border-emerald-800'
+                            : 'bg-[#0D152A] text-slate-400 border border-slate-800'
                       }`}
                     >
                       {sec.urutan}
                     </span>
                     <div>
-                      <h4 className={`text-xs font-bold leading-snug ${isSelected ? 'text-indigo-950' : 'text-slate-800'}`}>
+                      <h4 className={`text-xs font-bold leading-snug ${isSelected ? 'text-white' : 'text-slate-200'}`}>
                         {sec.judul}
                       </h4>
                       <p className="text-[10px] text-slate-400 mt-0.5">
@@ -301,7 +304,7 @@ export default function CourseDetailPage() {
                   </div>
 
                   {isDone && (
-                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-1" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-1" />
                   )}
                 </button>
               );
@@ -309,18 +312,18 @@ export default function CourseDetailPage() {
           </div>
 
           {/* Exam Card CTA */}
-          <div className="bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-3xl p-6 shadow-xl border border-indigo-700/50">
-            <div className="w-10 h-10 rounded-xl bg-indigo-500/20 text-sky-400 flex items-center justify-center mb-4">
+          <div className="bg-gradient-to-br from-[#0052CC] via-[#0047BA] to-[#003399] text-white rounded-3xl p-6 shadow-xl border border-blue-500/30">
+            <div className="w-10 h-10 rounded-xl bg-white/10 text-[#FBE156] flex items-center justify-center mb-4">
               <Award className="w-5 h-5" />
             </div>
-            <h3 className="font-extrabold text-base mb-1">Ujian Akhir Modul</h3>
-            <p className="text-xs text-slate-300 leading-relaxed mb-4">
+            <h3 className="font-extrabold text-base mb-1 text-white">Ujian Akhir Modul</h3>
+            <p className="text-xs text-blue-100 leading-relaxed mb-4">
               15 Soal (10 Pilihan Ganda + 5 Essay Studi Kasus). Wajib mencapai skor minimal 80 untuk membuka modul berikutnya.
             </p>
             {isLocked ? (
               <button
                 disabled
-                className="w-full py-3 bg-slate-700 text-slate-400 font-bold text-xs rounded-xl cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full py-3 bg-slate-800/80 text-slate-400 font-bold text-xs rounded-xl cursor-not-allowed flex items-center justify-center gap-2"
               >
                 <Lock className="w-4 h-4" />
                 <span>Terkunci (Selesaikan Modul {course.urutan - 1})</span>
@@ -328,7 +331,7 @@ export default function CourseDetailPage() {
             ) : (
               <button
                 onClick={() => navigate(`/exam/${course.id}`)}
-                className="w-full py-3 bg-gradient-to-r from-sky-400 to-indigo-500 hover:from-sky-300 hover:to-indigo-400 text-slate-950 font-extrabold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2"
+                className="w-full py-3 bg-[#FBE156] hover:bg-yellow-400 text-[#0A1124] font-black text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2"
               >
                 <span>{isPassed ? 'Ulangi / Coba Paket Soal Baru' : 'Mulai Ujian Akhir (15 Soal)'}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -339,12 +342,12 @@ export default function CourseDetailPage() {
 
         {/* Right Column: Section Reader */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-xs">
+          <div className="bg-[#131D35] rounded-3xl border border-slate-800 p-6 sm:p-8 shadow-xl">
             
             {/* Top Toolbar: Section Title & Mode Switcher */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 mb-6 border-b border-slate-100">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 mb-6 border-b border-slate-800">
               <div>
-                <span className="text-xs font-bold text-indigo-600 uppercase tracking-wider flex items-center gap-1.5 mb-1">
+                <span className="text-xs font-bold text-sky-400 uppercase tracking-wider flex items-center gap-1.5 mb-1">
                   <FileText className="w-4 h-4" />
                   {currentSection.judul}
                 </span>
@@ -354,14 +357,14 @@ export default function CourseDetailPage() {
               </div>
 
               {/* View Mode Toggle */}
-              <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-xl border border-slate-200/80 self-start sm:self-auto">
+              <div className="flex items-center gap-1 p-1 bg-[#0D152A] rounded-xl border border-slate-800 self-start sm:self-auto">
                 <button
                   type="button"
                   onClick={() => setViewMode('pdf')}
                   className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
                     viewMode === 'pdf'
-                      ? 'bg-indigo-600 text-white shadow-xs'
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-[#0052CC] text-white shadow-sm'
+                      : 'text-slate-400 hover:text-white'
                   }`}
                 >
                   <FileText className="w-3.5 h-3.5" />
@@ -372,8 +375,8 @@ export default function CourseDetailPage() {
                   onClick={() => setViewMode('text')}
                   className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
                     viewMode === 'text'
-                      ? 'bg-indigo-600 text-white shadow-xs'
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-[#0052CC] text-white shadow-sm'
+                      : 'text-slate-400 hover:text-white'
                   }`}
                 >
                   <BookOpen className="w-3.5 h-3.5" />
@@ -387,7 +390,7 @@ export default function CourseDetailPage() {
               <div className="space-y-4">
                 
                 {/* PDF Header Action Bar */}
-                <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 bg-slate-900 text-white rounded-2xl">
+                <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 bg-[#0D152A] text-white rounded-2xl border border-slate-800">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                     <span className="text-xs font-bold tracking-wide">
@@ -401,7 +404,7 @@ export default function CourseDetailPage() {
                       href={activePdfUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white rounded-xl text-xs font-semibold border border-slate-700 transition-colors shadow-xs"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-slate-800/80 hover:bg-slate-700 text-slate-200 hover:text-white rounded-xl text-xs font-semibold border border-slate-700 transition-colors shadow-xs"
                       title="Buka dokumen di tab baru browser / layar penuh dan unduh"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
@@ -411,7 +414,7 @@ export default function CourseDetailPage() {
                 </div>
 
                 {/* Embedded PDF Viewer (Google Drive or Native Object) */}
-                <div className="relative w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 shadow-inner min-h-[620px]">
+                <div className="relative w-full rounded-2xl overflow-hidden border border-slate-800 bg-[#090E20] shadow-inner min-h-[620px]">
                   {getPdfEmbedUrl(activePdfUrl).includes('drive.google.com') || getPdfEmbedUrl(activePdfUrl).includes('docs.google.com') ? (
                     <iframe
                       src={getPdfEmbedUrl(activePdfUrl)}
@@ -430,13 +433,13 @@ export default function CourseDetailPage() {
                         className="w-full h-[640px] border-0"
                         title={currentSection.judul}
                       >
-                        <div className="flex flex-col items-center justify-center p-8 bg-slate-50 text-center space-y-4 h-full">
-                          <div className="w-14 h-14 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center">
+                        <div className="flex flex-col items-center justify-center p-8 bg-[#0D152A] text-center space-y-4 h-full">
+                          <div className="w-14 h-14 rounded-2xl bg-[#0052CC]/20 text-sky-400 border border-[#0052CC]/40 flex items-center justify-center">
                             <FileText className="w-7 h-7" />
                           </div>
                           <div className="max-w-md">
-                            <h4 className="text-base font-bold text-slate-800">Pratinjau Dokumen Slide</h4>
-                            <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                            <h4 className="text-base font-bold text-white">Pratinjau Dokumen Slide</h4>
+                            <p className="text-xs text-slate-400 mt-1 leading-relaxed">
                               Silakan gunakan tombol di bawah untuk membuka slide dokumen di tab baru browser:
                             </p>
                           </div>
@@ -445,7 +448,7 @@ export default function CourseDetailPage() {
                               href={activePdfUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-md transition-colors"
+                              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#FBE156] hover:bg-yellow-400 text-[#0A1124] text-xs font-black rounded-xl shadow-md transition-colors"
                             >
                               <ExternalLink className="w-4 h-4" />
                               <span>Buka Dokumen di Tab Baru</span>
@@ -458,11 +461,11 @@ export default function CourseDetailPage() {
                 </div>
 
                 {/* Helpful Instruction Tip */}
-                <div className="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-200/80 text-indigo-950 flex items-start gap-3 text-xs leading-relaxed">
-                  <Info className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
+                <div className="p-4 rounded-2xl bg-[#0D152A] border border-slate-800 text-slate-300 flex items-start gap-3 text-xs leading-relaxed">
+                  <Info className="w-4 h-4 text-[#FBE156] shrink-0 mt-0.5" />
                   <div className="space-y-1.5">
-                    <p className="font-bold">Tips Membaca Slide Modul:</p>
-                    <ul className="list-disc list-inside space-y-1 text-indigo-900">
+                    <p className="font-bold text-white">Tips Membaca Slide Modul:</p>
+                    <ul className="list-disc list-inside space-y-1 text-slate-300">
                       <li><strong>Layar Penuh & Unduh:</strong> Klik tombol <strong>"Layar Penuh / Tab Baru"</strong> di atas jika ingin membaca slide di jendela tersendiri yang lebih leluasa atau mengunduhnya.</li>
                       <li><strong>Beralih ke Ringkasan:</strong> Anda juga dapat beralih ke tab <strong>"Ringkasan Teks"</strong> di kanan atas untuk membaca intisari materi poin per poin.</li>
                     </ul>
@@ -471,25 +474,25 @@ export default function CourseDetailPage() {
               </div>
             ) : (
               /* Text / Markdown Mode */
-              <div className="prose prose-slate max-w-none text-sm text-slate-700 leading-relaxed space-y-4">
+              <div className="prose prose-invert max-w-none text-sm text-slate-300 leading-relaxed space-y-4">
                 {currentSection.isi.split('\n\n').map((paragraph, pIdx) => {
                   if (paragraph.startsWith('### ')) {
                     return (
-                      <h3 key={pIdx} className="text-lg font-bold text-slate-900 pt-2 border-b border-slate-100 pb-2">
+                      <h3 key={pIdx} className="text-lg font-bold text-white pt-2 border-b border-slate-800 pb-2">
                         {paragraph.replace('### ', '')}
                       </h3>
                     );
                   }
                   if (paragraph.startsWith('#### ')) {
                     return (
-                      <h4 key={pIdx} className="text-sm font-bold text-indigo-900 pt-1">
+                      <h4 key={pIdx} className="text-sm font-bold text-sky-400 pt-1">
                         {paragraph.replace('#### ', '')}
                       </h4>
                     );
                   }
                   if (paragraph.startsWith('> ')) {
                     return (
-                      <blockquote key={pIdx} className="p-4 bg-indigo-50/60 border-l-4 border-indigo-500 rounded-r-xl text-indigo-950 text-xs italic">
+                      <blockquote key={pIdx} className="p-4 bg-[#0D152A] border-l-4 border-[#0052CC] rounded-r-xl text-slate-200 text-xs italic">
                         {paragraph.replace('> ', '')}
                       </blockquote>
                     );
@@ -497,13 +500,13 @@ export default function CourseDetailPage() {
                   if (paragraph.startsWith('```')) {
                     const cleaned = paragraph.replace(/```[a-z]*/g, '').trim();
                     return (
-                      <pre key={pIdx} className="p-4 bg-slate-900 text-sky-300 font-mono text-xs rounded-xl overflow-x-auto">
+                      <pre key={pIdx} className="p-4 bg-[#090E20] border border-slate-800 text-sky-300 font-mono text-xs rounded-xl overflow-x-auto">
                         <code>{cleaned}</code>
                       </pre>
                     );
                   }
                   return (
-                    <p key={pIdx} className="text-slate-700 whitespace-pre-line">
+                    <p key={pIdx} className="text-slate-300 whitespace-pre-line">
                       {paragraph}
                     </p>
                   );
@@ -512,7 +515,7 @@ export default function CourseDetailPage() {
             )}
 
             {/* Section Reader Footer: Mark Complete Button */}
-            <div className="mt-8 pt-6 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
+            <div className="mt-8 pt-6 border-t border-slate-800 flex flex-wrap items-center justify-between gap-4">
               <div>
                 <p className="text-xs text-slate-400">
                   Bagian {activeSectionIndex + 1} dari {sections.length}
@@ -524,10 +527,10 @@ export default function CourseDetailPage() {
                   type="button"
                   onClick={() => handleMarkComplete(currentSection.urutan)}
                   disabled={completingSection || isCurrentSectionCompleted}
-                  className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all shadow-xs ${
+                  className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all shadow-sm ${
                     isCurrentSectionCompleted
-                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 cursor-default'
-                      : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-indigo-100'
+                      ? 'bg-emerald-950/70 text-emerald-300 border border-emerald-800/80 cursor-default'
+                      : 'bg-[#FBE156] hover:bg-yellow-400 text-[#0A1124] font-black'
                   }`}
                 >
                   <CheckCircle2 className="w-4 h-4" />
@@ -537,7 +540,7 @@ export default function CourseDetailPage() {
                 {activeSectionIndex < sections.length - 1 && (
                   <button
                     onClick={() => setActiveSectionIndex(prev => prev + 1)}
-                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors"
+                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-700 text-xs font-bold text-slate-300 hover:bg-[#0D152A] hover:text-white transition-colors"
                   >
                     <span>Lanjut Bagian Berikutnya</span>
                     <ArrowRight className="w-3.5 h-3.5" />

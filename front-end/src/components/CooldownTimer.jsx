@@ -43,28 +43,28 @@ export default function CooldownTimer({ cooldownUntil, onComplete }) {
   const percentage = Math.round(((totalCooldown - remainingSeconds) / totalCooldown) * 100);
 
   return (
-    <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 sm:p-5 text-amber-900 shadow-sm animate-in fade-in">
+    <div className="bg-amber-950/40 border border-amber-800/60 rounded-2xl p-4 sm:p-5 text-amber-200 shadow-xl animate-in fade-in">
       <div className="flex items-start gap-3">
-        <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700 shrink-0">
+        <div className="w-10 h-10 rounded-xl bg-amber-900/40 text-amber-400 flex items-center justify-center shrink-0 border border-amber-800/60">
           <Timer className="w-5 h-5 animate-pulse" />
         </div>
         <div className="flex-1">
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-bold text-amber-950 flex items-center gap-1.5">
+            <h4 className="text-sm font-bold text-white flex items-center gap-1.5">
               <span>Jeda Waktu Cooldown (1 Menit)</span>
             </h4>
-            <span className="font-mono text-sm font-extrabold bg-amber-200/80 text-amber-950 px-2.5 py-0.5 rounded-lg border border-amber-300">
+            <span className="font-mono text-sm font-extrabold bg-[#0D152A] text-[#FBE156] px-2.5 py-0.5 rounded-lg border border-slate-800">
               00:{remainingSeconds.toString().padStart(2, '0')}
             </span>
           </div>
-          <p className="text-xs text-amber-800/90 mt-1 leading-relaxed">
+          <p className="text-xs text-slate-300 mt-1 leading-relaxed">
             Sesuai aturan evaluasi PRD, Anda wajib menunggu jeda 1 menit sebelum tombol <strong>Ulangi Ujian</strong> aktif kembali. Gunakan waktu ini untuk mempelajari kembali topik yang masih lemah di bawah.
           </p>
 
           {/* Mini progress bar */}
-          <div className="mt-3 w-full bg-amber-200/60 rounded-full h-1.5 overflow-hidden">
+          <div className="mt-3 w-full bg-[#0D152A] rounded-full h-1.5 overflow-hidden border border-slate-800">
             <div
-              className="bg-amber-600 h-full rounded-full transition-all duration-1000"
+              className="bg-[#FBE156] h-full rounded-full transition-all duration-1000"
               style={{ width: `${percentage}%` }}
             />
           </div>

@@ -48,9 +48,9 @@ export default function ResultPage() {
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto py-16 text-center animate-pulse space-y-6">
-        <div className="w-1/3 h-8 bg-slate-200 rounded mx-auto" />
-        <div className="h-64 bg-slate-200 rounded-3xl" />
-        <div className="h-40 bg-slate-200 rounded-2xl" />
+        <div className="w-1/3 h-8 bg-slate-800 rounded mx-auto" />
+        <div className="h-64 bg-[#131D35] rounded-3xl border border-slate-800" />
+        <div className="h-40 bg-[#131D35] rounded-2xl border border-slate-800" />
       </div>
     );
   }
@@ -58,8 +58,8 @@ export default function ResultPage() {
   if (!attempt) {
     return (
       <div className="max-w-md mx-auto py-16 text-center">
-        <h2 className="text-lg font-bold text-slate-800">Hasil ujian tidak ditemukan</h2>
-        <Link to="/courses" className="mt-4 inline-block text-xs font-bold text-indigo-600">
+        <h2 className="text-lg font-bold text-white">Hasil ujian tidak ditemukan</h2>
+        <Link to="/courses" className="mt-4 inline-block text-xs font-bold text-[#FBE156]">
           &larr; Kembali ke daftar modul
         </Link>
       </div>
@@ -87,7 +87,7 @@ export default function ResultPage() {
       <div className="flex items-center justify-between">
         <Link
           to={`/courses/${attempt.courseId}`}
-          className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-indigo-600 transition-colors"
+          className="inline-flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-[#FBE156] transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Kembali ke Modul {currentCourse?.urutan || ''}</span>
@@ -127,13 +127,13 @@ export default function ResultPage() {
 
       {/* Retake / Repeat CTA Card */}
       {!isPassed && (
-        <div className="bg-white rounded-3xl border border-slate-200 p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs">
+        <div className="bg-[#131D35] rounded-3xl border border-slate-800 p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
           <div>
-            <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <RotateCcw className="w-4 h-4 text-indigo-600" />
+            <h3 className="text-sm font-bold text-white flex items-center gap-2">
+              <RotateCcw className="w-4 h-4 text-[#FBE156]" />
               Ingin Mengulang Ujian (Retake)?
             </h3>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs text-slate-400 mt-1">
               Percobaan berikutnya akan menyajikan variasi paket soal baru (Set B/C). Sistem mencatat skor tertinggi yang Anda peroleh.
             </p>
           </div>
@@ -141,17 +141,17 @@ export default function ResultPage() {
           <div className="flex items-center gap-3 shrink-0">
             <Link
               to={`/courses/${attempt.courseId}`}
-              className="px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50"
+              className="px-4 py-2.5 rounded-xl border border-slate-700 text-xs font-bold text-slate-300 hover:bg-[#0D152A] hover:text-white transition-colors"
             >
               Baca Materi
             </Link>
             <button
               onClick={() => navigate(`/exam/${attempt.courseId}`)}
               disabled={!cooldownFinished && Boolean(attempt.cooldownUntil && new Date(attempt.cooldownUntil) > new Date())}
-              className={`px-5 py-2.5 rounded-xl text-xs font-extrabold transition-all shadow-sm flex items-center gap-2 ${
+              className={`px-5 py-2.5 rounded-xl text-xs font-black transition-all shadow-md flex items-center gap-2 ${
                 !cooldownFinished && Boolean(attempt.cooldownUntil && new Date(attempt.cooldownUntil) > new Date())
-                  ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                  : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-indigo-100'
+                  ? 'bg-slate-800 text-slate-500 cursor-not-allowed'
+                  : 'bg-[#FBE156] hover:bg-yellow-400 text-[#0A1124]'
               }`}
             >
               <RotateCcw className="w-3.5 h-3.5" />
@@ -163,23 +163,23 @@ export default function ResultPage() {
 
       {/* Question Review & Explanations Header */}
       <section className="space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-800">
           <div>
-            <h3 className="text-lg font-extrabold text-slate-900 flex items-center gap-2">
-              <FileCheck className="w-5 h-5 text-indigo-600" />
+            <h3 className="text-lg font-extrabold text-white flex items-center gap-2">
+              <FileCheck className="w-5 h-5 text-sky-400" />
               Pembahasan &amp; Kunci Jawaban Lengkap (15 Soal)
             </h3>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-slate-400 mt-0.5">
               Tinjau jawaban Anda, skor per butir soal, dan ulasan konsep yang benar.
             </p>
           </div>
 
           {/* Filter Review Buttons */}
-          <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl self-start sm:self-auto border border-slate-200">
+          <div className="flex items-center gap-1 bg-[#0D152A] p-1 rounded-xl self-start sm:self-auto border border-slate-800">
             <button
               onClick={() => setFilterMode('all')}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                filterMode === 'all' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                filterMode === 'all' ? 'bg-[#FBE156] text-[#0A1124] shadow-sm font-black' : 'text-slate-400 hover:text-white'
               }`}
             >
               Semua ({evaluatedQuestions.length})
@@ -187,7 +187,7 @@ export default function ResultPage() {
             <button
               onClick={() => setFilterMode('wrong')}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                filterMode === 'wrong' ? 'bg-rose-600 text-white shadow-xs' : 'text-slate-600 hover:text-rose-600'
+                filterMode === 'wrong' ? 'bg-rose-600 text-white shadow-sm' : 'text-slate-400 hover:text-rose-400'
               }`}
             >
               Kurang/Salah ({evaluatedQuestions.filter(q => q.poin < 10).length})
@@ -195,7 +195,7 @@ export default function ResultPage() {
             <button
               onClick={() => setFilterMode('essay')}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                filterMode === 'essay' ? 'bg-indigo-600 text-white shadow-xs' : 'text-slate-600 hover:text-indigo-600'
+                filterMode === 'essay' ? 'bg-[#0052CC] text-white shadow-sm' : 'text-slate-400 hover:text-sky-300'
               }`}
             >
               Essay ({evaluatedQuestions.filter(q => q.tipe === 'essay').length})

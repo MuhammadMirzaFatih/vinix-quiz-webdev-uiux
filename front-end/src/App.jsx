@@ -20,7 +20,7 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <ProgressProvider>
-          <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900 font-sans">
+          <div className="flex flex-col min-h-screen bg-[#0B132B] text-slate-100 font-sans">
             <Navbar />
             <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-8">
               <Routes>

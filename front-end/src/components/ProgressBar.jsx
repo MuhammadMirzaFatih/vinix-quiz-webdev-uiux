@@ -12,17 +12,17 @@ export default function ProgressBar({ current, total, percentage, label, showVal
   return (
     <div className="w-full">
       {(label || showValue) && (
-        <div className="flex items-center justify-between text-xs font-semibold text-slate-700 mb-1.5">
+        <div className="flex items-center justify-between text-xs font-semibold text-slate-300 mb-1.5">
           {label && <span>{label}</span>}
           {showValue && (
-            <span className="text-indigo-600 font-bold">
+            <span className="text-[#FBE156] font-extrabold">
               {calculatedPercent}%
             </span>
           )}
         </div>
       )}
       <div 
-        className={`w-full bg-slate-100 rounded-full overflow-hidden ${heightClass} border border-slate-200/80 shadow-inner`}
+        className={`w-full bg-[#0D152A] rounded-full overflow-hidden ${heightClass} border border-slate-800 shadow-inner`}
         role="progressbar"
         aria-valuenow={calculatedPercent}
         aria-valuemin="0"
@@ -33,7 +33,7 @@ export default function ProgressBar({ current, total, percentage, label, showVal
             calculatedPercent >= 80 
               ? 'bg-gradient-to-r from-emerald-500 to-teal-400' 
               : calculatedPercent > 0 
-                ? 'bg-gradient-to-r from-indigo-500 to-sky-400' 
+                ? 'bg-gradient-to-r from-[#0052CC] to-[#FBE156]' 
                 : 'bg-transparent'
           }`}
           style={{ width: `${calculatedPercent}%` }}
