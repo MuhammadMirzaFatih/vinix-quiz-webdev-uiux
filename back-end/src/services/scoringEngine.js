@@ -44,20 +44,14 @@ export function evaluateEssay(studentAnswer, keywords = []) {
 
   const ratio = matched / keywords.length;
 
-  // Sesuai Rubrik PRD Hal 11 & Hal 43:
-  // Nilai 10 -> >= 80% kata kunci utama muncul dan konsep benar
-  // Nilai 9  -> Konsep inti benar, kurang 1 unsur (rasio ~70-79%)
-  // Nilai 8  -> Sekitar 60% konsep benar (~55-69%)
-  // Nilai 7  -> Hanya ide umum (~40-54%)
-  // Nilai 0  -> Salah / tidak relevan (< 40%)
-  if (ratio >= 0.8) {
+  // Evaluasi Simpel & Key-Point Friendly:
+  // Nilai 10 -> Poin kunci utama terpenuhi (matched >= 2 atau rasio >= 35%)
+  // Nilai 8  -> Konsep dasar ada namun kurang lengkap (matched >= 1 atau rasio >= 20%)
+  // Nilai 0  -> Tidak relevan atau kata kunci tidak ditemukan
+  if (matched >= 2 || ratio >= 0.35) {
     return { poin: 10, label: 'Tepat', matchedCount: matched, totalKeywords: keywords.length };
-  } else if (ratio >= 0.7) {
-    return { poin: 9, label: 'Kurang Tepat', matchedCount: matched, totalKeywords: keywords.length };
-  } else if (ratio >= 0.55) {
+  } else if (matched >= 1 || ratio >= 0.2) {
     return { poin: 8, label: 'Kurang Tepat', matchedCount: matched, totalKeywords: keywords.length };
-  } else if (ratio >= 0.4) {
-    return { poin: 7, label: 'Kurang Tepat', matchedCount: matched, totalKeywords: keywords.length };
   } else {
     return { poin: 0, label: 'Salah', matchedCount: matched, totalKeywords: keywords.length };
   }

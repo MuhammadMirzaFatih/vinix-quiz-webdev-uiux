@@ -461,203 +461,203 @@ export const MOCK_QUESTIONS = {
   // ================= MODUL 1 (Mindset Startup & Problem Solving) =================
   c1: {
     A: [
-      // 10 Pilihan Ganda (Set A)
+      // 10 Pilihan Ganda (Set A) - Diperketat dengan pengecoh profesional (Jawaban Kunci: B)
       {
         id: 'q1-A-1',
         urutan: 1,
         topik: 'Startup Mindset',
         tipe: 'pilihan_ganda',
-        teks: 'Apa yang dimaksud dengan pola pikir Value Driven?',
+        teks: 'Dalam konteks pengembangan produk startup digital, manakah pernyataan berikut yang paling tepat membedakan pendekatan Value-Driven dari pendekatan Feature-Driven?',
         options: [
-          { id: 'opt-1', teks: 'Berfokus pada teknologi terbaru' },
-          { id: 'opt-2', teks: 'Berfokus pada desain yang menarik' },
-          { id: 'opt-3', teks: 'Berfokus pada nilai yang diberikan kepada pengguna' },
-          { id: 'opt-4', teks: 'Berfokus pada keuntungan perusahaan semata' }
+          { id: 'opt-1', teks: 'Value-Driven menitikberatkan pada akselerasi penambahan fitur mutakhir (feature velocity) agar pengguna memiliki banyak alternatif fungsi.' },
+          { id: 'opt-2', teks: 'Value-Driven memprioritaskan pemecahan masalah nyata dan kemudahan hidup pengguna, sedangkan Feature-Driven terpaku pada kuantitas fitur dan kebaruan teknologi.' },
+          { id: 'opt-3', teks: 'Value-Driven berfokus pada efisiensi biaya rekayasa infrastruktur cloud, sedangkan Feature-Driven berfokus pada polesan estetika antarmuka semata.' },
+          { id: 'opt-4', teks: 'Value-Driven menargetkan monetisasi agresif sejak fase pra-rilis, sedangkan Feature-Driven mengandalkan suntikan modal venture capital.' }
         ],
-        kunciJawaban: 'opt-3',
-        pembahasan: 'Value Driven berfokus pada pemberian nilai nyata bagi pemecahan masalah pengguna.'
+        kunciJawaban: 'opt-2',
+        pembahasan: 'Value-Driven selalu berfokus pada nilai manfaat (*value*) dan pemecahan masalah nyata pengguna, bukan sekadar menumpuk fitur canggih (*feature-driven*).'
       },
       {
         id: 'q1-A-2',
         urutan: 2,
         topik: 'Startup Mindset',
         tipe: 'pilihan_ganda',
-        teks: 'Dalam mindset startup, pertanyaan yang paling tepat sebelum membuat fitur adalah...',
+        teks: 'Sebelum menyetujui penambahan fitur baru ke dalam roadmap produk, pertanyaan validasi paling mendasar yang wajib diajukan tim menurut pola pikir startup adalah...',
         options: [
-          { id: 'opt-1', teks: 'Fitur apa yang paling canggih?' },
-          { id: 'opt-2', teks: 'Teknologi apa yang paling mahal?' },
-          { id: 'opt-3', teks: 'Nilai apa yang dapat mempermudah hidup pengguna?' },
-          { id: 'opt-4', teks: 'Bagaimana cara mengalahkan kompetitor seketika?' }
+          { id: 'opt-1', teks: 'Apakah infrastruktur server saat ini sanggup memproses beban komputasi fitur tersebut dengan latensi di bawah 100 milidetik?' },
+          { id: 'opt-2', teks: 'Nilai manfaat apa yang secara nyata mempermudah hidup pengguna atau menyelesaikan masalah mendesak yang mereka hadapi?' },
+          { id: 'opt-3', teks: 'Berapa estimasi story point pada sprint Agile yang dibutuhkan tim engineering untuk menyelesaikan tiket implementasinya?' },
+          { id: 'opt-4', teks: 'Apakah kompetitor terbesar di industri yang sama sudah terlebih dahulu meluncurkan fitur serupa di aplikasi mereka?' }
         ],
-        kunciJawaban: 'opt-3',
-        pembahasan: 'Pertanyaan inti startup berpusat pada nilai manfaat bagi kemudahan hidup pengguna.'
+        kunciJawaban: 'opt-2',
+        pembahasan: 'Pertanyaan inti startup berpusat pada nilai guna (*value*): apakah fitur mempermudah hidup atau mengatasi *pain point* pengguna.'
       },
       {
         id: 'q1-A-3',
         urutan: 3,
         topik: 'Problem Solving',
         tipe: 'pilihan_ganda',
-        teks: 'Prinsip "Solve The Problem" menekankan bahwa produk startup harus...',
+        teks: 'Sebuah startup merilis aplikasi dengan antarmuka yang sangat indah, namun retensi penggunanya anjlok drastis dalam dua minggu pasca-rilis. Berdasarkan prinsip "Solve The Problem", akar kegagalan paling mendasar adalah...',
         options: [
-          { id: 'opt-1', teks: 'Mengutamakan animasi desain visual' },
-          { id: 'opt-2', teks: 'Berpegang pada masalah nyata pengguna' },
-          { id: 'opt-3', teks: 'Meniru fitur kompetitor paling besar' },
-          { id: 'opt-4', teks: 'Membuat sebanyak mungkin fitur sekaligus' }
+          { id: 'opt-1', teks: 'Palet warna antarmuka belum memenuhi standar rasio kontras WCAG 2.1 AA untuk keterbacaan difabel.' },
+          { id: 'opt-2', teks: 'Aplikasi hanya memenuhi asumsi estetika tim pengembang, namun gagal memecahkan masalah nyata yang dihadapi pengguna sehari-hari.' },
+          { id: 'opt-3', teks: 'Sistem belum menyediakan metode otentikasi biometrik nirkabel bagi pengguna perangkat seluler.' },
+          { id: 'opt-4', teks: 'Startup terlambat meluncurkan promosi diskon tarif transaksi di berbagai platform media sosial.' }
         ],
         kunciJawaban: 'opt-2',
-        pembahasan: 'Startup harus berpegang teguh pada penyelesaian masalah nyata, bukan asumsi.'
+        pembahasan: 'Desain yang menarik tidak akan mempertahankan pengguna jika aplikasi tidak memecahkan masalah nyata mereka.'
       },
       {
         id: 'q1-A-4',
         urutan: 4,
         topik: 'Agility',
         tipe: 'pilihan_ganda',
-        teks: 'Agility dalam pengembangan startup berarti...',
+        teks: 'Bagaimanakah penerapan prinsip Agility yang paling tepat ketika sebuah fitur yang baru diluncurkan terbukti diabaikan oleh pengguna?',
         options: [
-          { id: 'opt-1', teks: 'Menghindari segala bentuk kegagalan' },
-          { id: 'opt-2', teks: 'Menunggu produk 100% sempurna sebelum rilis' },
-          { id: 'opt-3', teks: 'Bergerak cepat, menerima feedback, dan terus memperbaiki produk' },
-          { id: 'opt-4', teks: 'Membuat produk sekali tanpa perlu diperbarui' }
+          { id: 'opt-1', teks: 'Meningkatkan alokasi anggaran iklan berbayar untuk memaksa pengguna memahami kegunaan fitur tersebut.' },
+          { id: 'opt-2', teks: 'Menerima data secara objektif, menampung umpan balik pengguna, dan segera melakukan iterasi atau menghapus fitur yang tidak efektif.' },
+          { id: 'opt-3', teks: 'Menyimpan kode fitur di repositori tanpa evaluasi sembari menunggu rencana roadmap produk tahun berikutnya.' },
+          { id: 'opt-4', teks: 'Menjadwalkan migrasi arsitektur basis data ke sistem terdistribusi untuk mempercepat performa kueri.' }
         ],
-        kunciJawaban: 'opt-3',
-        pembahasan: 'Agility adalah fleksibilitas bergerak cepat, mendengar feedback, dan terus iterasi.'
+        kunciJawaban: 'opt-2',
+        pembahasan: 'Agility menuntut tim bergerak cepat, adaptif terhadap umpan balik nyata, dan tidak ragu mengeliminasi fitur nir-manfaat.'
       },
       {
         id: 'q1-A-5',
         urutan: 5,
         topik: 'Validasi Masalah',
         tipe: 'pilihan_ganda',
-        teks: 'Kegagalan pada tahap awal startup sebaiknya dianggap sebagai...',
+        teks: 'Mengapa pola pikir startup memandang kegagalan validasi hipotesis di fase awal sebagai "keberhasilan data", bukan kerugian mutlak?',
         options: [
-          { id: 'opt-1', teks: 'Bukti ketidakmampuan tim developer' },
-          { id: 'opt-2', teks: 'Kerugian finansial mutlak' },
-          { id: 'opt-3', teks: 'Data berharga untuk melakukan perbaikan' },
-          { id: 'opt-4', teks: 'Alasan mutlak menghentikan proyek' }
+          { id: 'opt-1', teks: 'Karena kegagalan tersebut secara hukum dapat diklaim sebagai pengurangan beban audit pajak tahunan perusahaan.' },
+          { id: 'opt-2', teks: 'Karena kegagalan awal menyediakan data empiris berharga untuk mencegah pemborosan sumber daya pada produk yang tidak diinginkan pasar.' },
+          { id: 'opt-3', teks: 'Karena pemodal ventura (VC) umumnya mewajibkan startup mencatatkan riwayat kegagalan sebelum mencairkan dana tahap awal.' },
+          { id: 'opt-4', teks: 'Karena membuktikan bahwa seluruh alur pipeline CI/CD otomatis berjalan tanpa interupsi manual.' }
         ],
-        kunciJawaban: 'opt-3',
-        pembahasan: 'Kegagalan awal merupakan umpan balik dan data empiris untuk perbaikan berkelanjutan.'
+        kunciJawaban: 'opt-2',
+        pembahasan: 'Mengetahui apa yang TIDAK diinginkan pasar sejak dini menghemat waktu, energi, dan biaya pengembangan besar.'
       },
       {
         id: 'q1-A-6',
         urutan: 6,
         topik: 'Problem-Solution Fit',
         tipe: 'pilihan_ganda',
-        teks: 'Checkpoint pertama yang harus dicapai sebelum Product-Market Fit adalah...',
+        teks: 'Apa risiko terbesar jika startup melakukan scaling (pemasaran masif & ekspansi tim) sebelum berhasil membuktikan Problem-Solution Fit?',
         options: [
-          { id: 'opt-1', teks: 'Market Expansion' },
-          { id: 'opt-2', teks: 'Business Incorporation' },
-          { id: 'opt-3', teks: 'Problem-Solution Fit' },
-          { id: 'opt-4', teks: 'Revenue Scaling' }
+          { id: 'opt-1', teks: 'Kapasitas penyimpanan server database relasional meluap melebihi batas kuota gratis penyedia cloud.' },
+          { id: 'opt-2', teks: 'Membakar modal dan tenaga secara sia-sia untuk mempromosikan solusi yang sebenarnya belum terbukti menyelesaikan masalah pengguna.' },
+          { id: 'opt-3', teks: 'Terjadinya konflik merger cabang kode program (merge conflict) pada repositori Git tim pengembang.' },
+          { id: 'opt-4', teks: 'Keterlambatan pembagian hak dividen bagi para pemegang saham ekuitas minoritas.' }
         ],
-        kunciJawaban: 'opt-3',
-        pembahasan: 'Problem-Solution Fit membuktikan bahwa solusi kita terbukti menyelesaikan masalah sebelum diskalakan.'
+        kunciJawaban: 'opt-2',
+        pembahasan: 'Premature scaling adalah pembunuh utama startup: memperbesar skala produk sebelum membuktikan solusinya valid.'
       },
       {
         id: 'q1-A-7',
         urutan: 7,
-        topik: 'Validasi Masalah',
+        topik: 'Problem Statement Canvas',
         tipe: 'pilihan_ganda',
-        teks: 'Sebuah masalah dianggap layak untuk diselesaikan oleh produk digital jika...',
+        teks: 'Pada Problem Statement Canvas, mengapa merumuskan elemen "Who" (Target Pengguna) sebagai "Semua orang yang punya smartphone" merupakan kesalahan fatal?',
         options: [
-          { id: 'opt-1', teks: 'Mudah diselesaikan dalam 1 hari' },
-          { id: 'opt-2', teks: 'Sedang viral di media sosial' },
-          { id: 'opt-3', teks: 'Mendesak dan benar-benar dialami pengguna' },
-          { id: 'opt-4', teks: 'Hanya disukai oleh pihak investor' }
+          { id: 'opt-1', teks: 'Karena akan menyebabkan ukuran payload transfer data API JSON menjadi terlalu berat di jaringan seluler.' },
+          { id: 'opt-2', teks: 'Karena target yang terlalu luas mengaburkan konteks dan urgensi, sehingga tim mustahil merancang solusi yang tajam dan relevan.' },
+          { id: 'opt-3', teks: 'Karena toko aplikasi Play Store dan App Store menolak aplikasi yang tidak memiliki batasan usia minimal 18 tahun.' },
+          { id: 'opt-4', teks: 'Karena arsitektur frontend akan mengalami kendala re-rendering komponen navigasi secara repetitif.' }
         ],
-        kunciJawaban: 'opt-3',
-        pembahasan: 'Masalah bernilai tinggi adalah masalah yang mendesak, nyata, dan dirasakan langsung.'
+        kunciJawaban: 'opt-2',
+        pembahasan: 'Jika target Anda adalah "semua orang", maka solusi Anda menjadi terlalu umum dan tidak relevan bagi siapa pun.'
       },
       {
         id: 'q1-A-8',
         urutan: 8,
-        topik: 'Validasi Solusi',
+        topik: 'Teknik 5 Whys',
         tipe: 'pilihan_ganda',
-        teks: 'Dalam tahap awal validasi produk, yang harus lebih diprioritaskan adalah...',
+        teks: 'Dalam studi kasus penagihan kos: jika penyewa sering telat bayar dan pemilik kos hanya berhenti pada Why ke-1 dengan membuatkan alarm pengingat, kelemahan fatalnya adalah...',
         options: [
-          { id: 'opt-1', teks: 'Tampilan animasi UI yang rumit' },
-          { id: 'opt-2', teks: 'Validasi solusi kepada target pengguna' },
-          { id: 'opt-3', teks: 'Pembuatan logo perusahaan' },
-          { id: 'opt-4', teks: 'Kampanye iklan berbayar besar-besaran' }
+          { id: 'opt-1', teks: 'Sistem operasi smartphone modern secara otomatis membisukan suara alarm dari aplikasi pihak ketiga.' },
+          { id: 'opt-2', teks: 'Pemilik kos hanya mengobati gejala permukaan (symptom) tanpa menyentuh akar masalah (root cause) seperti siklus tanggal gajian atau metode transfer rumit.' },
+          { id: 'opt-3', teks: 'Pengiriman notifikasi alarm harian melanggar ketentuan hukum perlindungan data komunikasi pribadi.' },
+          { id: 'opt-4', teks: 'Memori RAM server backend akan cepat habis karena antrean background worker alarm yang menumpuk.' }
         ],
         kunciJawaban: 'opt-2',
-        pembahasan: 'Validasi solusi kepada pengguna adalah prioritas utama sebelum investasi aset berlebih.'
+        pembahasan: 'Teknik 5 Whys mencegah tim terjebak mengobati gejala luar, melainkan menuntun ke akar permasalahan terdalam.'
       },
       {
         id: 'q1-A-9',
         urutan: 9,
-        topik: 'Inovasi Produk',
+        topik: 'Problem Statement Canvas',
         tipe: 'pilihan_ganda',
-        teks: 'Keluhan dan rasa frustrasi pengguna dalam startup sebaiknya dipandang sebagai...',
+        teks: 'Dalam Problem Statement Canvas, pemahaman tajam mengenai elemen "The Gap" (celah dari solusi alternatif saat ini) sangat diperlukan agar...',
         options: [
-          { id: 'opt-1', teks: 'Hambatan operasional bisnis' },
-          { id: 'opt-2', teks: 'Risiko kegagalan mutlak' },
-          { id: 'opt-3', teks: 'Bahan bakar utama untuk inovasi produk' },
-          { id: 'opt-4', teks: 'Serangan dari pihak kompetitor' }
+          { id: 'opt-1', teks: 'Tim teknis dapat memilih antara pustaka Tailwind CSS atau Bootstrap untuk styling halaman antarmuka.' },
+          { id: 'opt-2', teks: 'Produk digital yang dibangun memiliki pembeda nilai yang jelas (differentiator) dan keunggulan nyata dibanding kebiasaan lama pengguna.' },
+          { id: 'opt-3', teks: 'Mesin pencari Google dapat menempatkan landing page startup di halaman pertama hasil pencarian secara instan.' },
+          { id: 'opt-4', teks: 'Tim developer dapat memisahkan schema tabel database relasional ke dalam format file migrasi terpisah.' }
         ],
-        kunciJawaban: 'opt-3',
-        pembahasan: 'Rasa frustrasi pengguna memetakan pain point yang bisa diubah menjadi peluang inovasi.'
+        kunciJawaban: 'opt-2',
+        pembahasan: 'The Gap adalah celah peluang inovasi di mana alternatif saat ini gagal memuaskan kebutuhan pengguna.'
       },
       {
         id: 'q1-A-10',
         urutan: 10,
         topik: 'Problem Statement Canvas',
         tipe: 'pilihan_ganda',
-        teks: 'Problem Statement Canvas digunakan oleh tim produk untuk...',
+        teks: 'Manakah format kalimat rumusan masalah standar yang paling tepat sesuai kaidah template Problem Statement Canvas?',
         options: [
-          { id: 'opt-1', teks: 'Membuat laporan perpajakan' },
-          { id: 'opt-2', teks: 'Merumuskan masalah secara presisi dan terstruktur' },
-          { id: 'opt-3', teks: 'Mendesain layout kode database' },
-          { id: 'opt-4', teks: 'Menentukan harga jual saham' }
+          { id: 'opt-1', teks: '[Fitur Aplikasi] dikembangkan menggunakan [Framework X] agar [Perusahaan] memperoleh margin profit sebesar [Target Omset].' },
+          { id: 'opt-2', teks: '[Target Pengguna] kesulitan saat [Konteks] karena [Akar Masalah], yang berakibat pada [Dampak Terukur].' },
+          { id: 'opt-3', teks: '[Developer] menulis kode bersama [UI Designer] untuk menyelesaikan [Tiket Backlog] dalam kurun waktu [Durasi Sprint].' },
+          { id: 'opt-4', teks: '[Investor] menyalurkan [Pendanaan Seed] kepada [Startup] dengan estimasi pengembalian modal pada [Tahun Target].' }
         ],
         kunciJawaban: 'opt-2',
-        pembahasan: 'Canvas ini membantu tim mendefinisikan target, konteks, akar masalah, dan celah solusi.'
+        pembahasan: 'Format baku Problem Canvas: [Pengguna] kesulitan saat [Konteks] karena [Akar Masalah], yang berakibat [Dampak Terukur].'
       },
 
-      // 5 Soal Essay Studi Kasus (Set A)
+      // 5 Soal Essay Studi Kasus (Set A) - Dipermudah & To The Point Sesuai Slide PDF
       {
         id: 'q1-A-11',
         urutan: 11,
-        topik: 'Startup Mindset',
+        topik: 'Problem Statement Canvas',
         tipe: 'essay',
-        teks: 'Jelaskan pengertian Value Driven dalam pola pikir startup digital!',
-        kunciJawabanIdeal: 'Value Driven adalah pola pikir startup yang berfokus pada penciptaan nilai (value) bagi pengguna dengan menyelesaikan masalah nyata yang mereka alami. Keputusan bisnis, fitur, dan inovasi dibuat berdasarkan manfaat yang diberikan kepada pengguna, bukan hanya teknologi atau keuntungan semata.',
-        keywords: ['nilai', 'value', 'pengguna', 'customer', 'masalah nyata', 'manfaat', 'kebutuhan']
+        teks: 'Sebutkan 4 elemen pokok yang terdapat di dalam Problem Statement Canvas sesuai materi slide!',
+        kunciJawabanIdeal: '4 elemen pokok Problem Statement Canvas: 1. Who (Target Pengguna), 2. Context (Konteks kapan & di mana), 3. Root Cause (Akar Masalah), 4. The Gap (Celah kelemahan alternatif saat ini).',
+        keywords: ['who', 'context', 'root cause', 'gap', 'pengguna', 'konteks', 'akar masalah', 'celah']
       },
       {
         id: 'q1-A-12',
         urutan: 12,
-        topik: 'Problem Solving',
+        topik: 'Teknik 5 Whys',
         tipe: 'essay',
-        teks: 'Mengapa startup harus fokus pada masalah pengguna, bukan pada solusi atau teknologinya terlebih dahulu?',
-        kunciJawabanIdeal: 'Karena solusi dan teknologi dapat berubah seiring perkembangan zaman, tetapi masalah pengguna tetap menjadi dasar kebutuhan pasar. Dengan memahami masalah terlebih dahulu, startup dapat menciptakan solusi yang relevan, dibutuhkan, dan memiliki peluang adopsi yang tinggi.',
-        keywords: ['masalah pengguna', 'solusi bisa berubah', 'kebutuhan pasar', 'relevan', 'validasi']
+        teks: 'Secara singkat, apa tujuan utama dari teknik 5 Whys dalam membedah masalah produk?',
+        kunciJawabanIdeal: 'Tujuan utama teknik 5 Whys adalah untuk menemukan akar masalah terdalam (root cause), bukan sekadar mengobati gejala permukaan (symptom).',
+        keywords: ['akar masalah', 'root cause', 'gejala', 'symptom', 'mengapa', 'whys']
       },
       {
         id: 'q1-A-13',
         urutan: 13,
-        topik: 'Agility',
+        topik: 'Startup Mindset',
         tipe: 'essay',
-        teks: 'Jelaskan konsep Agility dan manfaat penerapannya bagi tim pengembang startup!',
-        kunciJawabanIdeal: 'Agility adalah kemampuan startup untuk bergerak cepat, menerima umpan balik (feedback), beradaptasi terhadap perubahan pasar, melakukan eksperimen, dan terus memperbaiki produk berdasarkan data kebutuhan pengguna nyata.',
-        keywords: ['bergerak cepat', 'adaptasi', 'feedback', 'eksperimen', 'perbaikan berkelanjutan']
+        teks: 'Jelaskan perbedaan singkat antara pola pikir Value-Driven dan Feature-Driven!',
+        kunciJawabanIdeal: 'Value-Driven berfokus pada manfaat nyata dan pemecahan masalah pengguna, sedangkan Feature-Driven hanya berfokus pada memperbanyak fitur atau kecanggihan teknologi.',
+        keywords: ['manfaat', 'pengguna', 'fitur', 'masalah', 'nilai', 'value']
       },
       {
         id: 'q1-A-14',
         urutan: 14,
-        topik: 'Problem-Solution Fit',
+        topik: 'Problem Statement',
         tipe: 'essay',
-        teks: 'Apa yang dimaksud dengan Problem-Solution Fit dan mengapa tahapan ini krusial?',
-        kunciJawabanIdeal: 'Problem-Solution Fit adalah kondisi ketika solusi yang dibangun terbukti mampu menyelesaikan masalah penting yang dialami target pengguna. Tahapan ini krusial karena mengurangi risiko membangun produk yang tidak dibutuhkan pasar.',
-        keywords: ['solusi sesuai masalah', 'validasi', 'kebutuhan pengguna', 'mengurangi risiko', 'dibutuhkan pasar']
+        teks: 'Tuliskan rumus kalimat standar dalam menyusun Problem Statement sesuai slide materi!',
+        kunciJawabanIdeal: '[Target Pengguna] kesulitan saat [Konteks] karena [Akar Masalah], yang berakibat [Dampak Terukur].',
+        keywords: ['pengguna', 'konteks', 'akar masalah', 'dampak', 'kesulitan', 'akibat']
       },
       {
         id: 'q1-A-15',
         urutan: 15,
-        topik: 'Validasi Masalah',
+        topik: 'Agility & Validasi',
         tipe: 'essay',
-        teks: 'Mengapa proses validasi masalah harus dilakukan sebelum menulis kode pembuatan produk?',
-        kunciJawabanIdeal: 'Karena startup harus memastikan masalah tersebut benar-benar nyata dialami pengguna, penting untuk diselesaikan, dan layak dijadikan bisnis sehingga tidak membuang waktu, biaya, dan sumber daya untuk produk yang tidak berguna.',
-        keywords: ['memastikan masalah nyata', 'kebutuhan pengguna', 'mengurangi risiko', 'efisiensi biaya', 'validasi']
+        teks: 'Mengapa kegagalan awal dalam startup dianggap sebagai data berharga dan bukan kerugian mutlak?',
+        kunciJawabanIdeal: 'Karena kegagalan awal memberikan umpan balik (feedback) dan data nyata untuk melakukan evaluasi, iterasi, serta perbaikan produk berikutnya.',
+        keywords: ['feedback', 'umpan balik', 'iterasi', 'perbaikan', 'evaluasi', 'data']
       }
     ],
 

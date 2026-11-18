@@ -261,26 +261,18 @@ export const apiClient = {
         }
         const ratio = keywords.length > 0 ? (matches / keywords.length) : 0;
 
-        if (ratio >= 0.8) {
+        if (matches >= 2 || ratio >= 0.35) {
           poin = 10;
           label = 'Tepat';
-          feedback = 'Konsep utama dijelaskan dengan sangat tepat dan memenuhi kata kunci.';
-        } else if (ratio >= 0.7) {
-          poin = 9;
-          label = 'Kurang Tepat';
-          feedback = 'Konsep inti sudah benar, namun masih ada 1 unsur penjelas yang belum disebutkan.';
-        } else if (ratio >= 0.55) {
+          feedback = 'Jawaban ringkas, tepat sasaran, dan poin kunci utama terpenuhi!';
+        } else if (matches >= 1 || ratio >= 0.2) {
           poin = 8;
           label = 'Kurang Tepat';
-          feedback = 'Sekitar 60% konsep benar, namun penjelasan masih terlalu umum.';
-        } else if (ratio >= 0.4) {
-          poin = 7;
-          label = 'Kurang Tepat';
-          feedback = 'Hanya menyebutkan ide umum tanpa kedalaman konsep sesuai materi.';
+          feedback = 'Konsep dasar sudah benar, tambahkan sedikit detail kata kunci materi.';
         } else {
           poin = 0;
           label = 'Salah';
-          feedback = 'Konsep keliru, jawaban kosong, atau mayoritas kata kunci utama tidak terpenuhi.';
+          feedback = 'Jawaban belum mencakup kata kunci utama dari materi slide.';
         }
         totalEssay += poin;
       }

@@ -3,44 +3,44 @@
 -- Extracted directly from PRD Appendix (Pages 13-28)
 -- ==============================================================================
 
--- 1. Insert PG Questions Set A (Modul 1)
+-- 1. Insert PG Questions Set A (Modul 1) - Diperketat dengan Analisis Mendalam
 INSERT INTO questions (id, course_id, set_paket, topik, tipe, teks, urutan) VALUES
-('q1000001-0000-0000-0000-000000000001', 'c0000001-0000-0000-0000-000000000001', 'A', 'Startup Mindset', 'pilihan_ganda', 'Apa yang dimaksud dengan pola pikir Value Driven?', 1),
-('q1000001-0000-0000-0000-000000000002', 'c0000001-0000-0000-0000-000000000001', 'A', 'Startup Mindset', 'pilihan_ganda', 'Dalam mindset startup, pertanyaan yang paling tepat adalah...', 2),
-('q1000001-0000-0000-0000-000000000003', 'c0000001-0000-0000-0000-000000000001', 'A', 'Problem Solving', 'pilihan_ganda', 'Prinsip Solve The Problem menekankan bahwa startup harus...', 3),
-('q1000001-0000-0000-0000-000000000004', 'c0000001-0000-0000-0000-000000000001', 'A', 'Agility', 'pilihan_ganda', 'Agility dalam startup berarti...', 4),
-('q1000001-0000-0000-0000-000000000005', 'c0000001-0000-0000-0000-000000000001', 'A', 'Validasi Masalah', 'pilihan_ganda', 'Kegagalan pada tahap awal startup dianggap sebagai...', 5),
-('q1000001-0000-0000-0000-000000000006', 'c0000001-0000-0000-0000-000000000001', 'A', 'Problem-Solution Fit', 'pilihan_ganda', 'Checkpoint pertama sebelum mencapai Product-Market Fit adalah...', 6),
-('q1000001-0000-0000-0000-000000000007', 'c0000001-0000-0000-0000-000000000001', 'A', 'Validasi Masalah', 'pilihan_ganda', 'Sebuah masalah layak diselesaikan jika...', 7),
-('q1000001-0000-0000-0000-000000000008', 'c0000001-0000-0000-0000-000000000001', 'A', 'Validasi Solusi', 'pilihan_ganda', 'Dalam tahap awal validasi, yang harus lebih diprioritaskan adalah...', 8),
-('q1000001-0000-0000-0000-000000000009', 'c0000001-0000-0000-0000-000000000001', 'A', 'Inovasi Produk', 'pilihan_ganda', 'Keluhan dan frustrasi pengguna dianggap sebagai...', 9),
-('q1000001-0000-0000-0000-000000000010', 'c0000001-0000-0000-0000-000000000001', 'A', 'Problem Statement Canvas', 'pilihan_ganda', 'Problem Statement Canvas digunakan untuk...', 10)
+('q1000001-0000-0000-0000-000000000001', 'c0000001-0000-0000-0000-000000000001', 'A', 'Startup Mindset', 'pilihan_ganda', 'Dalam konteks pengembangan produk startup digital, manakah pernyataan berikut yang paling tepat membedakan pendekatan Value-Driven dari pendekatan Feature-Driven?', 1),
+('q1000001-0000-0000-0000-000000000002', 'c0000001-0000-0000-0000-000000000001', 'A', 'Startup Mindset', 'pilihan_ganda', 'Sebelum menyetujui penambahan fitur baru ke dalam roadmap produk, pertanyaan validasi paling mendasar yang wajib diajukan tim menurut pola pikir startup adalah...', 2),
+('q1000001-0000-0000-0000-000000000003', 'c0000001-0000-0000-0000-000000000001', 'A', 'Problem Solving', 'pilihan_ganda', 'Sebuah startup merilis aplikasi dengan antarmuka yang sangat indah, namun retensi penggunanya anjlok drastis dalam dua minggu pasca-rilis. Berdasarkan prinsip "Solve The Problem", akar kegagalan paling mendasar adalah...', 3),
+('q1000001-0000-0000-0000-000000000004', 'c0000001-0000-0000-0000-000000000001', 'A', 'Agility', 'pilihan_ganda', 'Bagaimanakah penerapan prinsip Agility yang paling tepat ketika sebuah fitur yang baru diluncurkan terbukti diabaikan oleh pengguna?', 4),
+('q1000001-0000-0000-0000-000000000005', 'c0000001-0000-0000-0000-000000000001', 'A', 'Validasi Masalah', 'pilihan_ganda', 'Mengapa pola pikir startup memandang kegagalan validasi hipotesis di fase awal sebagai "keberhasilan data", bukan kerugian mutlak?', 5),
+('q1000001-0000-0000-0000-000000000006', 'c0000001-0000-0000-0000-000000000001', 'A', 'Problem-Solution Fit', 'pilihan_ganda', 'Apa risiko terbesar jika startup melakukan scaling (pemasaran masif & ekspansi tim) sebelum berhasil membuktikan Problem-Solution Fit?', 6),
+('q1000001-0000-0000-0000-000000000007', 'c0000001-0000-0000-0000-000000000001', 'A', 'Problem Statement Canvas', 'pilihan_ganda', 'Pada Problem Statement Canvas, mengapa merumuskan elemen "Who" (Target Pengguna) sebagai "Semua orang yang punya smartphone" merupakan kesalahan fatal?', 7),
+('q1000001-0000-0000-0000-000000000008', 'c0000001-0000-0000-0000-000000000001', 'A', 'Teknik 5 Whys', 'pilihan_ganda', 'Dalam studi kasus penagihan kos: jika penyewa sering telat bayar dan pemilik kos hanya berhenti pada Why ke-1 dengan membuatkan alarm pengingat, kelemahan fatalnya adalah...', 8),
+('q1000001-0000-0000-0000-000000000009', 'c0000001-0000-0000-0000-000000000001', 'A', 'Problem Statement Canvas', 'pilihan_ganda', 'Dalam Problem Statement Canvas, pemahaman tajam mengenai elemen "The Gap" (celah dari solusi alternatif saat ini) sangat diperlukan agar...', 9),
+('q1000001-0000-0000-0000-000000000010', 'c0000001-0000-0000-0000-000000000001', 'A', 'Problem Statement Canvas', 'pilihan_ganda', 'Manakah format kalimat rumusan masalah standar yang paling tepat sesuai kaidah template Problem Statement Canvas?', 10)
 ON CONFLICT (id) DO NOTHING;
 
--- 2. Insert Options for PG Question 1
+-- 2. Insert Options for PG Question 1 (Opsi B Benar, Opsi A/C/D Pengecoh Menantang)
 INSERT INTO options (question_id, teks, poin, umpan_balik) VALUES
-('q1000001-0000-0000-0000-000000000001', 'Berfokus pada teknologi terbaru', 0, 'Teknologi hanyalah enabler, bukan inti nilai.'),
-('q1000001-0000-0000-0000-000000000001', 'Berfokus pada desain yang menarik', 0, 'Desain menarik tanpa nilai fungsional tidak menyelesaikan masalah.'),
-('q1000001-0000-0000-0000-000000000001', 'Berfokus pada nilai yang diberikan kepada pengguna', 10, 'Tepat! Value-driven berpusat pada pemecahan masalah dan manfaat nyata bagi pengguna.'),
-('q1000001-0000-0000-0000-000000000001', 'Berfokus pada keuntungan perusahaan semata', 0, 'Keuntungan adalah dampak dari nilai yang berhasil dihantarkan, bukan fokus tunggal tahap awal.');
+('q1000001-0000-0000-0000-000000000001', 'Value-Driven menitikberatkan pada akselerasi penambahan fitur mutakhir (feature velocity) agar pengguna memiliki banyak alternatif fungsi.', 0, 'Keliru. Akselerasi fitur tanpa validasi nilai adalah ciri feature-driven.'),
+('q1000001-0000-0000-0000-000000000001', 'Value-Driven memprioritaskan pemecahan masalah nyata dan kemudahan hidup pengguna, sedangkan Feature-Driven terpaku pada kuantitas fitur dan kebaruan teknologi.', 10, 'Tepat! Value-driven berpusat pada pemecahan masalah dan manfaat nyata bagi pengguna.'),
+('q1000001-0000-0000-0000-000000000001', 'Value-Driven berfokus pada efisiensi biaya rekayasa infrastruktur cloud, sedangkan Feature-Driven berfokus pada polesan estetika antarmuka semata.', 0, 'Keliru. Efisiensi cloud adalah isu teknis infrastruktur, bukan pembeda value-driven.'),
+('q1000001-0000-0000-0000-000000000001', 'Value-Driven menargetkan monetisasi agresif sejak fase pra-rilis, sedangkan Feature-Driven mengandalkan suntikan modal venture capital.', 0, 'Keliru. Monetisasi adalah strategi model bisnis, bukan definisi value-driven.');
 
--- 3. Insert Essay Questions Set A (Modul 1)
+-- 3. Insert Essay Questions Set A (Modul 1) - Dipermudah & To The Point
 INSERT INTO questions (id, course_id, set_paket, topik, tipe, teks, urutan) VALUES
-('q1000002-0000-0000-0000-000000000001', 'c0000001-0000-0000-0000-000000000001', 'A', 'Startup Mindset', 'essay', 'Jelaskan pengertian Value Driven dalam mindset startup!', 1),
-('q1000002-0000-0000-0000-000000000002', 'c0000001-0000-0000-0000-000000000001', 'A', 'Problem Solving', 'essay', 'Mengapa startup harus fokus pada masalah, bukan pada solusi atau teknologi?', 2),
-('q1000002-0000-0000-0000-000000000003', 'c0000001-0000-0000-0000-000000000001', 'A', 'Agility', 'essay', 'Jelaskan konsep Agility dan manfaatnya bagi startup!', 3),
-('q1000002-0000-0000-0000-000000000004', 'c0000001-0000-0000-0000-000000000001', 'A', 'Problem-Solution Fit', 'essay', 'Apa yang dimaksud dengan Problem-Solution Fit? Mengapa penting?', 4),
-('q1000002-0000-0000-0000-000000000005', 'c0000001-0000-0000-0000-000000000001', 'A', 'Validasi Masalah', 'essay', 'Mengapa validasi masalah harus dilakukan sebelum membuat produk?', 5)
+('q1000002-0000-0000-0000-000000000001', 'c0000001-0000-0000-0000-000000000001', 'A', 'Problem Statement Canvas', 'essay', 'Sebutkan 4 elemen pokok yang terdapat di dalam Problem Statement Canvas sesuai materi slide!', 1),
+('q1000002-0000-0000-0000-000000000002', 'c0000001-0000-0000-0000-000000000001', 'A', 'Teknik 5 Whys', 'essay', 'Secara singkat, apa tujuan utama dari teknik 5 Whys dalam membedah masalah produk?', 2),
+('q1000002-0000-0000-0000-000000000003', 'c0000001-0000-0000-0000-000000000001', 'A', 'Startup Mindset', 'essay', 'Jelaskan perbedaan singkat antara pola pikir Value-Driven dan Feature-Driven!', 3),
+('q1000002-0000-0000-0000-000000000004', 'c0000001-0000-0000-0000-000000000001', 'A', 'Problem Statement', 'essay', 'Tuliskan rumus kalimat standar dalam menyusun Problem Statement sesuai slide materi!', 4),
+('q1000002-0000-0000-0000-000000000005', 'c0000001-0000-0000-0000-000000000001', 'A', 'Agility & Validasi', 'essay', 'Mengapa kegagalan awal dalam startup dianggap sebagai data berharga dan bukan kerugian mutlak?', 5)
 ON CONFLICT (id) DO NOTHING;
 
 -- 4. Insert Essay Rubrics (Held strictly on Server!)
 INSERT INTO essay_rubrics (question_id, kunci_jawaban, kata_kunci, rubrik_skor) VALUES
 ('q1000002-0000-0000-0000-000000000001', 
-'Value Driven adalah pola pikir startup yang berfokus pada penciptaan nilai (value) bagi pengguna dengan menyelesaikan masalah nyata yang mereka alami. Keputusan bisnis, fitur, dan inovasi dibuat berdasarkan manfaat yang diberikan kepada pengguna, bukan hanya teknologi atau keuntungan semata.',
-ARRAY['nilai', 'value', 'pengguna', 'customer', 'masalah nyata', 'manfaat', 'kebutuhan'],
-'{"10": ">=80% kata kunci muncul dan konsep inti dijelaskan secara tepat", "9": "Konsep inti benar, namun kurang 1 unsur penjelas", "8": "Sekitar 60% konsep benar tapi terlalu umum", "7": "Hanya ide umum tanpa kedalaman materi", "0": "Salah/tidak relevan"}'::jsonb),
+'4 elemen pokok Problem Statement Canvas: 1. Who (Target Pengguna), 2. Context (Konteks kapan & di mana), 3. Root Cause (Akar Masalah), 4. The Gap (Celah kelemahan alternatif saat ini).',
+ARRAY['who', 'context', 'root cause', 'gap', 'pengguna', 'konteks', 'akar masalah', 'celah'],
+'{"10": "Menyebutkan minimal 2 atau lebih elemen kunci dengan tepat", "8": "Menyebutkan 1 elemen kunci", "0": "Tidak relevan"}'::jsonb),
 
 ('q1000002-0000-0000-0000-000000000002',
-'Karena solusi dan teknologi dapat berubah, tetapi masalah pengguna tetap menjadi dasar kebutuhan pasar. Dengan memahami masalah terlebih dahulu, startup dapat menciptakan solusi yang relevan, dibutuhkan, dan memiliki peluang adopsi yang lebih tinggi.',
-ARRAY['masalah pengguna', 'solusi bisa berubah', 'kebutuhan pasar', 'relevan', 'validasi'],
-'{"10": "Mencakup aspek kebutuhan pasar dan fakta bahwa teknologi/solusi dapat berubah", "9": "Menjelaskan kebutuhan pengguna sebelum membuat solusi", "8": "Menjelaskan tanpa menghubungkan ke validasi pasar", "7": "Hanya menyatakan teknologi bukan segalanya", "0": "Salah konsep"}'::jsonb);
+'Tujuan utama teknik 5 Whys adalah untuk menemukan akar masalah terdalam (root cause), bukan sekadar mengobati gejala permukaan (symptom).',
+ARRAY['akar masalah', 'root cause', 'gejala', 'symptom'],
+'{"10": "Menyebutkan konsep akar masalah / root cause", "8": "Menyebutkan konsep mencari penyebab secara umum", "0": "Tidak relevan"}'::jsonb);
