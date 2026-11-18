@@ -73,7 +73,7 @@ export default function CourseDetailPage() {
     const secs = course.sections || [];
     const sec = secs[activeSectionIndex] || secs[0];
     if (!sec) return '';
-    return localPdfs[sec.id] || sec.pdfUrl || `/materials/modul-${course.urutan}-bagian-${sec.urutan}.pdf`;
+    return localPdfs[sec.id] || sec.pdfUrl || course.pdfUrl || `/materials/modul-${course.urutan}-bagian-${sec.urutan}.pdf`;
   }, [course, activeSectionIndex, localPdfs]);
 
   useEffect(() => {

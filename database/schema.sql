@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS courses (
     ringkasan TEXT NOT NULL,
     kategori VARCHAR(100) DEFAULT 'Web Educational Technology',
     estimasi_waktu VARCHAR(50) DEFAULT '45 Menit',
+    pdf_url TEXT, -- Link Dokumen Slide (Google Drive preview / CDN / lokal)
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
@@ -43,6 +44,7 @@ CREATE TABLE IF NOT EXISTS sections (
     urutan INT NOT NULL, -- 1 (Bagian 1), 2 (Bagian 2), 3 (Referensi Tambahan)
     judul VARCHAR(255) NOT NULL,
     isi TEXT NOT NULL, -- Konten Markdown / HTML
+    pdf_url TEXT, -- Link Dokumen Slide spesifik per bagian (opsional)
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT unique_course_section_urutan UNIQUE (course_id, urutan)
 );

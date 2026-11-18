@@ -4,17 +4,17 @@
 -- ==============================================================================
 
 -- 1. Insert 10 Courses
-INSERT INTO courses (id, urutan, judul, ringkasan, estimasi_waktu) VALUES
-('c0000001-0000-0000-0000-000000000001', 1, 'Mindset Startup & Problem Solving', 'Memahami pola pikir value-driven, identifikasi masalah nyata vs solusi palsu, Problem Statement Canvas, dan 5 Whys.', '45 Menit'),
-('c0000002-0000-0000-0000-000000000002', 2, 'UI/UX & Design Thinking', 'Pilar UI vs UX, 5 tahap Design Thinking, Empathy Map, dan studi kasus kegagalan produk digital nyata.', '50 Menit'),
-('c0000003-0000-0000-0000-000000000003', 3, 'User Research & Persona', 'Metodologi riset kualitatif & kuantitatif, teknik wawancara bebas leading question, User Persona, dan User Journey Map.', '55 Menit'),
-('c0000004-0000-0000-0000-000000000004', 4, 'Wireframing & User Flow', 'Information Architecture (IA), F-Pattern vs Z-Pattern, prinsip Proximity & Contrast, User Flow diagram, dan Crazy 8s.', '60 Menit'),
-('c0000005-0000-0000-0000-000000000005', 5, 'UI & Prototyping', 'Low-Fidelity vs High-Fidelity prototype, komponen form interaktif, CTA efektif, dan prinsip Test Early, Learn Fast.', '50 Menit'),
-('c0000006-0000-0000-0000-000000000006', 6, 'HTML Dasar & Semantik', 'Struktur dokumen HTML5, tag semantik (article, header, main), aksesibilitas atribut alt, dan kepatuhan WCAG 1.4.3.', '45 Menit'),
-('c0000007-0000-0000-0000-000000000007', 7, 'PRD, AI, Git Kolaborasi & Slicing Desain', 'Penyusunan PRD, User Story & Acceptance Criteria, alur Git kolaboratif (PR & conflict), Design Token, dan Mobile-First.', '65 Menit'),
-('c0000008-0000-0000-0000-000000000008', 8, 'Integrasi Data Dinamis', 'BaaS Supabase, 5 UI States (Idle, Loading, Success, Error, Empty), Debounce, AbortController, Row Level Security, DOMPurify XSS.', '70 Menit'),
-('c0000009-0000-0000-0000-000000000009', 9, 'Usability Testing & Sprint Perbaikan', 'Metode Think-Aloud, aturan 5 pengguna Nielsen, Microsoft Clarity heatmap & rage click, metrik SEQ, dan triase GitHub Issue.', '60 Menit'),
-('c0000010-0000-0000-0000-000000000010', 10, 'Audit Kualitas Web & Showcase Portofolio', 'Audit Google Lighthouse, Core Web Vitals (LCP, INP, CLS), sanitasi keamanan dasar (.env & HTTPS), dan struktur studi kasus portofolio.', '60 Menit')
+INSERT INTO courses (id, urutan, judul, ringkasan, estimasi_waktu, pdf_url) VALUES
+('c0000001-0000-0000-0000-000000000001', 1, 'Mindset Startup & Problem Solving', 'Memahami pola pikir value-driven, identifikasi masalah nyata vs solusi palsu, Problem Statement Canvas, dan 5 Whys.', '45 Menit', 'https://drive.google.com/file/d/1ofkBoMKz26NmUddSc5dCT3y7JexVlKnS/preview'),
+('c0000002-0000-0000-0000-000000000002', 2, 'UI/UX & Design Thinking', 'Pilar UI vs UX, 5 tahap Design Thinking, Empathy Map, dan studi kasus kegagalan produk digital nyata.', '50 Menit', NULL),
+('c0000003-0000-0000-0000-000000000003', 3, 'User Research & Persona', 'Metodologi riset kualitatif & kuantitatif, teknik wawancara bebas leading question, User Persona, dan User Journey Map.', '55 Menit', NULL),
+('c0000004-0000-0000-0000-000000000004', 4, 'Wireframing & User Flow', 'Information Architecture (IA), F-Pattern vs Z-Pattern, prinsip Proximity & Contrast, User Flow diagram, dan Crazy 8s.', '60 Menit', NULL),
+('c0000005-0000-0000-0000-000000000005', 5, 'UI & Prototyping', 'Low-Fidelity vs High-Fidelity prototype, komponen form interaktif, CTA efektif, dan prinsip Test Early, Learn Fast.', '50 Menit', NULL),
+('c0000006-0000-0000-0000-000000000006', 6, 'HTML Dasar & Semantik', 'Struktur dokumen HTML5, tag semantik (article, header, main), aksesibilitas atribut alt, dan kepatuhan WCAG 1.4.3.', '45 Menit', NULL),
+('c0000007-0000-0000-0000-000000000007', 7, 'PRD, AI, Git Kolaborasi & Slicing Desain', 'Penyusunan PRD, User Story & Acceptance Criteria, alur Git kolaboratif (PR & conflict), Design Token, dan Mobile-First.', '65 Menit', NULL),
+('c0000008-0000-0000-0000-000000000008', 8, 'Integrasi Data Dinamis', 'BaaS Supabase, 5 UI States (Idle, Loading, Success, Error, Empty), Debounce, AbortController, Row Level Security, DOMPurify XSS.', '70 Menit', NULL),
+('c0000009-0000-0000-0000-000000000009', 9, 'Usability Testing & Sprint Perbaikan', 'Metode Think-Aloud, aturan 5 pengguna Nielsen, Microsoft Clarity heatmap & rage click, metrik SEQ, dan triase GitHub Issue.', '60 Menit', NULL),
+('c0000010-0000-0000-0000-000000000010', 10, 'Audit Kualitas Web & Showcase Portofolio', 'Audit Google Lighthouse, Core Web Vitals (LCP, INP, CLS), sanitasi keamanan dasar (.env & HTTPS), dan struktur studi kasus portofolio.', '60 Menit', NULL)
 ON CONFLICT (urutan) DO NOTHING;
 
 -- 2. Insert Sections for Course 1
