@@ -42,13 +42,16 @@ export default function Navbar() {
           
           {/* Logo & Platform Title */}
           <Link to="/" className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-lg p-1">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-sky-400 flex items-center justify-center text-white shadow-md shadow-indigo-100 group-hover:scale-105 transition-transform">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#003399] via-blue-700 to-sky-400 flex items-center justify-center text-white shadow-md shadow-blue-100 group-hover:scale-105 transition-transform">
               <GraduationCap className="w-6 h-6" />
             </div>
             <div>
               <div className="flex items-center gap-1.5">
-                <span className="font-extrabold text-lg text-slate-900 tracking-tight">VINIX<span className="text-indigo-600">7</span></span>
-                <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 bg-indigo-50 text-indigo-700 rounded-md border border-indigo-200">
+                <span className="font-black text-xl tracking-tight leading-none">
+                  <span className="text-[#003399]">VINIX</span>
+                  <span className="text-[#FBE156] drop-shadow-[0_1px_1px_rgba(0,0,0,0.2)]">7</span>
+                </span>
+                <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 bg-blue-50 text-[#003399] rounded-md border border-blue-200">
                   Gating MVP
                 </span>
               </div>

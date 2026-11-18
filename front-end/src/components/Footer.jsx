@@ -8,11 +8,14 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-sm">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#003399] to-blue-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
               <GraduationCap className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-sm font-extrabold text-slate-900">VINIX7 Mini-Course & Assessment</p>
+              <p className="text-sm font-extrabold text-slate-900">
+                <span className="text-[#003399] font-black">VINIX</span>
+                <span className="text-[#FBE156] font-black drop-shadow-[0_1px_1px_rgba(0,0,0,0.2)]">7</span> Mini-Course &amp; Assessment
+              </p>
               <p className="text-xs text-slate-500">Tugas Akhir Magang Web Educational Technology</p>
             </div>
           </div>
@@ -32,7 +35,7 @@ export default function Footer() {
           </div>
 
           <p className="text-xs text-slate-400 text-center md:text-right">
-            &copy; {new Date().getFullYear()} Tim Pengembang VINIX7. Hak Cipta Dilindungi.
+            &copy; {new Date().getFullYear()} Tim Pengembang <span className="text-[#003399] font-bold">VINIX</span><span className="text-[#FBE156] font-bold drop-shadow-[0_1px_1px_rgba(0,0,0,0.2)]">7</span>. Hak Cipta Dilindungi.
           </p>
         </div>
       </div>

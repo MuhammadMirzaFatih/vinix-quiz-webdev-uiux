@@ -35,7 +35,7 @@ export default function DashboardPage() {
         <div className="relative z-10 max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/20 border border-indigo-400/30 text-indigo-200 text-xs font-semibold mb-6">
             <Sparkles className="w-4 h-4 text-sky-400" />
-            <span>Tugas Akhir Magang VINIX7 &bull; Web Educational Technology</span>
+            <span>Tugas Akhir Magang <span className="text-blue-400 font-black">VINIX</span><span className="text-[#FBE156] font-black">7</span> &bull; Web Educational Technology</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight sm:leading-tight">

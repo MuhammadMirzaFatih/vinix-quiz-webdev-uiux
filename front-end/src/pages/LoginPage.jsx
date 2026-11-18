@@ -40,7 +40,7 @@ export default function LoginPage() {
             <GraduationCap className="w-6 h-6" />
           </div>
           <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-            Masuk ke VINIX<span className="text-indigo-600">7</span>
+            Masuk ke <span className="text-[#003399] font-black">VINIX</span><span className="text-[#FBE156] font-black drop-shadow-[0_1px_1px_rgba(0,0,0,0.2)]">7</span>
           </h1>
           <p className="text-xs text-slate-500 mt-1">
             Platform Pembelajaran &amp; Evaluasi Berjenjang
