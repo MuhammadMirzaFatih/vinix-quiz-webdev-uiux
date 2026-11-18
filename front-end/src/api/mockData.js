@@ -56,6 +56,8 @@ Metode mengajukan pertanyaan *"Mengapa?"* secara berulang hingga ditemukan akar 
         id: 's1-3',
         urutan: 3,
         judul: 'Referensi Tambahan: Lean Startup & Studi Kasus Kos-Kosan',
+        pdfUrl: '/materials/modul-1-bagian-3.pdf',
+        pdfTitle: 'Slide PPT Modul 1: Lean Startup & Studi Kasus',
         isi: `### 3. Studi Kasus Manajemen Kos-Kosan
 **Latar Belakang Kasus:**
 Pemilik kos dengan 10–30 kamar yang tidak tinggal di lokasi kesulitan memantau pembayaran sewa bulanan.

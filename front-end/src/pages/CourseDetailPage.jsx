@@ -17,7 +17,10 @@ import {
   FileText,
   Upload,
   Eye,
-  Info
+  Info,
+  Download,
+  AlertTriangle,
+  RefreshCw
 } from 'lucide-react';
 
 export default function CourseDetailPage() {
@@ -35,7 +38,39 @@ export default function CourseDetailPage() {
   const [viewMode, setViewMode] = useState('pdf');
   // Local uploaded PDFs (temporary object URLs for live preview)
   const [localPdfs, setLocalPdfs] = useState({});
+  const [pdfStatus, setPdfStatus] = useState('checking'); // 'checking' | 'found' | 'not_found'
   const fileInputRef = useRef(null);
+
+  // Computed active PDF URL safely
+  const activePdfUrl = React.useMemo(() => {
+    if (!course) return '';
+    const secs = course.sections || [];
+    const sec = secs[activeSectionIndex] || secs[0];
+    if (!sec) return '';
+    return localPdfs[sec.id] || sec.pdfUrl || `/materials/modul-${course.urutan}-bagian-${sec.urutan}.pdf`;
+  }, [course, activeSectionIndex, localPdfs]);
+
+  useEffect(() => {
+    if (!activePdfUrl) return;
+    if (activePdfUrl.startsWith('blob:')) {
+      setPdfStatus('found');
+      return;
+    }
+    let isMounted = true;
+    setPdfStatus('checking');
+    fetch(activePdfUrl, { method: 'HEAD' })
+      .then(res => {
+        if (isMounted) {
+          setPdfStatus(res.ok ? 'found' : 'not_found');
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setPdfStatus('found');
+        }
+      });
+    return () => { isMounted = false; };
+  }, [activePdfUrl]);
 
   useEffect(() => {
     async function loadCourse() {
@@ -352,7 +387,7 @@ export default function CourseDetailPage() {
                 {/* PDF Header Action Bar */}
                 <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 bg-slate-900 text-white rounded-2xl">
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <div className={`w-2 h-2 rounded-full ${pdfStatus === 'not_found' ? 'bg-amber-400' : 'bg-emerald-400 animate-pulse'}`} />
                     <span className="text-xs font-bold tracking-wide">
                       {localPdfs[currentSection.id]
                         ? '📄 Membaca PDF Pilihan Anda'
@@ -360,7 +395,7 @@ export default function CourseDetailPage() {
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     {/* Pick from computer button */}
                     <button
                       type="button"
@@ -374,35 +409,101 @@ export default function CourseDetailPage() {
 
                     {/* Open in new tab */}
                     <a
-                      href={localPdfs[currentSection.id] || currentSection.pdfUrl || `/materials/modul-${course.urutan}-bagian-${currentSection.urutan}.pdf`}
+                      href={activePdfUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold border border-slate-700 transition-colors"
-                      title="Buka dokumen di tab baru atau unduh"
+                      title="Buka dokumen di tab baru browser"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
                       <span className="hidden sm:inline">Layar Penuh / Tab Baru</span>
                     </a>
+
+                    {/* Download button */}
+                    <a
+                      href={activePdfUrl}
+                      download={`modul-${course.urutan}-bagian-${currentSection.urutan}.pdf`}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold border border-slate-700 transition-colors"
+                      title="Unduh file PDF ke komputer"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      <span className="hidden sm:inline">Unduh</span>
+                    </a>
                   </div>
                 </div>
 
-                {/* Embedded PDF Viewer Iframe */}
-                <div className="relative w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 shadow-inner">
-                  <iframe
-                    src={`${localPdfs[currentSection.id] || currentSection.pdfUrl || `/materials/modul-${course.urutan}-bagian-${currentSection.urutan}.pdf`}#toolbar=1`}
-                    className="w-full h-[620px] border-0"
-                    title={currentSection.judul}
-                  />
+                {/* Status Notice if PDF not found on server */}
+                {pdfStatus === 'not_found' && (
+                  <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 flex items-start gap-3 text-xs leading-relaxed">
+                    <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                    <div className="space-y-1">
+                      <p className="font-bold">File PDF belum terdeteksi di server: <code className="bg-amber-100 px-1 py-0.5 rounded font-mono">{activePdfUrl}</code></p>
+                      <p className="text-amber-800">
+                        Hal ini biasanya terjadi jika file baru dimasukkan saat server Vite masih aktif atau nama file berbeda:
+                      </p>
+                      <ul className="list-disc list-inside space-y-0.5 text-amber-800 pl-1">
+                        <li><strong>Restart Dev Server:</strong> Matikan terminal dev server (<kbd className="bg-white px-1 border rounded">Ctrl+C</kbd>) lalu jalankan kembali <code className="bg-amber-100 px-1 rounded font-mono">npm run dev</code>.</li>
+                        <li><strong>Gunakan Tombol Cepat:</strong> Klik tombol <strong>"Pilih PDF dari Laptop"</strong> di atas untuk memuat file PDF dari laptop secara langsung tanpa kendala server.</li>
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
+                {/* Embedded PDF Viewer using <object> with nested <iframe> and fallback UI */}
+                <div className="relative w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 shadow-inner min-h-[620px]">
+                  <object
+                    data={`${activePdfUrl}#toolbar=1`}
+                    type="application/pdf"
+                    className="w-full h-[640px] block"
+                  >
+                    <iframe
+                      src={`${activePdfUrl}#toolbar=1`}
+                      className="w-full h-[640px] border-0"
+                      title={currentSection.judul}
+                    >
+                      <div className="flex flex-col items-center justify-center p-8 bg-slate-50 text-center space-y-4 h-full">
+                        <div className="w-14 h-14 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center">
+                          <FileText className="w-7 h-7" />
+                        </div>
+                        <div className="max-w-md">
+                          <h4 className="text-base font-bold text-slate-800">Pratinjau PDF di Browser</h4>
+                          <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                            Browser Anda mungkin memblokir pratinjau dokumen langsung di dalam frame. Silakan gunakan tombol berikut untuk membuka dokumen:
+                          </p>
+                        </div>
+                        <div className="flex flex-wrap items-center justify-center gap-3">
+                          <a
+                            href={activePdfUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-md transition-colors"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                            <span>Buka PDF di Tab Baru</span>
+                          </a>
+                          <button
+                            type="button"
+                            onClick={() => fileInputRef.current?.click()}
+                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 text-xs font-bold rounded-xl shadow-xs transition-colors"
+                          >
+                            <Upload className="w-4 h-4" />
+                            <span>Pilih PDF dari Laptop</span>
+                          </button>
+                        </div>
+                      </div>
+                    </iframe>
+                  </object>
                 </div>
 
                 {/* Helpful Instruction Tip */}
                 <div className="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-200/80 text-indigo-950 flex items-start gap-3 text-xs leading-relaxed">
                   <Info className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-bold mb-0.5">Tips Memasukkan File PDF Magang:</p>
-                    <ul className="list-disc list-inside space-y-0.5 text-indigo-900">
-                      <li><strong>Cara Instan:</strong> Klik tombol <strong>"Pilih PDF dari Laptop"</strong> di atas untuk langsung membaca slide PDF yang ada di komputer Anda.</li>
-                      <li><strong>Cara Permanen:</strong> Taruh file PDF Anda ke folder <code className="bg-indigo-100 px-1 py-0.5 rounded font-mono">front-end/public/materials/</code> dengan nama <code className="bg-indigo-100 px-1 py-0.5 rounded font-mono">{`modul-${course.urutan}-bagian-${currentSection.urutan}.pdf`}</code>. File akan otomatis muncul permanen di viewer ini!</li>
+                  <div className="space-y-1.5">
+                    <p className="font-bold">Tips Membaca PDF & Troubleshooting Pratinjau:</p>
+                    <ul className="list-disc list-inside space-y-1 text-indigo-900">
+                      <li><strong>Jika Muncul Tampilan Kosong/Abu-abu:</strong> Di browser Chrome/Edge, buka tab baru ke <code className="bg-indigo-100 px-1 py-0.5 rounded font-mono">chrome://settings/content/pdfDocuments</code>, lalu pastikan memilih <em>"Open PDFs in Chrome"</em> (Buka PDF di Chrome), bukan <em>"Download PDFs"</em> (Unduh PDF).</li>
+                      <li><strong>Buka Layar Penuh:</strong> Klik tombol <strong>"Layar Penuh / Tab Baru"</strong> di atas jika ingin membaca PDF di jendela browser tersendiri yang lebih leluasa.</li>
+                      <li><strong>Beralih ke Teks Rangkuman:</strong> Anda juga dapat beralih ke tab <strong>"Ringkasan Teks"</strong> di kanan atas jika ingin membaca intisari materi tanpa dokumen slide.</li>
                     </ul>
                   </div>
                 </div>
