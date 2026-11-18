@@ -1,64 +1,75 @@
-# 🗄️ Database & DevOps Guide: VINIX7 Assessment Platform
+# 🗄️ Panduan Cepat & Jelas: Tim Database Engineer (VINIX7)
 
-Direktori ini diperuntukkan bagi **Anggota 3 (Database & DevOps Engineer)** dan **Anggota 2 (Back-End Developer)** untuk mengelola skema basis data, migrasi, dan keamanan data sesuai kesepakatan **PRD Bagian 11 & Bagian 12**.
+Halo Bro! 👋  
+Selamat datang di direktori database. Bagian **Front-End website kita saat ini sudah SELESAI 100%** dengan tampilan resmi *VINIX7 LMS Midnight Navy Dark Theme*. 
 
----
+Tugas utama lu adalah **menyiapkan database PostgreSQL / Supabase, mengeksekusi skema tabel, dan menginput bank soal (*seeding*)**. 
 
-## 📌 1. Gambaran Umum Skema Data
-Database dirancang menggunakan **PostgreSQL** (kompatibel penuh dengan **Supabase** atau PostgreSQL lokal/Docker) dengan model data inti:
-
-| Nama Tabel | Deskripsi | Aturan Kunci |
-| :--- | :--- | :--- |
-| `users` | Data akun peserta & pengajar | Password di-hash (Bcrypt/Argon2) |
-| `courses` | 10 Modul pembelajaran magang | Urutan 1–10 unik |
-| `sections` | Sub-materi per modul (Bagian 1, Bagian 2, Referensi) | Relasi cascade ke `courses` |
-| `questions` | Bank 450 soal (30 PG + 15 Essay per modul) | Dikelompokkan ke Set A, B, C & tag topik |
-| `options` | Opsi jawaban Pilihan Ganda (1 benar, 3 pengecoh) | Poin 10/0, ulasan umpan balik |
-| `essay_rubrics` | Kunci jawaban ideal & rubrik berjenjang essay | **WAJIB RLS TERTUTUP** (Hanya Back-End) |
-| `attempts` | Riwayat sesi ujian yang dikerjakan peserta | Rekam set paket, nilai, status lulus, & cooldown |
-| `answers` | Jawaban per butir soal per attempt | Rekam poin (10/8/0) dan label (Tepat/Kurang Tepat/Salah) |
-| `progress` | Progres kelulusan dan Progressive Gating | Rekam status `locked`, `unlocked`, `passed` |
+> **Kabar Baiknya:** Skema tabel DDL `schema.sql` dan seed awal modul sudah kita racik lengkap. Lu tinggal ikuti panduan praktis berikut agar pekerjaan lu kelar dalam hitungan menit!
 
 ---
 
-## 🛠️ 2. Langkah Setup Database (Supabase / PostgreSQL)
+## 🏗️ 1. Gambaran 9 Tabel Utama yang Sudah Didefinisikan
 
-### Opsi A: Menggunakan Supabase (Rekomendasi MVP)
-1. Buat project baru di [Supabase Dashboard](https://supabase.com).
-2. Buka tab **SQL Editor**.
-3. Jalankan script `schema.sql` untuk membuat tipe enum, tabel, relasi, indeks, dan RLS.
-4. Jalankan script pada folder `seeds/`:
-   - `01_courses_and_sections.sql` (Inisialisasi 10 course lengkap dengan tautan Google Drive Modul 1 & Modul 2).
-   - `02_sample_questions.sql` (Inisialisasi bank soal & rubrik Modul 1 dengan kunci acak dan distraktor menantang).
+Seluruh relasi dan tipe data sudah tertulis rapi di file `database/schema.sql`:
 
-### Opsi B: Menggunakan Docker / PostgreSQL Lokal
-```bash
-# Menjalankan container postgres
-docker run --name vinix-postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=vinix7_quiz -p 5432:5432 -d postgres:16
-
-# Eksekusi schema dan seeds
-psql -h localhost -U postgres -d vinix7_quiz -f database/schema.sql
-psql -h localhost -U postgres -d vinix7_quiz -f database/seeds/01_courses_and_sections.sql
-psql -h localhost -U postgres -d vinix7_quiz -f database/seeds/02_sample_questions.sql
-```
+| Nama Tabel | Peran Utama | Aturan Khusus |
+|:---|:---|:---|
+| `users` | Akun peserta (nama, email, password hash) | Email harus unik |
+| `courses` | 10 Modul kurikulum magang | Urutan 1 s/d 10 terurut |
+| `sections` | Materi per modul (Bagian 1, 2, 3) | Terhubung ke course dengan cascade delete |
+| `questions` | Bank soal (PG & Essay) per modul | Dikelompokkan ke Set A, B, C |
+| `options` | Opsi pilihan ganda A, B, C, D | 1 opsi bernilai 10 poin, 3 opsi bernilai 0 |
+| `essay_rubrics` | Kunci jawaban ideal & kata kunci essay | ⚠️ **Wajib RLS Tertutup** (Hanya untuk server backend!) |
+| `attempts` | Riwayat sesi ujian yang dikerjakan | Rekam tanggal, nilai, dan waktu `cooldown_until` |
+| `answers` | Jawaban spesifik peserta per butir soal | Rekam poin (10/8/0) dan label (Tepat/Kurang/Salah) |
+| `progress` | Status Progressive Gating per modul | Nilai enum: `locked`, `unlocked`, `passed` |
 
 ---
 
-## 🔒 3. Aturan Keamanan & RLS (Row Level Security) Wajib
-1. **Pencegahan Cheat DevTools:** 
-   - Tabel `essay_rubrics` dan kolom `is_correct` / `poin` pada tabel `options` **TIDAK BOLEH** dibuka untuk role `anon` / `authenticated`.
-   - Hanya API server menggunakan `service_role` (atau query backend) yang dapat membaca kunci jawaban dan rubrik penilaian.
-2. **Isolasi Data Peserta:**
-   - Tabel `attempts`, `answers`, dan `progress` diatur dengan RLS agar peserta hanya bisa membaca data miliknya sendiri (`auth.uid() = user_id`).
+## 🚀 2. Langkah Eksekusi Tercepat (Gunakan Supabase)
+
+Untuk MVP dan showcase tugas akhir, **menggunakan Supabase adalah cara paling instan** (gratis & cloud):
+
+1. **Buat Project Baru:** Buka [Supabase Dashboard](https://supabase.com) dan buat project baru.
+2. **Jalankan Skema DDL:**
+   * Buka tab **SQL Editor** di Supabase.
+   * Buka file `database/schema.sql`, salin seluruh isinya, tempel di SQL Editor Supabase, lalu klik **Run**.
+   * Semua 9 tabel, tipe ENUM, dan indeks otomatis terbuat.
+3. **Jalankan Data Seed Awal:**
+   * Masih di SQL Editor, jalankan `database/seeds/01_courses_and_sections.sql` (mengisi 10 modul lengkap beserta link Google Drive Modul 1 & 2).
+   * Selanjutnya jalankan `database/seeds/02_sample_questions.sql` (mengisi 15 soal ujian Modul 1 lengkap dengan kunci acak A-B-C-D dan pengecoh menantang).
+
+> **Opsi Alternatif (Docker / PostgreSQL Lokal):**  
+> Jika lu lebih suka menjalankan PostgreSQL lokal di laptop:
+> ```bash
+> docker run --name vinix-postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=vinix7_quiz -p 5432:5432 -d postgres:16
+> psql -h localhost -U postgres -d vinix7_quiz -f database/schema.sql
+> psql -h localhost -U postgres -d vinix7_quiz -f database/seeds/01_courses_and_sections.sql
+> psql -h localhost -U postgres -d vinix7_quiz -f database/seeds/02_sample_questions.sql
+> ```
 
 ---
 
-## 📋 4. Checklist Tugas Anggota 3 (Database & DevOps)
-- [x] Struktur DDL `schema.sql` dan indeks relasi.
-- [x] Inisialisasi data `01_courses_and_sections.sql` untuk 10 modul + Google Drive URLs.
-- [x] Inisialisasi seed Modul 1 di `02_sample_questions.sql` (Kunci acak & pengecoh realistis).
-- [ ] Buat project Supabase / PostgreSQL instance di cloud.
-- [ ] Migrasikan bank soal Modul 2 yang sudah aktif di frontend (`front-end/src/api/mockData.js`) ke dalam file seed SQL berikutnya (`03_module_2_questions.sql`).
-- [ ] Lengkapi data seed untuk Modul 3 s/d Modul 10 (mengacu pada Lampiran PRD hal 29–163).
-- [ ] Uji performa query (pastikan query riwayat attempt dan progress di bawah 50ms).
-- [ ] Atur environment variables connection string di `.env` backend.
+## 📋 3. Checklist Tugas Lu Selanjutnya:
+
+- [x] Struktur DDL `schema.sql` (Sudah selesai disiapkan).
+- [x] Seed kurikulum 10 modul `01_courses_and_sections.sql` (Sudah selesai disiapkan).
+- [x] Seed bank soal Modul 1 `02_sample_questions.sql` (Sudah selesai disiapkan).
+- [ ] **Buat File Seed Modul 2 (`seeds/03_module_2_questions.sql`):**
+  * *Tips Rahasia:* Lu tidak perlu mikir soal Modul 2 lagi! Buka file `front-end/src/api/mockData.js` pada bagian `c2: { A: [ ... ] }`. Di sana sudah ada **10 soal PG (kunci acak A, B, C, D) + 5 soal Essay** lengkap dengan kunci dan pembahasannya. Tinggal salin teksnya ke dalam sintaks INSERT SQL!
+- [ ] **Lengkapi Bank Soal Modul 3 s/d 10:**
+  * Buka file dokumen PDF PRD (ada di folder lampiran PRD halaman 29 s/d 163).
+- [ ] **Kirim String Koneksi ke Teman Back-End:**
+  * Salin *Connection String* URI dari Supabase (misal: `postgresql://postgres.[ref]:[password]@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres`).
+  * Berikan string ini ke teman Back-End untuk dimasukkan ke file `.env` mereka (`DATABASE_URL`).
+
+---
+
+## 🔒 4. Aturan Keamanan Penting (Row Level Security)
+
+Sesuai aturan keamanan PRD:
+1. Tabel `essay_rubrics` dan kolom `is_correct` / `poin` pada tabel `options` **TIDAK BOLEH** dibuka untuk role publik (`anon`). Hanya backend menggunakan role `service_role` yang boleh membaca data ini.
+2. Ini menjamin kunci jawaban ujian tidak akan pernah bisa di-cheat oleh siswa melalui tab Inspect Element / Network di browser!
+
+Semangat bro, database lu fondasi utama aplikasi kita! 🐘

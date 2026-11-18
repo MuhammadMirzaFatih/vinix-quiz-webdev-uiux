@@ -1,59 +1,173 @@
-# 💻 Back-End Developer Guide: VINIX7 Assessment Platform
+# 💻 Panduan Cepat & Jelas: Tim Back-End Developer (VINIX7)
 
-Direktori ini diperuntukkan bagi **Anggota 2 (Back-End Developer)**. Tugas utama Anda adalah mengembangkan REST API server-side, mesin evaluasi otomatis soal (PG & Essay), validasi Progressive Gating, dan rotasi soal.
+Halo Bro! 👋  
+Selamat datang di repositori backend. Bagian **Front-End website kita saat ini sudah SELESAI 100%** dengan tampilan resmi *VINIX7 LMS Midnight Navy Dark Theme*. 
 
----
+Saat ini, Front-End berjalan menggunakan simulasi mandiri (*Mock Service*). Tugas utama lu adalah **membuat REST API server-side** yang menghubungkan database PostgreSQL/Supabase ke Front-End.
 
-## 📌 1. Kontrak Endpoint REST API Wajib (PRD Bagian 11)
-
-| No | Method | Endpoint | Deskripsi & Validasi Penting |
-| :--- | :--- | :--- | :--- |
-| 1 | `POST` | `/api/auth/register` | Mendaftarkan pengguna baru & inisialisasi baris `progress` Modul 1 (`unlocked`). |
-| 2 | `POST` | `/api/auth/login` | Autentikasi dan return JWT Token + data profil pengguna. |
-| 3 | `GET` | `/api/courses` | Ambil daftar seluruh 10 course beserta status gating (`locked`, `unlocked`, `passed`) dan `nilaiTerbaik`. |
-| 4 | `GET` | `/api/courses/:id` | Ambil detail 1 course beserta materi Bagian 1, Bagian 2, dan Referensi. |
-| 5 | `POST` | `/api/courses/:id/sections/:sid/complete` | Menandai sebuah section telah selesai dibaca (update array `bagian_selesai`). |
-| 6 | `POST` | `/api/courses/:id/exam/start` | **Validasi cooldown:** Jika `cooldown_until > now`, return 429/Error Cooldown. Jika lolos, return `attemptId` dan 15 soal (10 PG + 5 Essay) **TANPA kunci jawaban & TANPA bobot poin**. |
-| 7 | `POST` | `/api/attempts/:id/submit` | Terima payload jawaban peserta, jalankan `scoringEngine`, hitung nilai akhir, set status lulus (jika $\ge 80$), set `cooldownUntil` (now + 60 detik jika $< 80$). Jika lulus, **otomatis buka Modul N+1**. |
-| 8 | `GET` | `/api/attempts/:id/result` | Mengembalikan hasil skor akhir, status lulus/gagal, label per soal (`Tepat`, `Kurang Tepat`, `Salah`), pembahasan kunci jawaban, dan daftar topik yang lemah. |
-| 9 | `GET` | `/api/me/progress` | Ringkasan progres kumulatif siswa di semua course. |
+> **Kabar Baiknya:** Begitu API lu siap di port `5000`, Front-End tinggal mengubah satu baris kode saja:  
+> `USE_REAL_BACKEND = true` di file `front-end/src/api/client.js` dan aplikasi langsung terhubung penuh (*Fullstack*)!
 
 ---
 
-## 🛡️ 2. Aturan Keamanan Mutlak (PRD Halaman 10)
-> **PENTING:** Kunci jawaban Pilihan Ganda, kata kunci rubrik Essay, dan kalkulasi nilai **HANYA** boleh ada di server.
-> Jangan pernah mengirimkan field `poin`, `kunci_jawaban`, `kata_kunci`, atau `is_correct` pada endpoint `/courses/:id/exam/start`. Kunci jawaban baru dikirim di `/attempts/:id/result` **setelah** ujian selesai disubmit.
+## 🎁 1. Kado untuk Lu: Logika Bisnis Sudah Jadi (Tinggal Pakai!)
+
+Lu **tidak perlu pusing menghitung rumus PRD dari nol**, karena kita sudah buatkan helper logic lengkap di folder `src/services/`:
+
+1. **`src/services/scoringEngine.js`:**
+   * Menghitung nilai akhir dengan rumus baku PRD:
+     $$\text{Nilai} = \left[ 0{,}60 \times \left(\frac{\text{Total PG}}{100}\right) + 0{,}40 \times \left(\frac{\text{Total Essay}}{50}\right) \right] \times 100$$
+   * Menilai essay otomatis dengan normalisasi teks dan pencocokan kata kunci (skor 10, 8, atau 0).
+   * Otomatis mengelompokkan **Topik Lemah (*Weak Topics*)** jika persentase pemahaman topik $< 70\%$.
+2. **`src/services/rotationService.js`:**
+   * Otomatis memilih **Set A** (Percobaan 1), **Set B** (Percobaan 2), **Set C** (Percobaan 3+).
+3. **`src/services/gatingService.js`:**
+   * Menghitung status gembok modul berikutnya (*Progressive Gating*) jika nilai $\ge 80$.
+   * Menghitung batas waktu **Cooldown 60 detik (1 menit)** jika nilai $< 80$.
 
 ---
 
-## 🧠 3. Logic & Service yang Sudah Disediakan
-Kami telah menyiapkan fondasi logika di dalam folder `src/services/`:
-1. `src/services/scoringEngine.js`:
-   - Normalisasi teks (`lowercase`, strip punctuation, clean spaces).
-   - Pencocokan kata kunci essay (Rubrik ramah poin kunci: 10 = Poin kunci terpenuhi, 8 = Konsep dasar ada, 0 = Tidak relevan).
-   - Kalkulasi skor akhir: `0.60 * PG + 0.40 * Essay`.
-   - Klasifikasi topik lemah otomatis.
-2. `src/services/rotationService.js`:
-   - Penentuan paket Set A (percobaan 1), Set B (percobaan 2), Set C (percobaan 3), atau acak.
-3. `src/services/gatingService.js`:
-   - Validasi cooldown 60 detik (1 menit).
-   - Logika gembok course berikutnya.
+## 🎯 2. Daftar 8 Endpoint yang Wajib Lu Buat
+
+Server berjalan di `http://localhost:5000`. Berikut daftar endpoint yang dipanggil oleh Front-End:
+
+### 1️⃣ Autentikasi Pengguna
+* **`POST /api/auth/register`**
+  * *Request Body:* `{ "nama": "Budi", "email": "budi@mail.com", "password": "password123" }`
+  * *Tugas Lu:* Hash password (pakai `bcrypt`), simpan ke tabel `users`, dan buat baris di tabel `progress` agar Modul 1 berstatus `unlocked` (Modul 2–10 `locked`).
+  * *Response (201):* `{ "token": "jwt_token", "user": { "id": "uuid", "nama": "Budi", "email": "budi@mail.com" } }`
+* **`POST /api/auth/login`**
+  * *Request Body:* `{ "email": "budi@mail.com", "password": "password123" }`
+  * *Response (200):* `{ "token": "jwt_token", "user": { "id": "uuid", "nama": "Budi", "email": "budi@mail.com" } }`
 
 ---
 
-## 🚀 4. Cara Menjalankan Backend Lokal
+### 2️⃣ Kurikulum & Materi Modul
+* **`GET /api/courses`**
+  * *Tugas Lu:* Ambil seluruh 10 modul dari tabel `courses`, gabungkan dengan status gating peserta dari tabel `progress`.
+  * *Response (200):*
+    ```json
+    [
+      {
+        "id": "c1",
+        "urutan": 1,
+        "judul": "Mindset Startup & Problem Solving",
+        "ringkasan": "Memahami pola pikir value-driven...",
+        "kategori": "Web Educational Technology",
+        "status": "unlocked", // 'locked' | 'unlocked' | 'passed'
+        "nilaiTerbaik": 85,
+        "bagianSelesai": [1, 2]
+      }
+    ]
+    ```
+
+* **`GET /api/courses/:id`**
+  * *Tugas Lu:* Ambil detail modul beserta materi bagian-bagiannya dari tabel `sections`.
+  * *Response (200):* Return object course lengkap beserta array `sections: [{ urutan, judul, isi, pdfUrl, pdfTitle }]`.
+
+* **`POST /api/courses/:id/sections/:sectionUrutan/complete`**
+  * *Tugas Lu:* Catat bahwa peserta telah selesai membaca bagian materi tersebut (update kolom `bagian_selesai` di tabel `progress`).
+  * *Response (200):* `{ "success": true, "message": "Bagian materi ditandai selesai" }`
+
+---
+
+### 3️⃣ Workspace Ujian Akhir (Core Engine)
+* **`POST /api/courses/:id/exam/start`**
+  * *Tugas Lu:*
+    1. Cek riwayat ujian terakhir peserta di course ini.
+    2. **Validasi Cooldown:** Jika percobaan sebelumnya bernilai $< 80$ dan waktu `cooldown_until > NOW()`, **Tolak dengan status 429**:
+       ```json
+       {
+         "error": "COOLDOWN_ACTIVE",
+         "message": "Jeda waktu cooldown aktif.",
+         "cooldownUntil": "2026-11-18T10:15:00Z"
+       }
+       ```
+    3. Tentukan paket soal (Percobaan 1: Set A, Percobaan 2: Set B, Percobaan 3: Set C).
+    4. Ambil 15 soal (10 PG + 5 Essay) dari tabel `questions` & `options`.
+    5. ⚠️ **ATURAN KEAMANAN MUTLAK:** Jangan pernah mengirimkan kolom `poin`, `is_correct`, `kunci_jawaban`, atau `kata_kunci` ke Front-End di endpoint ini agar siswa tidak bisa mencontek lewat Inspect Element / Network Tab!
+    6. Buat baris baru di tabel `attempts` dan return:
+       ```json
+       {
+         "attemptId": "att-12345",
+         "courseId": "c1",
+         "attemptNumber": 1,
+         "setPaket": "A",
+         "questions": [ /* 15 soal tanpa kunci jawaban */ ]
+       }
+       ```
+
+---
+
+### 4️⃣ Penilaian & Hasil Ujian
+* **`POST /api/attempts/:id/submit`**
+  * *Request Body:*
+    ```json
+    {
+      "courseId": "c1",
+      "answers": {
+        "q1-A-1": "opt-2",
+        "q1-A-11": "Jawaban uraian essay siswa..."
+      }
+    }
+    ```
+  * *Tugas Lu:*
+    1. Ambil kunci jawaban dari tabel `options` (PG) dan `essay_rubrics` (Essay).
+    2. Jalankan fungsi `evaluateExam()` dari `src/services/scoringEngine.js`.
+    3. Simpan jawaban ke tabel `answers`.
+    4. Update baris di tabel `attempts` (`nilai`, `lulus`, `selesai`).
+    5. **Aturan Progressive Gating:**
+       * **Jika Nilai $\ge 80$:** Update tabel `progress` modul saat ini menjadi `passed`, dan otomatis ubah status modul berikutnya ($N+1$) menjadi `unlocked`!
+       * **Jika Nilai $< 80$:** Simpan `cooldown_until = NOW() + INTERVAL '60 seconds'`.
+    6. Return: `{ "attemptId": "att-12345", "nilai": 85, "lulus": true }`
+
+* **`GET /api/attempts/:id/result`**
+  * *Tugas Lu:* Mengembalikan hasil ulasan lengkap setelah ujian dinilai.
+  * *Response (200):*
+    ```json
+    {
+      "attemptId": "att-12345",
+      "courseId": "c1",
+      "nilai": 85,
+      "totalPG": 90,
+      "totalEssay": 40,
+      "attemptNumber": 1,
+      "setPaket": "A",
+      "lulus": true,
+      "cooldownUntil": null,
+      "weakTopics": ["Problem Statement Canvas"],
+      "evaluatedQuestions": [
+        {
+          "questionId": "q1-A-1",
+          "urutan": 1,
+          "teks": "Soal...",
+          "tipe": "pilihan_ganda",
+          "poin": 10,
+          "label": "Tepat",
+          "jawabanPengguna": "Opsi yang dipilih siswa",
+          "pembahasan": "Penjelasan konsep yang benar..."
+        }
+      ]
+    }
+    ```
+
+---
+
+## ⚡ 3. Cara Menjalankan Backend di Komputer Lu
+
 ```bash
-# 1. Masuk ke folder backend
+# 1. Masuk ke direktori back-end
 cd back-end
 
-# 2. Salin template environment variable
+# 2. Salin template .env
 cp .env.example .env
 
-# 3. Install dependensi
+# 3. Install dependencies
 npm install
 
-# 4. Jalankan server mode dev
+# 4. Jalankan backend mode developer (Auto-reload)
 npm run dev
 ```
-Server akan aktif di `http://localhost:5000`.
-Frontend saat ini menggunakan **Mock JSON Services** yang mengacu 100% pada kontrak data ini, sehingga saat backend Anda selesai, frontend tinggal mengganti `USE_REAL_BACKEND = true` di `front-end/src/api/client.js`!
+
+Server lu akan menyala di `http://localhost:5000` 🚀  
+Jika butuh melihat contoh data JSON persisnya, silakan intip file `front-end/src/api/mockData.js`. Semangat bro, backend lu pasti kelar cepat!
