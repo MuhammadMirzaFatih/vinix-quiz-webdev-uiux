@@ -30,7 +30,7 @@ Direktori ini diperuntukkan bagi **Anggota 2 (Back-End Developer)**. Tugas utama
 Kami telah menyiapkan fondasi logika di dalam folder `src/services/`:
 1. `src/services/scoringEngine.js`:
    - Normalisasi teks (`lowercase`, strip punctuation, clean spaces).
-   - Pencocokan kata kunci essay (Rubrik bertingkat: 10, 9, 8, 7, 0).
+   - Pencocokan kata kunci essay (Rubrik ramah poin kunci: 10 = Poin kunci terpenuhi, 8 = Konsep dasar ada, 0 = Tidak relevan).
    - Kalkulasi skor akhir: `0.60 * PG + 0.40 * Essay`.
    - Klasifikasi topik lemah otomatis.
 2. `src/services/rotationService.js`:
@@ -56,4 +56,4 @@ npm install
 npm run dev
 ```
 Server akan aktif di `http://localhost:5000`.
-Frontend saat ini menggunakan **Mock JSON Services** yang mengacu 100% pada kontrak data ini, sehingga saat backend Anda selesai, frontend tinggal mengganti URL endpoint base ke `http://localhost:5000/api`!
+Frontend saat ini menggunakan **Mock JSON Services** yang mengacu 100% pada kontrak data ini, sehingga saat backend Anda selesai, frontend tinggal mengganti `USE_REAL_BACKEND = true` di `front-end/src/api/client.js`!

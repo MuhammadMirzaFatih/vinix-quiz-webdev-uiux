@@ -16,7 +16,7 @@ Database dirancang menggunakan **PostgreSQL** (kompatibel penuh dengan **Supabas
 | `options` | Opsi jawaban Pilihan Ganda (1 benar, 3 pengecoh) | Poin 10/0, ulasan umpan balik |
 | `essay_rubrics` | Kunci jawaban ideal & rubrik berjenjang essay | **WAJIB RLS TERTUTUP** (Hanya Back-End) |
 | `attempts` | Riwayat sesi ujian yang dikerjakan peserta | Rekam set paket, nilai, status lulus, & cooldown |
-| `answers` | Jawaban per butir soal per attempt | Rekam poin (10/9/8/7/0) dan label (Tepat/Kurang Tepat/Salah) |
+| `answers` | Jawaban per butir soal per attempt | Rekam poin (10/8/0) dan label (Tepat/Kurang Tepat/Salah) |
 | `progress` | Progres kelulusan dan Progressive Gating | Rekam status `locked`, `unlocked`, `passed` |
 
 ---
@@ -28,8 +28,8 @@ Database dirancang menggunakan **PostgreSQL** (kompatibel penuh dengan **Supabas
 2. Buka tab **SQL Editor**.
 3. Jalankan script `schema.sql` untuk membuat tipe enum, tabel, relasi, indeks, dan RLS.
 4. Jalankan script pada folder `seeds/`:
-   - `01_courses_and_sections.sql` (Inisialisasi 10 course).
-   - `02_sample_questions.sql` (Inisialisasi bank soal & rubrik modul 1).
+   - `01_courses_and_sections.sql` (Inisialisasi 10 course lengkap dengan tautan Google Drive Modul 1 & Modul 2).
+   - `02_sample_questions.sql` (Inisialisasi bank soal & rubrik Modul 1 dengan kunci acak dan distraktor menantang).
 
 ### Opsi B: Menggunakan Docker / PostgreSQL Lokal
 ```bash
@@ -55,7 +55,10 @@ psql -h localhost -U postgres -d vinix7_quiz -f database/seeds/02_sample_questio
 
 ## 📋 4. Checklist Tugas Anggota 3 (Database & DevOps)
 - [x] Struktur DDL `schema.sql` dan indeks relasi.
+- [x] Inisialisasi data `01_courses_and_sections.sql` untuk 10 modul + Google Drive URLs.
+- [x] Inisialisasi seed Modul 1 di `02_sample_questions.sql` (Kunci acak & pengecoh realistis).
 - [ ] Buat project Supabase / PostgreSQL instance di cloud.
-- [ ] Lengkapi data seed untuk Modul 2 s/d Modul 10 (mengacu pada Lampiran PRD hal 29–163).
+- [ ] Migrasikan bank soal Modul 2 yang sudah aktif di frontend (`front-end/src/api/mockData.js`) ke dalam file seed SQL berikutnya (`03_module_2_questions.sql`).
+- [ ] Lengkapi data seed untuk Modul 3 s/d Modul 10 (mengacu pada Lampiran PRD hal 29–163).
 - [ ] Uji performa query (pastikan query riwayat attempt dan progress di bawah 50ms).
 - [ ] Atur environment variables connection string di `.env` backend.

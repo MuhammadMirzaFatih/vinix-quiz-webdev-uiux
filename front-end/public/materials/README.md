@@ -1,30 +1,39 @@
-# 📚 Direktori Penyimpanan PDF Materi Pembelajaran
+# 📚 Direktori Materi Slide Pembelajaran & Integrasi Cloud (VINIX7)
 
-Direktori ini digunakan untuk menyimpan seluruh dokumen slide presentasi (PPT) atau file PDF materi magang VINIX7 agar dapat ditampilkan secara langsung di dalam aplikasi web.
+Direktori ini digunakan sebagai media penyimpanan materi slide pembelajaran modul magang VINIX7, baik yang bersumber dari **Google Drive Cloud Preview** maupun salinan lokal file PDF offline.
 
 ---
 
-## 📌 Format Penamaan File yang Dianjurkan
+## 🌐 1. Integrasi Google Drive Live Preview (Default)
 
-Agar file PDF otomatis terbaca oleh sistem di halaman modul terkait, gunakan pola penamaan berikut:
+Aplikasi telah terintegrasi langsung dengan tautan resmi Google Drive untuk menampilkan dokumen slide secara leluasa dan responsif tanpa membebani ukuran bundle repositori:
+
+* **Modul 1 (Startup Mindset & Problem Solving):**
+  * Tautan Google Drive: `https://drive.google.com/file/d/1ofkBoMKz26NmUddSc5dCT3y7JexVlKnS/view?usp=sharing`
+  * Embed Preview: `/preview` mode terintegrasi otomatis di dalam halaman modul.
+* **Modul 2 (UI/UX & Design Thinking):**
+  * Tautan Google Drive: `https://drive.google.com/file/d/1Tp17CHNjKtoU0JVsaGZrAZDIMK9JbNGE/view?usp=sharing`
+  * Embed Preview: `/preview` mode terintegrasi otomatis di dalam halaman modul.
+
+---
+
+## 🚀 2. Fitur Viewer Interaktif di Web:
+1. **Layar Penuh / Tab Baru:** Tombol cepat di pojok kanan atas reader yang memungkinkan peserta/penguji membuka dokumen slide langsung di tab baru browser untuk pengalaman membaca layar penuh (*fullscreen*) serta mengunduh file secara instan.
+2. **Tab Switcher (Slide vs Ringkasan):** Peserta dapat berpindah kapan saja antara tampilan **Slide PPT / PDF Asli** dan **Ringkasan Teks Poin Kunci**.
+3. **Penanda Progres Membaca:** Tombol *"Tandai Selesai Dibaca"* yang otomatis memperbarui progress bar materi sebelum mengerjakan ujian akhir modul.
+
+---
+
+## 📂 3. Format Penamaan Cadangan Lokal (*Offline Fallback*)
+
+Sebagai jaminan jika koneksi internet pengguna terputus dari Google Drive, aplikasi secara otomatis mencari berkas lokal di folder ini dengan pola penamaan:
 
 ```text
+modul-{nomor_modul}.pdf
+# atau
 modul-{nomor_modul}-bagian-{nomor_bagian}.pdf
 ```
 
-### Contoh Daftar Nama File:
-* **Modul 1 (Mindset Startup & Problem Solving):**
-  * `modul-1-bagian-1.pdf` &rarr; Slide Materi Bagian 1 (Startup Mindset & Agility)
-  * `modul-1-bagian-2.pdf` &rarr; Slide Materi Bagian 2 (Problem Statement Canvas & 5 Whys)
-  * `modul-1-bagian-3.pdf` &rarr; Slide Referensi Tambahan (Lean Startup & Studi Kasus Kos-Kosan)
-* **Modul 2 (UI/UX & Design Thinking):**
-  * `modul-2-bagian-1.pdf` &rarr; Slide Materi Bagian 1 (UI vs UX)
-  * `modul-2-bagian-2.pdf` &rarr; Slide Materi Bagian 2 (5 Tahap Design Thinking)
-* ...dan seterusnya hingga `modul-10`.
-
----
-
-## 💡 Fitur Penampil PDF di Web:
-1. **Interactive Built-in Viewer:** Menggunakan frame interaktif lengkap dengan kontrol zoom, navigasi halaman, pencarian kata, dan mode layar penuh.
-2. **Pilih PDF Langsung dari Laptop:** Jika belum sempat memindahkan file ke folder ini, pengguna/evaluator bisa langsung menekan tombol **"Pilih PDF dari Laptop"** di halaman modul untuk memuat file PDF dari komputer secara instan!
-3. **Tab Switcher:** Peserta bisa berpindah secara bebas antara **Slide PPT/PDF Asli** dan **Ringkasan Teks & Poin Kunci**.
+### Berkas yang Tersedia di Direktori Ini:
+* `modul-1-bagian-1.pdf` s/d `modul-1-bagian-3.pdf` &rarr; Salinan lokal Modul 1
+* `modul-2.pdf` & `modul-2-bagian-1.pdf` s/d `modul-2-bagian-3.pdf` &rarr; Salinan lokal Modul 2 (*Week 2 UI/UX Design Thinking*)
