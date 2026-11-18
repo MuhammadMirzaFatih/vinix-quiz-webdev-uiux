@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { apiClient } from '../api/client';
 import { useProgress } from '../context/ProgressContext';
@@ -15,13 +15,10 @@ import {
   ExternalLink,
   ShieldAlert,
   FileText,
-  Upload,
   Eye,
   Info,
-  Download,
   AlertTriangle,
-  RefreshCw,
-  Link2
+  RefreshCw
 } from 'lucide-react';
 
 /**
@@ -60,12 +57,8 @@ export default function CourseDetailPage() {
 
   // Mode: 'pdf' (Slide PPT/PDF) vs 'text' (Ringkasan Poin Kunci)
   const [viewMode, setViewMode] = useState('pdf');
-  // Local uploaded PDFs (temporary object URLs for live preview)
   const [localPdfs, setLocalPdfs] = useState({});
   const [pdfStatus, setPdfStatus] = useState('checking'); // 'checking' | 'found' | 'not_found'
-  const [showDriveModal, setShowDriveModal] = useState(false);
-  const [driveInputUrl, setDriveInputUrl] = useState('');
-  const fileInputRef = useRef(null);
 
   // Computed active PDF URL safely
   const activePdfUrl = React.useMemo(() => {
@@ -389,23 +382,6 @@ export default function CourseDetailPage() {
               </div>
             </div>
 
-            {/* Hidden File Input for uploading custom PDF */}
-            <input
-              type="file"
-              ref={fileInputRef}
-              accept="application/pdf"
-              className="hidden"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) {
-                  const url = URL.createObjectURL(file);
-                  setLocalPdfs(prev => ({ ...prev, [currentSection.id]: url }));
-                  setToastMessage(`File PDF '${file.name}' berhasil dimuat!`);
-                  setTimeout(() => setToastMessage(''), 3500);
-                }
-              }}
-            />
-
             {/* CONDITIONAL RENDER: PDF VIEWER vs TEXT SUMMARY */}
             {viewMode === 'pdf' ? (
               <div className="space-y-4">
@@ -413,82 +389,26 @@ export default function CourseDetailPage() {
                 {/* PDF Header Action Bar */}
                 <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 bg-slate-900 text-white rounded-2xl">
                   <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${pdfStatus === 'not_found' ? 'bg-amber-400' : 'bg-emerald-400 animate-pulse'}`} />
+                    <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                     <span className="text-xs font-bold tracking-wide">
-                      {localPdfs[currentSection.id]
-                        ? '📄 Membaca PDF Pilihan Anda'
-                        : (currentSection.pdfTitle || 'Dokumen Slide PDF Modul')}
+                      {currentSection.pdfTitle || 'Dokumen Slide PPT / PDF Modul'}
                     </span>
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-2">
-                    {/* Link Google Drive button */}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setDriveInputUrl(localPdfs[currentSection.id] || '');
-                        setShowDriveModal(true);
-                      }}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold shadow-xs transition-colors"
-                      title="Masukkan link Google Drive atau Google Slides"
-                    >
-                      <Link2 className="w-3.5 h-3.5" />
-                      <span>Link Google Drive</span>
-                    </button>
-
-                    {/* Pick from computer button */}
-                    <button
-                      type="button"
-                      onClick={() => fileInputRef.current?.click()}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold shadow-xs transition-colors"
-                      title="Pilih file PDF materi dari komputer Anda"
-                    >
-                      <Upload className="w-3.5 h-3.5" />
-                      <span>Pilih PDF dari Laptop</span>
-                    </button>
-
-                    {/* Open in new tab */}
+                  <div className="flex items-center gap-2">
+                    {/* Open in new tab / Fullscreen & Download */}
                     <a
                       href={activePdfUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold border border-slate-700 transition-colors"
-                      title="Buka dokumen di tab baru browser"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white rounded-xl text-xs font-semibold border border-slate-700 transition-colors shadow-xs"
+                      title="Buka dokumen di tab baru browser / layar penuh dan unduh"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
-                      <span className="hidden sm:inline">Layar Penuh / Tab Baru</span>
-                    </a>
-
-                    {/* Download button */}
-                    <a
-                      href={activePdfUrl}
-                      download={`modul-${course.urutan}-bagian-${currentSection.urutan}.pdf`}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold border border-slate-700 transition-colors"
-                      title="Unduh file PDF ke komputer"
-                    >
-                      <Download className="w-3.5 h-3.5" />
-                      <span className="hidden sm:inline">Unduh</span>
+                      <span>Layar Penuh / Tab Baru</span>
                     </a>
                   </div>
                 </div>
-
-                {/* Status Notice if local PDF not found on server */}
-                {pdfStatus === 'not_found' && !activePdfUrl.includes('drive.google.com') && (
-                  <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 flex items-start gap-3 text-xs leading-relaxed">
-                    <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-                    <div className="space-y-1">
-                      <p className="font-bold">File PDF belum terdeteksi di server: <code className="bg-amber-100 px-1 py-0.5 rounded font-mono">{activePdfUrl}</code></p>
-                      <p className="text-amber-800">
-                        Anda dapat menampilkan slide dengan salah satu cara berikut:
-                      </p>
-                      <ul className="list-disc list-inside space-y-0.5 text-amber-800 pl-1">
-                        <li><strong>Link Google Drive:</strong> Klik tombol hijau <strong>"Link Google Drive"</strong> di atas dan tempel link file PDF Anda.</li>
-                        <li><strong>Pilih dari Komputer:</strong> Klik tombol <strong>"Pilih PDF dari Laptop"</strong> di atas untuk memuat file PDF dari laptop secara langsung.</li>
-                        <li><strong>Restart Server:</strong> Jika file baru dimasukkan ke <code className="bg-amber-100 px-1 rounded font-mono">public/materials/</code>, restart dev server dengan <kbd className="bg-white px-1 border rounded">Ctrl+C</kbd> lalu <code className="bg-amber-100 px-1 rounded font-mono">npm run dev</code>.</li>
-                      </ul>
-                    </div>
-                  </div>
-                )}
 
                 {/* Embedded PDF Viewer (Google Drive or Native Object) */}
                 <div className="relative w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 shadow-inner min-h-[620px]">
@@ -515,12 +435,12 @@ export default function CourseDetailPage() {
                             <FileText className="w-7 h-7" />
                           </div>
                           <div className="max-w-md">
-                            <h4 className="text-base font-bold text-slate-800">Pratinjau PDF di Browser</h4>
+                            <h4 className="text-base font-bold text-slate-800">Pratinjau Dokumen Slide</h4>
                             <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-                              Browser Anda mungkin memblokir pratinjau dokumen langsung di dalam frame. Silakan gunakan tombol berikut untuk membuka dokumen atau gunakan Google Drive:
+                              Silakan gunakan tombol di bawah untuk membuka slide dokumen di tab baru browser:
                             </p>
                           </div>
-                          <div className="flex flex-wrap items-center justify-center gap-3">
+                          <div className="flex items-center justify-center gap-3">
                             <a
                               href={activePdfUrl}
                               target="_blank"
@@ -528,16 +448,8 @@ export default function CourseDetailPage() {
                               className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-md transition-colors"
                             >
                               <ExternalLink className="w-4 h-4" />
-                              <span>Buka PDF di Tab Baru</span>
+                              <span>Buka Dokumen di Tab Baru</span>
                             </a>
-                            <button
-                              type="button"
-                              onClick={() => fileInputRef.current?.click()}
-                              className="inline-flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 text-xs font-bold rounded-xl shadow-xs transition-colors"
-                            >
-                              <Upload className="w-4 h-4" />
-                              <span>Pilih PDF dari Laptop</span>
-                            </button>
                           </div>
                         </div>
                       </iframe>
@@ -549,11 +461,10 @@ export default function CourseDetailPage() {
                 <div className="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-200/80 text-indigo-950 flex items-start gap-3 text-xs leading-relaxed">
                   <Info className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
                   <div className="space-y-1.5">
-                    <p className="font-bold">Tips Membaca PDF & Troubleshooting Pratinjau:</p>
+                    <p className="font-bold">Tips Membaca Slide Modul:</p>
                     <ul className="list-disc list-inside space-y-1 text-indigo-900">
-                      <li><strong>Jika Muncul Tampilan Kosong/Abu-abu:</strong> Di browser Chrome/Edge, buka tab baru ke <code className="bg-indigo-100 px-1 py-0.5 rounded font-mono">chrome://settings/content/pdfDocuments</code>, lalu pastikan memilih <em>"Open PDFs in Chrome"</em> (Buka PDF di Chrome), bukan <em>"Download PDFs"</em> (Unduh PDF).</li>
-                      <li><strong>Buka Layar Penuh:</strong> Klik tombol <strong>"Layar Penuh / Tab Baru"</strong> di atas jika ingin membaca PDF di jendela browser tersendiri yang lebih leluasa.</li>
-                      <li><strong>Beralih ke Teks Rangkuman:</strong> Anda juga dapat beralih ke tab <strong>"Ringkasan Teks"</strong> di kanan atas jika ingin membaca intisari materi tanpa dokumen slide.</li>
+                      <li><strong>Layar Penuh & Unduh:</strong> Klik tombol <strong>"Layar Penuh / Tab Baru"</strong> di atas jika ingin membaca slide di jendela tersendiri yang lebih leluasa atau mengunduhnya.</li>
+                      <li><strong>Beralih ke Ringkasan:</strong> Anda juga dapat beralih ke tab <strong>"Ringkasan Teks"</strong> di kanan atas untuk membaca intisari materi poin per poin.</li>
                     </ul>
                   </div>
                 </div>
@@ -637,59 +548,6 @@ export default function CourseDetailPage() {
           </div>
         </div>
       </div>
-
-      {/* Modal Tempel Link Google Drive */}
-      {showDriveModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs">
-          <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-slate-200 space-y-4 animate-in fade-in zoom-in-95">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
-                <Link2 className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900">Masukkan Link Google Drive</h3>
-                <p className="text-xs text-slate-500">Slide PDF / Google Slides akan langsung tertanam di sini</p>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700">Link Berbagi Google Drive / Slides:</label>
-              <input
-                type="url"
-                placeholder="https://drive.google.com/file/d/.../view?usp=sharing"
-                value={driveInputUrl}
-                onChange={(e) => setDriveInputUrl(e.target.value)}
-                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
-              />
-              <p className="text-[11px] text-slate-400 leading-relaxed">
-                *Pastikan akses link di Google Drive disetel ke <strong>"Siapa saja yang memiliki link" (Anyone with the link can view)</strong>.
-              </p>
-            </div>
-            <div className="flex items-center justify-end gap-2 pt-2">
-              <button
-                type="button"
-                onClick={() => setShowDriveModal(false)}
-                className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100"
-              >
-                Batal
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  if (driveInputUrl.trim()) {
-                    setLocalPdfs(prev => ({ ...prev, [currentSection.id]: driveInputUrl.trim() }));
-                    setToastMessage('Link Google Drive berhasil ditautkan!');
-                    setShowDriveModal(false);
-                    setTimeout(() => setToastMessage(''), 3500);
-                  }
-                }}
-                className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs"
-              >
-                Terapkan Link
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
