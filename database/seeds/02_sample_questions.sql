@@ -17,12 +17,12 @@ INSERT INTO questions (id, course_id, set_paket, topik, tipe, teks, urutan) VALU
 ('q1000001-0000-0000-0000-000000000010', 'c0000001-0000-0000-0000-000000000001', 'A', 'Problem Statement Canvas', 'pilihan_ganda', 'Manakah format kalimat rumusan masalah standar yang paling tepat sesuai kaidah template Problem Statement Canvas?', 10)
 ON CONFLICT (id) DO NOTHING;
 
--- 2. Insert Options for PG Question 1 (Opsi B Benar, Opsi A/C/D Pengecoh Menantang)
+-- 2. Insert Options for PG Question 1 (Opsi C Benar, Opsi A/B/D Pengecoh Menantang)
 INSERT INTO options (question_id, teks, poin, umpan_balik) VALUES
-('q1000001-0000-0000-0000-000000000001', 'Value-Driven menitikberatkan pada akselerasi penambahan fitur mutakhir (feature velocity) agar pengguna memiliki banyak alternatif fungsi.', 0, 'Keliru. Akselerasi fitur tanpa validasi nilai adalah ciri feature-driven.'),
-('q1000001-0000-0000-0000-000000000001', 'Value-Driven memprioritaskan pemecahan masalah nyata dan kemudahan hidup pengguna, sedangkan Feature-Driven terpaku pada kuantitas fitur dan kebaruan teknologi.', 10, 'Tepat! Value-driven berpusat pada pemecahan masalah dan manfaat nyata bagi pengguna.'),
-('q1000001-0000-0000-0000-000000000001', 'Value-Driven berfokus pada efisiensi biaya rekayasa infrastruktur cloud, sedangkan Feature-Driven berfokus pada polesan estetika antarmuka semata.', 0, 'Keliru. Efisiensi cloud adalah isu teknis infrastruktur, bukan pembeda value-driven.'),
-('q1000001-0000-0000-0000-000000000001', 'Value-Driven menargetkan monetisasi agresif sejak fase pra-rilis, sedangkan Feature-Driven mengandalkan suntikan modal venture capital.', 0, 'Keliru. Monetisasi adalah strategi model bisnis, bukan definisi value-driven.');
+('q1000001-0000-0000-0000-000000000001', 'Value-Driven mengukur keberhasilan produk dari tingginya angka durasi waktu yang dihabiskan pengguna di dalam aplikasi, sedangkan Feature-Driven mengukurnya dari kecepatan rilis versi baru.', 0, 'Keliru. Durasi penggunaan semata adalah vanity metric dan bukan pembeda esensi value-driven.'),
+('q1000001-0000-0000-0000-000000000001', 'Value-Driven fokus mewujudkan seluruh daftar permintaan fitur yang diajukan pengguna pada survei, sedangkan Feature-Driven fokus mengimplementasikan ide inovatif internal tim pendiri.', 0, 'Keliru. Menuruti semua permintaan fitur pengguna tanpa validasi pain point justru melahirkan feature bloat.'),
+('q1000001-0000-0000-0000-000000000001', 'Value-Driven berpusat pada seberapa efektif produk menuntaskan pain point dan mempermudah hidup pengguna, sedangkan Feature-Driven berfokus pada kuantitas fitur serta adopsi tren teknologi terkini.', 10, 'Tepat! Value-driven selalu berfokus pada pemecahan masalah nyata dan nilai manfaat yang dirasakan langsung oleh pengguna.'),
+('q1000001-0000-0000-0000-000000000001', 'Value-Driven memprioritaskan fitur-fitur yang langsung menghasilkan arus kas (monetization-first), sedangkan Feature-Driven memprioritaskan fitur gratis untuk memperbesar basis pengguna.', 0, 'Keliru. Monetisasi awal vs bakar uang adalah strategi bisnis/pricing, bukan definisi value-driven.');
 
 -- 3. Insert Essay Questions Set A (Modul 1) - Dipermudah & To The Point
 INSERT INTO questions (id, course_id, set_paket, topik, tipe, teks, urutan) VALUES
