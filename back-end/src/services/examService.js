@@ -342,7 +342,7 @@ export async function submitExam(attemptId, courseIdParam, submittedAnswers = {}
         const rubric = allRubrics.find(r => r.question_id === q.id);
         const keywords = rubric ? rubric.kata_kunci : [];
         kunciJawaban = rubric ? rubric.kunci_jawaban : '';
-        const result = evaluateEssay(studentAns, keywords);
+        const result = evaluateEssay(studentAns, keywords, rubric);
         poin = result.poin;
         label = result.label;
 
@@ -350,9 +350,11 @@ export async function submitExam(attemptId, courseIdParam, submittedAnswers = {}
           feedback = 'Jawaban ringkas, tepat sasaran, dan poin kunci utama terpenuhi!';
         } else if (result.poin >= 7) {
           const kurangList = result.missingKeywords.slice(0, 3).join(', ');
-          feedback = `Kurang tepat karena belum mencakup kata kunci: ${kurangList || 'detail konsep inti'}. Jawaban yang benar: ${kunciJawaban}`;
+          feedback = kurangList
+            ? `Konsep inti sudah tepat, namun dapat dilengkapi dengan aspek: ${kurangList}.`
+            : 'Konsep dasar sudah benar, tambahkan sedikit detail penjelas agar lebih lengkap.';
         } else {
-          feedback = `Jawaban belum mencakup kata kunci utama materi. Jawaban yang benar: ${kunciJawaban}`;
+          feedback = 'Jawaban belum mencakup kata kunci utama dari materi modul.';
         }
       }
 
@@ -524,7 +526,7 @@ export async function submitExam(attemptId, courseIdParam, submittedAnswers = {}
       const rubric = essay_rubrics.find(r => r.question_id === q.id);
       const keywords = rubric ? rubric.kata_kunci : [];
       kunciJawaban = rubric ? rubric.kunci_jawaban : '';
-      const result = evaluateEssay(studentAns, keywords);
+      const result = evaluateEssay(studentAns, keywords, rubric);
       poin = result.poin;
       label = result.label;
 
@@ -532,9 +534,11 @@ export async function submitExam(attemptId, courseIdParam, submittedAnswers = {}
         feedback = 'Jawaban ringkas, tepat sasaran, dan poin kunci utama terpenuhi!';
       } else if (result.poin >= 7) {
         const kurangList = result.missingKeywords.slice(0, 3).join(', ');
-        feedback = `Kurang tepat karena belum mencakup kata kunci: ${kurangList || 'detail konsep inti'}. Jawaban yang benar: ${kunciJawaban}`;
+        feedback = kurangList
+          ? `Konsep inti sudah tepat, namun dapat dilengkapi dengan aspek: ${kurangList}.`
+          : 'Konsep dasar sudah benar, tambahkan sedikit detail penjelas agar lebih lengkap.';
       } else {
-        feedback = `Jawaban belum mencakup kata kunci utama materi. Jawaban yang benar: ${kunciJawaban}`;
+        feedback = 'Jawaban belum mencakup kata kunci utama dari materi modul.';
       }
     }
 
