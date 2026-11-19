@@ -235,60 +235,64 @@ export const sections = [
   ...sections3to10
 ];
 
-// ─── 4. QUESTIONS (Modul 1–10 – Set A, B, C lengkap) ──────────────────────────
+// Ambil ID Course 1 langsung dari array courses agar 100% cocok dengan tabel courses Supabase
+const modul1CourseId = (courses.find((c) => c.urutan === 1) || courses[0]).id;
+const validCourseIds = new Set(courses.map((c) => c.id));
+
+// ─── 4. QUESTIONS (Modul 1–10 – Set A, B, C lengkap sesuai PRD) ───────────────
 // Kolom: id, course_id, set_paket, topik, tipe, teks, urutan, created_at
-export const questions = [
-  // ════════════ SET A – 10 PG ════════════
-  { id: 'q1000001-0000-0000-0000-000000000001', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'A', topik: 'Startup Mindset', tipe: 'pilihan_ganda', teks: 'Dalam konteks pengembangan produk startup digital, manakah pernyataan berikut yang paling tepat membedakan pendekatan Value-Driven dari pendekatan Feature-Driven?', urutan: 1, created_at: now() },
-  { id: 'q1000001-0000-0000-0000-000000000002', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'A', topik: 'Startup Mindset', tipe: 'pilihan_ganda', teks: 'Sebelum menyetujui penambahan fitur baru ke dalam roadmap produk, pertanyaan validasi paling mendasar yang wajib diajukan tim menurut pola pikir startup adalah...', urutan: 2, created_at: now() },
-  { id: 'q1000001-0000-0000-0000-000000000003', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'A', topik: 'Problem Solving', tipe: 'pilihan_ganda', teks: 'Sebuah startup merilis aplikasi dengan desain antarmuka modern dan transisi animasi mulus, namun tingkat retensi pengguna (30-day retention) anjlok drastis ke angka 5%. Berdasarkan prinsip "Solve The Problem", diagnosa akar masalah yang paling tepat adalah...', urutan: 3, created_at: now() },
-  { id: 'q1000001-0000-0000-0000-000000000004', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'A', topik: 'Agility', tipe: 'pilihan_ganda', teks: 'Bagaimanakah penerapan prinsip Agility yang paling tepat ketika fitur baru yang telah dikembangkan selama berbulan-bulan terbukti sangat jarang digunakan oleh pengguna berdasarkan data analitik?', urutan: 4, created_at: now() },
-  { id: 'q1000001-0000-0000-0000-000000000005', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'A', topik: 'Validasi Masalah', tipe: 'pilihan_ganda', teks: 'Dalam metodologi startup, mengapa kegagalan saat menguji hipotesis produk di fase awal dipandang sebagai sebuah "keberhasilan pembelajaran (validated learning)", bukan kerugian mutlak?', urutan: 5, created_at: now() },
-  { id: 'q1000001-0000-0000-0000-000000000006', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'A', topik: 'Problem-Solution Fit', tipe: 'pilihan_ganda', teks: 'Mengapa melakukan ekspansi agresif (scaling tim & anggaran pemasaran besar-besaran) sebelum mencapai Problem-Solution Fit dianggap sebagai penyebab kematian utama bagi startup tahap awal (premature scaling)?', urutan: 6, created_at: now() },
-  { id: 'q1000001-0000-0000-0000-000000000007', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'A', topik: 'Problem Statement Canvas', tipe: 'pilihan_ganda', teks: 'Pada perumusan Problem Statement Canvas, tim sering kali tergoda mendefinisikan elemen "Who" (Target Pengguna) dengan cakupan seluas mungkin, misalnya "Semua orang yang menggunakan smartphone". Mengapa pola ini merupakan jebakan berbahaya?', urutan: 7, created_at: now() },
-  { id: 'q1000001-0000-0000-0000-000000000008', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'A', topik: 'Teknik 5 Whys', tipe: 'pilihan_ganda', teks: 'Perhatikan studi kasus: "Penyewa kos sering terlambat membayar sewa bulanan". Jika pengelola kos hanya berhenti pada kesimpulan awal dan langsung membangun aplikasi dengan notifikasi alarm harian, mengapa solusi ini kemungkinan besar gagal berdasarkan teknik 5 Whys?', urutan: 8, created_at: now() },
-  { id: 'q1000001-0000-0000-0000-000000000009', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'A', topik: 'Problem Statement Canvas', tipe: 'pilihan_ganda', teks: 'Dalam Problem Statement Canvas, mengapa pemahaman mendalam mengenai elemen "The Gap" (kelemahan atau celah dari solusi alternatif yang saat ini digunakan pengguna) menjadi fondasi penentu diferensiasi produk?', urutan: 9, created_at: now() },
-  { id: 'q1000001-0000-0000-0000-000000000010', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'A', topik: 'Problem Statement Canvas', tipe: 'pilihan_ganda', teks: 'Manakah rumusan kalimat masalah di bawah ini yang paling disiplin dan tepat dalam menerapkan struktur baku Problem Statement Canvas?', urutan: 10, created_at: now() },
-  // ════════════ SET A – 5 Essay ════════════
-  { id: 'q1000002-0000-0000-0000-000000000001', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'A', topik: 'Problem Statement Canvas', tipe: 'essay', teks: 'Sebutkan 4 elemen pokok yang terdapat di dalam Problem Statement Canvas sesuai materi slide!', urutan: 11, created_at: now() },
-  { id: 'q1000002-0000-0000-0000-000000000002', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'A', topik: 'Teknik 5 Whys', tipe: 'essay', teks: 'Secara singkat, apa tujuan utama dari teknik 5 Whys dalam membedah masalah produk?', urutan: 12, created_at: now() },
-  { id: 'q1000002-0000-0000-0000-000000000003', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'A', topik: 'Startup Mindset', tipe: 'essay', teks: 'Jelaskan perbedaan singkat antara pola pikir Value-Driven dan Feature-Driven!', urutan: 13, created_at: now() },
-  { id: 'q1000002-0000-0000-0000-000000000004', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'A', topik: 'Problem Statement', tipe: 'essay', teks: 'Tuliskan rumus kalimat standar dalam menyusun Problem Statement sesuai slide materi!', urutan: 14, created_at: now() },
-  { id: 'q1000002-0000-0000-0000-000000000005', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'A', topik: 'Agility & Validasi', tipe: 'essay', teks: 'Mengapa kegagalan awal dalam startup dianggap sebagai data berharga dan bukan kerugian mutlak?', urutan: 15, created_at: now() },
-  // ════════════ SET B – 10 PG ════════════
-  { id: 'q1000003-0000-0000-0000-000000000001', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'B', topik: 'Problem Solving', tipe: 'pilihan_ganda', teks: 'Strategi AI yang paling tepat digunakan untuk merumuskan pain point pengguna adalah...', urutan: 1, created_at: now() },
-  { id: 'q1000003-0000-0000-0000-000000000002', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'B', topik: 'Analisis Kompetitor', tipe: 'pilihan_ganda', teks: 'Analisis kompetitor pada tahap perumusan masalah bertujuan untuk menemukan...', urutan: 2, created_at: now() },
-  { id: 'q1000003-0000-0000-0000-000000000003', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'B', topik: 'Startup Mindset', tipe: 'pilihan_ganda', teks: 'UVP merupakan singkatan dari...', urutan: 3, created_at: now() },
-  { id: 'q1000003-0000-0000-0000-000000000004', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'B', topik: 'Problem Solving', tipe: 'pilihan_ganda', teks: 'Penggunaan peran AI sebagai "Devil’s Advocate" berfungsi untuk...', urutan: 4, created_at: now() },
-  { id: 'q1000003-0000-0000-0000-000000000005', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'B', topik: 'Anatomi Masalah', tipe: 'pilihan_ganda', teks: 'Unsur "Who" dalam anatomi rumusan masalah merujuk pada...', urutan: 5, created_at: now() },
-  { id: 'q1000003-0000-0000-0000-000000000006', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'B', topik: 'Anatomi Masalah', tipe: 'pilihan_ganda', teks: 'Definisi target pengguna yang baik dan terarah adalah...', urutan: 6, created_at: now() },
-  { id: 'q1000003-0000-0000-0000-000000000007', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'B', topik: 'Pain Point', tipe: 'pilihan_ganda', teks: 'Istilah "Pain Point" dalam perancangan produk berarti...', urutan: 7, created_at: now() },
-  { id: 'q1000003-0000-0000-0000-000000000008', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'B', topik: 'Jobs to be Done', tipe: 'pilihan_ganda', teks: 'Kerangka "Jobs to be Done" (JTBD) menjelaskan tentang...', urutan: 8, created_at: now() },
-  { id: 'q1000003-0000-0000-0000-000000000009', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'B', topik: 'Konteks Masalah', tipe: 'pilihan_ganda', teks: 'Unsur Konteks (When & Where) dalam rumusan masalah menjelaskan...', urutan: 9, created_at: now() },
-  { id: 'q1000003-0000-0000-0000-000000000010', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'B', topik: 'Root Cause', tipe: 'pilihan_ganda', teks: 'Metode yang efektif digunakan untuk menggali hingga ke akar masalah adalah...', urutan: 10, created_at: now() },
-  // ════════════ SET B – 5 Essay ════════════
-  { id: 'q1000004-0000-0000-0000-000000000001', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'B', topik: 'Inovasi Produk', tipe: 'essay', teks: 'Bagaimana keluhan pelanggan dapat diubah menjadi sumber inovasi berharga bagi startup?', urutan: 11, created_at: now() },
-  { id: 'q1000004-0000-0000-0000-000000000002', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'B', topik: 'Problem Statement Canvas', tipe: 'essay', teks: 'Jelaskan fungsi dan manfaat dari Problem Statement Canvas bagi tim produk!', urutan: 12, created_at: now() },
-  { id: 'q1000004-0000-0000-0000-000000000003', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'B', topik: 'Problem Solving', tipe: 'essay', teks: 'Sebutkan dan jelaskan empat strategi riset menggunakan AI Prompting!', urutan: 13, created_at: now() },
-  { id: 'q1000004-0000-0000-0000-000000000004', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'B', topik: 'Root Cause', tipe: 'essay', teks: 'Jelaskan perbedaan mendasar antara Pain Point dan Root Cause!', urutan: 14, created_at: now() },
-  { id: 'q1000004-0000-0000-0000-000000000005', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'B', topik: 'Anatomi Masalah', tipe: 'essay', teks: 'Mengapa target pengguna dalam perancangan produk tidak boleh didefinisikan sebagai "semua orang"?', urutan: 15, created_at: now() },
-  // ════════════ SET C – 10 PG ════════════
-  { id: 'q1000005-0000-0000-0000-000000000001', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'C', topik: 'Startup Mindset', tipe: 'pilihan_ganda', teks: 'Prinsip "Fail Fast, Learn Faster" dalam startup paling tepat diartikan sebagai...', urutan: 1, created_at: now() },
-  { id: 'q1000005-0000-0000-0000-000000000002', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'C', topik: 'Problem Solving', tipe: 'pilihan_ganda', teks: 'Tim desain mengetahui bahwa pengguna sering kali meninggalkan halaman checkout. Langkah pertama yang paling tepat menurut Problem-Solving mindset adalah...', urutan: 2, created_at: now() },
-  { id: 'q1000005-0000-0000-0000-000000000003', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'C', topik: 'Validasi Masalah', tipe: 'pilihan_ganda', teks: 'Mana dari berikut ini yang BUKAN merupakan cara valid untuk memvalidasi masalah pengguna?', urutan: 3, created_at: now() },
-  { id: 'q1000005-0000-0000-0000-000000000004', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'C', topik: 'Agility', tipe: 'pilihan_ganda', teks: 'Prinsip Agility dalam pengembangan produk mengutamakan...', urutan: 4, created_at: now() },
-  { id: 'q1000005-0000-0000-0000-000000000005', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'C', topik: 'Problem Statement Canvas', tipe: 'pilihan_ganda', teks: 'Mana pernyataan berikut yang paling tepat menggambarkan tujuan Problem Statement Canvas?', urutan: 5, created_at: now() },
-  { id: 'q1000005-0000-0000-0000-000000000006', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'C', topik: 'Problem-Solution Fit', tipe: 'pilihan_ganda', teks: 'Sebuah aplikasi transportasi menemukan bahwa mayoritas pengguna aktifnya hanya menggunakan 1 fitur dari 15 yang tersedia. Kesimpulan terbaik berdasarkan prinsip Value-Driven adalah...', urutan: 6, created_at: now() },
-  { id: 'q1000005-0000-0000-0000-000000000007', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'C', topik: 'Teknik 5 Whys', tipe: 'pilihan_ganda', teks: 'Manakah situasi yang paling tepat untuk menggunakan teknik 5 Whys?', urutan: 7, created_at: now() },
-  { id: 'q1000005-0000-0000-0000-000000000008', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'C', topik: 'Startup Mindset', tipe: 'pilihan_ganda', teks: 'Mengapa startup disarankan untuk memulai dengan segmen pengguna yang sangat sempit dan spesifik (niche)?', urutan: 8, created_at: now() },
-  { id: 'q1000005-0000-0000-0000-000000000009', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'C', topik: 'Validasi Masalah', tipe: 'pilihan_ganda', teks: 'Mengapa wawancara pengguna (user interview) dianggap lebih valid dibanding survei kuesioner untuk menemukan pain point?', urutan: 9, created_at: now() },
-  { id: 'q1000005-0000-0000-0000-000000000010', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'C', topik: 'Problem Statement Canvas', tipe: 'pilihan_ganda', teks: 'Apa risiko utama jika tim produk melewatkan tahap analisis "Root Cause" dan langsung melompat ke solusi?', urutan: 10, created_at: now() },
-  // ════════════ SET C – 5 Essay ════════════
-  { id: 'q1000006-0000-0000-0000-000000000001', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'C', topik: 'Startup Mindset', tipe: 'essay', teks: 'Apa yang dimaksud dengan "Product-Market Fit" dan mengapa ini dianggap sebagai milestone terpenting startup?', urutan: 11, created_at: now() },
-  { id: 'q1000006-0000-0000-0000-000000000002', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'C', topik: 'Problem Statement Canvas', tipe: 'essay', teks: 'Jelaskan mengapa "The Gap" adalah elemen terpenting dalam Problem Statement Canvas dari sudut pandang diferensiasi produk!', urutan: 12, created_at: now() },
-  { id: 'q1000006-0000-0000-0000-000000000003', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'C', topik: 'Agility', tipe: 'essay', teks: 'Apa yang dimaksud dengan "iterasi" dalam konteks pengembangan produk agile? Mengapa iterasi cepat lebih baik dari perencanaan besar-besaran?', urutan: 13, created_at: now() },
-  { id: 'q1000006-0000-0000-0000-000000000004', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'C', topik: 'Validasi Masalah', tipe: 'essay', teks: 'Sebutkan 2 cara konkret untuk memvalidasi apakah masalah yang ingin diselesaikan oleh startup benar-benar dirasakan oleh pengguna!', urutan: 14, created_at: now() },
-  { id: 'q1000006-0000-0000-0000-000000000005', course_id: 'c0000001-0000-0000-0000-000000000001', set_paket: 'C', topik: 'Problem Solving', tipe: 'essay', teks: 'Jelaskan konsep "Premature Scaling" dan dampaknya pada keberlangsungan startup!', urutan: 15, created_at: now() },
+const rawQuestions = [
+  // ════════════ SET A – 10 PG (PRD No. 1–10) ════════════
+  { id: 'q1000001-0000-0000-0000-000000000001', course_id: modul1CourseId, set_paket: 'A', topik: 'Startup Mindset', tipe: 'pilihan_ganda', teks: 'Apa yang dimaksud dengan pola pikir Value Driven?', urutan: 1, created_at: now() },
+  { id: 'q1000001-0000-0000-0000-000000000002', course_id: modul1CourseId, set_paket: 'A', topik: 'Startup Mindset', tipe: 'pilihan_ganda', teks: 'Dalam mindset startup, pertanyaan yang paling tepat adalah...', urutan: 2, created_at: now() },
+  { id: 'q1000001-0000-0000-0000-000000000003', course_id: modul1CourseId, set_paket: 'A', topik: 'Problem Solving', tipe: 'pilihan_ganda', teks: 'Prinsip Solve The Problem menekankan bahwa startup harus...', urutan: 3, created_at: now() },
+  { id: 'q1000001-0000-0000-0000-000000000004', course_id: modul1CourseId, set_paket: 'A', topik: 'Agility', tipe: 'pilihan_ganda', teks: 'Agility dalam startup berarti...', urutan: 4, created_at: now() },
+  { id: 'q1000001-0000-0000-0000-000000000005', course_id: modul1CourseId, set_paket: 'A', topik: 'Validasi Masalah', tipe: 'pilihan_ganda', teks: 'Kegagalan pada tahap awal startup dianggap sebagai...', urutan: 5, created_at: now() },
+  { id: 'q1000001-0000-0000-0000-000000000006', course_id: modul1CourseId, set_paket: 'A', topik: 'Problem-Solution Fit', tipe: 'pilihan_ganda', teks: 'Checkpoint pertama sebelum mencapai Product-Market Fit adalah...', urutan: 6, created_at: now() },
+  { id: 'q1000001-0000-0000-0000-000000000007', course_id: modul1CourseId, set_paket: 'A', topik: 'Validasi Masalah', tipe: 'pilihan_ganda', teks: 'Sebuah masalah layak diselesaikan jika...', urutan: 7, created_at: now() },
+  { id: 'q1000001-0000-0000-0000-000000000008', course_id: modul1CourseId, set_paket: 'A', topik: 'Validasi Masalah', tipe: 'pilihan_ganda', teks: 'Dalam tahap awal validasi, yang harus lebih diprioritaskan adalah...', urutan: 8, created_at: now() },
+  { id: 'q1000001-0000-0000-0000-000000000009', course_id: modul1CourseId, set_paket: 'A', topik: 'Inovasi Produk', tipe: 'pilihan_ganda', teks: 'Keluhan dan frustrasi pengguna dianggap sebagai...', urutan: 9, created_at: now() },
+  { id: 'q1000001-0000-0000-0000-000000000010', course_id: modul1CourseId, set_paket: 'A', topik: 'Problem Statement Canvas', tipe: 'pilihan_ganda', teks: 'Problem Statement Canvas digunakan untuk...', urutan: 10, created_at: now() },
+  // ════════════ SET A – 5 Essay (PRD Essay No. 1–5) ════════════
+  { id: 'q1000002-0000-0000-0000-000000000001', course_id: modul1CourseId, set_paket: 'A', topik: 'Startup Mindset', tipe: 'essay', teks: 'Jelaskan pengertian Value Driven dalam mindset startup!', urutan: 11, created_at: now() },
+  { id: 'q1000002-0000-0000-0000-000000000002', course_id: modul1CourseId, set_paket: 'A', topik: 'Problem Solving', tipe: 'essay', teks: 'Mengapa startup harus fokus pada masalah, bukan pada solusi atau teknologi?', urutan: 12, created_at: now() },
+  { id: 'q1000002-0000-0000-0000-000000000003', course_id: modul1CourseId, set_paket: 'A', topik: 'Agility', tipe: 'essay', teks: 'Jelaskan konsep Agility dan manfaatnya bagi startup!', urutan: 13, created_at: now() },
+  { id: 'q1000002-0000-0000-0000-000000000004', course_id: modul1CourseId, set_paket: 'A', topik: 'Problem-Solution Fit', tipe: 'essay', teks: 'Apa yang dimaksud dengan Problem-Solution Fit? Mengapa penting?', urutan: 14, created_at: now() },
+  { id: 'q1000002-0000-0000-0000-000000000005', course_id: modul1CourseId, set_paket: 'A', topik: 'Validasi Masalah', tipe: 'essay', teks: 'Mengapa validasi masalah harus dilakukan sebelum membuat produk?', urutan: 15, created_at: now() },
+  // ════════════ SET B – 10 PG (PRD No. 11–20) ════════════
+  { id: 'q1000003-0000-0000-0000-000000000001', course_id: modul1CourseId, set_paket: 'B', topik: 'Problem Solving', tipe: 'pilihan_ganda', teks: 'Strategi AI yang digunakan untuk menemukan pain points pengguna adalah...', urutan: 1, created_at: now() },
+  { id: 'q1000003-0000-0000-0000-000000000002', course_id: modul1CourseId, set_paket: 'B', topik: 'Analisis Kompetitor', tipe: 'pilihan_ganda', teks: 'Analisis kompetitor bertujuan untuk menemukan...', urutan: 2, created_at: now() },
+  { id: 'q1000003-0000-0000-0000-000000000003', course_id: modul1CourseId, set_paket: 'B', topik: 'Startup Mindset', tipe: 'pilihan_ganda', teks: 'UVP merupakan singkatan dari...', urutan: 3, created_at: now() },
+  { id: 'q1000003-0000-0000-0000-000000000004', course_id: modul1CourseId, set_paket: 'B', topik: 'Problem Solving', tipe: 'pilihan_ganda', teks: "AI sebagai Devil's Advocate digunakan untuk...", urutan: 4, created_at: now() },
+  { id: 'q1000003-0000-0000-0000-000000000005', course_id: modul1CourseId, set_paket: 'B', topik: 'Anatomi Masalah', tipe: 'pilihan_ganda', teks: 'Siapa yang dimaksud pada bagian "Who" dalam anatomi masalah?', urutan: 5, created_at: now() },
+  { id: 'q1000003-0000-0000-0000-000000000006', course_id: modul1CourseId, set_paket: 'B', topik: 'Anatomi Masalah', tipe: 'pilihan_ganda', teks: 'Target pengguna yang baik adalah...', urutan: 6, created_at: now() },
+  { id: 'q1000003-0000-0000-0000-000000000007', course_id: modul1CourseId, set_paket: 'B', topik: 'Pain Point', tipe: 'pilihan_ganda', teks: 'Pain Point berarti...', urutan: 7, created_at: now() },
+  { id: 'q1000003-0000-0000-0000-000000000008', course_id: modul1CourseId, set_paket: 'B', topik: 'Jobs to be Done', tipe: 'pilihan_ganda', teks: 'Jobs to be Done menjelaskan...', urutan: 8, created_at: now() },
+  { id: 'q1000003-0000-0000-0000-000000000009', course_id: modul1CourseId, set_paket: 'B', topik: 'Konteks Masalah', tipe: 'pilihan_ganda', teks: 'Konteks (When & Where) menjelaskan...', urutan: 9, created_at: now() },
+  { id: 'q1000003-0000-0000-0000-000000000010', course_id: modul1CourseId, set_paket: 'B', topik: 'Root Cause', tipe: 'pilihan_ganda', teks: 'Metode yang digunakan untuk menggali akar masalah adalah...', urutan: 10, created_at: now() },
+  // ════════════ SET B – 5 Essay (PRD Essay No. 6–10) ════════════
+  { id: 'q1000004-0000-0000-0000-000000000001', course_id: modul1CourseId, set_paket: 'B', topik: 'Inovasi Produk', tipe: 'essay', teks: 'Bagaimana keluhan pelanggan dapat menjadi sumber inovasi?', urutan: 11, created_at: now() },
+  { id: 'q1000004-0000-0000-0000-000000000002', course_id: modul1CourseId, set_paket: 'B', topik: 'Problem Statement Canvas', tipe: 'essay', teks: 'Jelaskan fungsi Problem Statement Canvas!', urutan: 12, created_at: now() },
+  { id: 'q1000004-0000-0000-0000-000000000003', course_id: modul1CourseId, set_paket: 'B', topik: 'Problem Solving', tipe: 'essay', teks: 'Sebutkan dan jelaskan empat strategi riset menggunakan AI Prompting!', urutan: 13, created_at: now() },
+  { id: 'q1000004-0000-0000-0000-000000000004', course_id: modul1CourseId, set_paket: 'B', topik: 'Root Cause', tipe: 'essay', teks: 'Apa perbedaan antara Pain Point dan Root Cause?', urutan: 14, created_at: now() },
+  { id: 'q1000004-0000-0000-0000-000000000005', course_id: modul1CourseId, set_paket: 'B', topik: 'Anatomi Masalah', tipe: 'essay', teks: 'Mengapa target pengguna tidak boleh didefinisikan sebagai "semua orang"?', urutan: 15, created_at: now() },
+  // ════════════ SET C – 10 PG (PRD No. 21–30) ════════════
+  { id: 'q1000005-0000-0000-0000-000000000001', course_id: modul1CourseId, set_paket: 'C', topik: 'Anatomi Masalah', tipe: 'pilihan_ganda', teks: 'Contoh dampak masalah yang terukur adalah...', urutan: 1, created_at: now() },
+  { id: 'q1000005-0000-0000-0000-000000000002', course_id: modul1CourseId, set_paket: 'C', topik: 'Problem Statement Canvas', tipe: 'pilihan_ganda', teks: 'Alternatives adalah...', urutan: 2, created_at: now() },
+  { id: 'q1000005-0000-0000-0000-000000000003', course_id: modul1CourseId, set_paket: 'C', topik: 'Problem Statement Canvas', tipe: 'pilihan_ganda', teks: 'The Gap dalam Problem Statement Canvas berarti...', urutan: 3, created_at: now() },
+  { id: 'q1000005-0000-0000-0000-000000000004', course_id: modul1CourseId, set_paket: 'C', topik: 'Problem Statement Canvas', tipe: 'pilihan_ganda', teks: 'Rumusan akhir masalah disusun menggunakan unsur...', urutan: 4, created_at: now() },
+  { id: 'q1000005-0000-0000-0000-000000000005', course_id: modul1CourseId, set_paket: 'C', topik: 'Studi Kasus Kos-Kosan', tipe: 'pilihan_ganda', teks: 'Pada studi kasus kos-kosan, target pengguna adalah...', urutan: 5, created_at: now() },
+  { id: 'q1000005-0000-0000-0000-000000000006', course_id: modul1CourseId, set_paket: 'C', topik: 'Studi Kasus Kos-Kosan', tipe: 'pilihan_ganda', teks: 'Masalah utama pemilik kos dalam studi kasus adalah...', urutan: 6, created_at: now() },
+  { id: 'q1000005-0000-0000-0000-000000000007', course_id: modul1CourseId, set_paket: 'C', topik: 'Studi Kasus Kos-Kosan', tipe: 'pilihan_ganda', teks: 'Masalah paling sering muncul pada studi kasus saat...', urutan: 7, created_at: now() },
+  { id: 'q1000005-0000-0000-0000-000000000008', course_id: modul1CourseId, set_paket: 'C', topik: 'Studi Kasus Kos-Kosan', tipe: 'pilihan_ganda', teks: 'Dampak dari masalah penagihan kos adalah...', urutan: 8, created_at: now() },
+  { id: 'q1000005-0000-0000-0000-000000000009', course_id: modul1CourseId, set_paket: 'C', topik: 'Studi Kasus Kos-Kosan', tipe: 'pilihan_ganda', teks: 'Solusi saat ini yang digunakan pemilik kos adalah...', urutan: 9, created_at: now() },
+  { id: 'q1000005-0000-0000-0000-000000000010', course_id: modul1CourseId, set_paket: 'C', topik: 'Studi Kasus Kos-Kosan', tipe: 'pilihan_ganda', teks: 'Celah pasar pada studi kasus kos-kosan adalah...', urutan: 10, created_at: now() },
+  // ════════════ SET C – 5 Essay (PRD Essay No. 11–15) ════════════
+  { id: 'q1000006-0000-0000-0000-000000000001', course_id: modul1CourseId, set_paket: 'C', topik: 'Teknik 5 Whys', tipe: 'essay', teks: 'Jelaskan metode 5 Whys dalam menemukan akar masalah!', urutan: 11, created_at: now() },
+  { id: 'q1000006-0000-0000-0000-000000000002', course_id: modul1CourseId, set_paket: 'C', topik: 'Problem Statement Canvas', tipe: 'essay', teks: 'Apa yang dimaksud dengan The Gap dan bagaimana cara menemukannya?', urutan: 12, created_at: now() },
+  { id: 'q1000006-0000-0000-0000-000000000003', course_id: modul1CourseId, set_paket: 'C', topik: 'Problem Statement', tipe: 'essay', teks: 'Buat contoh rumusan akhir masalah menggunakan format: "[Target] kesulitan saat [Konteks] karena [Akar Masalah], yang berakibat [Dampak]."', urutan: 13, created_at: now() },
+  { id: 'q1000006-0000-0000-0000-000000000004', course_id: modul1CourseId, set_paket: 'C', topik: 'Studi Kasus Kos-Kosan', tipe: 'essay', teks: 'Analisis studi kasus manajemen kos-kosan dan jelaskan peluang inovasi yang dapat dibuat!', urutan: 14, created_at: now() },
+  { id: 'q1000006-0000-0000-0000-000000000005', course_id: modul1CourseId, set_paket: 'C', topik: 'Validasi Masalah', tipe: 'essay', teks: 'Menurut Anda, mengapa feedback pengguna sangat penting dalam pengembangan produk digital?', urutan: 15, created_at: now() },
   ...modul2Questions,
   ...modul3Questions,
   ...modul4Questions,
@@ -300,111 +304,118 @@ export const questions = [
   ...modul10Questions
 ];
 
-// ─── 5. OPTIONS (Jawaban PG Modul 1–10 – lengkap dengan kunci) ────────────────
+// Pastikan seluruh 450 soal memiliki course_id yang 100% cocok dengan tabel courses Supabase
+export const questions = rawQuestions.map((q, index) => {
+  if (validCourseIds.has(q.course_id)) return q;
+  const courseByIndex = courses[Math.floor(index / 45)] || courses[0];
+  return { ...q, course_id: courseByIndex.id };
+});
+
+// ─── 5. OPTIONS (Jawaban PG Modul 1–10 – lengkap sesuai PRD) ─────────────────
 // Kolom: id, question_id, teks, poin (10=benar/0=salah), umpan_balik, is_correct
 export const options = [
-  // Q1-A: Value-Driven vs Feature-Driven
-  { id: 'o1-A1-1', question_id: 'q1000001-0000-0000-0000-000000000001', teks: 'Value-Driven mengukur keberhasilan produk dari tingginya angka durasi waktu yang dihabiskan pengguna di dalam aplikasi, sedangkan Feature-Driven mengukurnya dari kecepatan rilis versi baru.', poin: 0, umpan_balik: 'Keliru. Durasi penggunaan semata adalah vanity metric, bukan pembeda esensi value-driven.', is_correct: false },
-  { id: 'o1-A1-2', question_id: 'q1000001-0000-0000-0000-000000000001', teks: 'Value-Driven fokus mewujudkan seluruh daftar permintaan fitur yang diajukan pengguna pada survei, sedangkan Feature-Driven fokus mengimplementasikan ide inovatif internal tim pendiri.', poin: 0, umpan_balik: 'Keliru. Menuruti semua permintaan tanpa validasi justru melahirkan feature bloat.', is_correct: false },
-  { id: 'o1-A1-3', question_id: 'q1000001-0000-0000-0000-000000000001', teks: 'Value-Driven berpusat pada seberapa efektif produk menuntaskan pain point dan mempermudah hidup pengguna, sedangkan Feature-Driven berfokus pada kuantitas fitur serta adopsi tren teknologi terkini.', poin: 10, umpan_balik: 'Tepat! Value-driven selalu berfokus pada pemecahan masalah nyata dan nilai manfaat pengguna.', is_correct: true },
-  { id: 'o1-A1-4', question_id: 'q1000001-0000-0000-0000-000000000001', teks: 'Value-Driven memprioritaskan fitur-fitur yang langsung menghasilkan arus kas (monetization-first), sedangkan Feature-Driven memprioritaskan fitur gratis untuk memperbesar basis pengguna.', poin: 0, umpan_balik: 'Keliru. Ini strategi bisnis/pricing, bukan definisi value-driven.', is_correct: false },
+  // Q1-A
+  { id: 'o1-A1-1', question_id: 'q1000001-0000-0000-0000-000000000001', teks: 'Berfokus pada teknologi terbaru', poin: 0, umpan_balik: 'Keliru. Teknologi terbaru bukan inti dari pola pikir Value Driven.', is_correct: false },
+  { id: 'o1-A1-2', question_id: 'q1000001-0000-0000-0000-000000000001', teks: 'Berfokus pada desain yang menarik', poin: 0, umpan_balik: 'Keliru. Desain visual hanyalah pendukung, bukan inti Value Driven.', is_correct: false },
+  { id: 'o1-A1-3', question_id: 'q1000001-0000-0000-0000-000000000001', teks: 'Berfokus pada nilai yang diberikan kepada pengguna', poin: 10, umpan_balik: 'Tepat! Value Driven berfokus pada penciptaan nilai manfaat nyata bagi pengguna.', is_correct: true },
+  { id: 'o1-A1-4', question_id: 'q1000001-0000-0000-0000-000000000001', teks: 'Berfokus pada keuntungan perusahaan', poin: 0, umpan_balik: 'Keliru. Keuntungan adalah hasil dari nilai yang diberikan kepada pengguna.', is_correct: false },
   // Q2-A
-  { id: 'o1-A2-1', question_id: 'q1000001-0000-0000-0000-000000000002', teks: 'Apakah fitur ini secara spesifik memangkas friksi terbesar pengguna dan menyelesaikan masalah mendesak yang belum teratasi dengan baik?', poin: 10, umpan_balik: 'Tepat! Pertanyaan inti startup berpusat pada nilai guna: apakah fitur memangkas friksi nyata?', is_correct: true },
-  { id: 'o1-A2-2', question_id: 'q1000001-0000-0000-0000-000000000002', teks: 'Apakah fitur ini memiliki keunikan teknologi mutakhir yang belum diimplementasikan oleh kompetitor utama?', poin: 0, umpan_balik: 'Keliru. Keunikan teknologi bukan validasi utama; validasi adalah nilai nyata bagi pengguna.', is_correct: false },
-  { id: 'o1-A2-3', question_id: 'q1000001-0000-0000-0000-000000000002', teks: 'Berapa proyeksi peningkatan metrik pendaftaran akun baru (acquisition rate) jika fitur ini berhasil diluncurkan?', poin: 0, umpan_balik: 'Keliru. Proyeksi akuisisi tanpa validasi masalah hanyalah asumsi.', is_correct: false },
-  { id: 'o1-A2-4', question_id: 'q1000001-0000-0000-0000-000000000002', teks: 'Apakah mayoritas responden kuesioner awal menyatakan berminat mencoba jika fitur ini dirilis?', poin: 0, umpan_balik: 'Keliru. Minat verbal di kuesioner bukan bukti validasi masalah yang kuat.', is_correct: false },
+  { id: 'o1-A2-1', question_id: 'q1000001-0000-0000-0000-000000000002', teks: 'Fitur apa yang paling canggih?', poin: 0, umpan_balik: 'Keliru. Pertanyaan ini mencerminkan pola pikir feature-driven.', is_correct: false },
+  { id: 'o1-A2-2', question_id: 'q1000001-0000-0000-0000-000000000002', teks: 'Teknologi apa yang paling mahal?', poin: 0, umpan_balik: 'Keliru. Teknologi mahal tidak menjamin solusi diterima pengguna.', is_correct: false },
+  { id: 'o1-A2-3', question_id: 'q1000001-0000-0000-0000-000000000002', teks: 'Nilai apa yang dapat mempermudah hidup pengguna?', poin: 10, umpan_balik: 'Tepat! Mindset startup selalu berpusat pada nilai yang mempermudah hidup pengguna.', is_correct: true },
+  { id: 'o1-A2-4', question_id: 'q1000001-0000-0000-0000-000000000002', teks: 'Bagaimana mengalahkan kompetitor?', poin: 0, umpan_balik: 'Keliru. Fokus utama adalah menyelesaikan masalah pengguna terlebih dahulu.', is_correct: false },
   // Q3-A
-  { id: 'o1-A3-1', question_id: 'q1000001-0000-0000-0000-000000000003', teks: 'Alur onboarding aplikasi dirancang terlalu ringkas sehingga pengguna belum sempat mengeksplorasi seluruh modul.', poin: 0, umpan_balik: 'Keliru. Kompleksitas onboarding bukan akar dari retensi rendah dalam skenario ini.', is_correct: false },
-  { id: 'o1-A3-2', question_id: 'q1000001-0000-0000-0000-000000000003', teks: 'Tim pengembang belum menyematkan mekanisme gamifikasi seperti lencana penghargaan dan sistem streak harian.', poin: 0, umpan_balik: 'Keliru. Gamifikasi hanyalah lapisan atas, bukan solusi masalah nilai inti.', is_correct: false },
-  { id: 'o1-A3-3', question_id: 'q1000001-0000-0000-0000-000000000003', teks: 'Segmen target pengguna yang disasar belum memiliki tingkat literasi digital yang memadai.', poin: 0, umpan_balik: 'Keliru. Ini asumsi tanpa dasar; bukan akar masalah dari skenario ini.', is_correct: false },
-  { id: 'o1-A3-4', question_id: 'q1000001-0000-0000-0000-000000000003', teks: 'Aplikasi hanya memikat rasa penasaran estetika di awal, namun gagal memberikan solusi atas masalah nyata yang berulang kali dihadapi pengguna.', poin: 10, umpan_balik: 'Tepat! Prinsip "Solve The Problem": keindahan visual tidak mempertahankan pengguna jika masalah riil tidak diselesaikan.', is_correct: true },
+  { id: 'o1-A3-1', question_id: 'q1000001-0000-0000-0000-000000000003', teks: 'Mengutamakan desain modern', poin: 0, umpan_balik: 'Keliru. Desain modern tidak menyelesaikan akar masalah tanpa solusi nyata.', is_correct: false },
+  { id: 'o1-A3-2', question_id: 'q1000001-0000-0000-0000-000000000003', teks: 'Berpegang pada masalah nyata pengguna', poin: 10, umpan_balik: 'Tepat! Prinsip Solve The Problem menekankan keterikatan pada masalah nyata pengguna.', is_correct: true },
+  { id: 'o1-A3-3', question_id: 'q1000001-0000-0000-0000-000000000003', teks: 'Meniru kompetitor terbaik', poin: 0, umpan_balik: 'Keliru. Meniru kompetitor tanpa memahami masalah pengguna berisiko tidak relevan.', is_correct: false },
+  { id: 'o1-A3-4', question_id: 'q1000001-0000-0000-0000-000000000003', teks: 'Mengembangkan banyak fitur', poin: 0, umpan_balik: 'Keliru. Banyak fitur tanpa fokus masalah justru membuat produk rumit.', is_correct: false },
   // Q4-A
-  { id: 'o1-A4-1', question_id: 'q1000001-0000-0000-0000-000000000004', teks: 'Memindahkan posisi tombol fitur tersebut ke bagian paling atas layar utama agar memperoleh visibilitas maksimal.', poin: 0, umpan_balik: 'Keliru. Meningkatkan visibilitas fitur yang tidak diinginkan tidak menyelesaikan masalah dasarnya.', is_correct: false },
-  { id: 'o1-A4-2', question_id: 'q1000001-0000-0000-0000-000000000004', teks: 'Menerima kenyataan data secara objektif tanpa bias ego, mencari tahu alasan mendasar penolakan pengguna, dan berani menghentikan atau merombak fitur tersebut.', poin: 10, umpan_balik: 'Tepat! Agility menuntut keterbukaan terhadap data empiris dan berani mengeliminasi fitur yang tidak bernilai.', is_correct: true },
-  { id: 'o1-A4-3', question_id: 'q1000001-0000-0000-0000-000000000004', teks: 'Memberikan insentif voucer atau hadiah kepada pengguna setiap kali mengakses fitur tersebut.', poin: 0, umpan_balik: 'Keliru. Insentif buatan menciptakan penggunaan palsu yang tidak mencerminkan nilai nyata fitur.', is_correct: false },
-  { id: 'o1-A4-4', question_id: 'q1000001-0000-0000-0000-000000000004', teks: 'Mempertahankan fitur di sistem sembari menunggu pengguna terbiasa, mengingat alokasi waktu dan biaya yang sudah dihabiskan sangat besar.', poin: 0, umpan_balik: 'Keliru. Ini adalah sunk cost fallacy, kebalikan dari mentalitas agile.', is_correct: false },
+  { id: 'o1-A4-1', question_id: 'q1000001-0000-0000-0000-000000000004', teks: 'Menghindari kegagalan', poin: 0, umpan_balik: 'Keliru. Startup agile tidak takut gagal, melainkan belajar cepat dari eksperimen.', is_correct: false },
+  { id: 'o1-A4-2', question_id: 'q1000001-0000-0000-0000-000000000004', teks: 'Menunggu produk sempurna', poin: 0, umpan_balik: 'Keliru. Menunggu sempurna memperlambat validasi pasar.', is_correct: false },
+  { id: 'o1-A4-3', question_id: 'q1000001-0000-0000-0000-000000000004', teks: 'Bergerak cepat, menerima feedback, dan terus memperbaiki produk', poin: 10, umpan_balik: 'Tepat! Agility berarti iterasi cepat berbasis umpan balik nyata.', is_correct: true },
+  { id: 'o1-A4-4', question_id: 'q1000001-0000-0000-0000-000000000004', teks: 'Membuat produk sekali lalu selesai', poin: 0, umpan_balik: 'Keliru. Pengembangan produk digital bersifat berkelanjutan.', is_correct: false },
   // Q5-A
-  { id: 'o1-A5-1', question_id: 'q1000001-0000-0000-0000-000000000005', teks: 'Karena kegagalan membuktikan kepada pemodal bahwa tim telah mengambil risiko inovasi ekstrem.', poin: 0, umpan_balik: 'Keliru. Pembuktian keberanian bukan alasan validated learning.', is_correct: false },
-  { id: 'o1-A5-2', question_id: 'q1000001-0000-0000-0000-000000000005', teks: 'Karena setiap ide fitur yang gagal dapat segera dipatenkan agar tidak ditiru kompetitor.', poin: 0, umpan_balik: 'Keliru. Paten bukan tujuan dari validated learning.', is_correct: false },
-  { id: 'o1-A5-3', question_id: 'q1000001-0000-0000-0000-000000000005', teks: 'Karena data penolakan pengguna di awal secara cepat menyelamatkan tim dari pemborosan waktu, tenaga, dan modal untuk membangun produk yang tidak diinginkan pasar.', poin: 10, umpan_balik: 'Tepat! Validated learning memandang kegagalan awal sebagai penyelamat sumber daya (waktu, modal, tenaga).', is_correct: true },
-  { id: 'o1-A5-4', question_id: 'q1000001-0000-0000-0000-000000000005', teks: 'Karena kegagalan eksperimen otomatis memverifikasi bahwa infrastruktur backend telah bebas dari bug.', poin: 0, umpan_balik: 'Keliru. Kegagalan validasi produk tidak ada hubungannya dengan kualitas infrastruktur backend.', is_correct: false },
+  { id: 'o1-A5-1', question_id: 'q1000001-0000-0000-0000-000000000005', teks: 'Bukti ketidakmampuan tim', poin: 0, umpan_balik: 'Keliru. Kegagalan awal adalah bagian dari proses pembelajaran.', is_correct: false },
+  { id: 'o1-A5-2', question_id: 'q1000001-0000-0000-0000-000000000005', teks: 'Kerugian mutlak', poin: 0, umpan_balik: 'Keliru. Kegagalan awal justru mencegah kerugian lebih besar di masa depan.', is_correct: false },
+  { id: 'o1-A5-3', question_id: 'q1000001-0000-0000-0000-000000000005', teks: 'Data berharga untuk perbaikan', poin: 10, umpan_balik: 'Tepat! Setiap kegagalan memberikan data validasi untuk iterasi berikutnya.', is_correct: true },
+  { id: 'o1-A5-4', question_id: 'q1000001-0000-0000-0000-000000000005', teks: 'Alasan menghentikan proyek', poin: 0, umpan_balik: 'Keliru. Data kegagalan digunakan untuk pivot atau perbaikan, bukan menyerah.', is_correct: false },
   // Q6-A
-  { id: 'o1-A6-1', question_id: 'q1000001-0000-0000-0000-000000000006', teks: 'Mempercepat pertumbuhan pada produk yang belum terbukti menyelesaikan masalah hanya akan mempercepat kehabisan kas untuk mendatangkan pengguna yang pada akhirnya pergi.', poin: 10, umpan_balik: 'Tepat! Premature scaling mempercepat pengurasan kas tanpa retensi produk yang solid.', is_correct: true },
-  { id: 'o1-A6-2', question_id: 'q1000001-0000-0000-0000-000000000006', teks: 'Tim pengembang belum sempat merapikan arsitektur basis data sebelum penambahan programmer baru.', poin: 0, umpan_balik: 'Keliru. Ini masalah teknis, bukan risiko utama premature scaling.', is_correct: false },
-  { id: 'o1-A6-3', question_id: 'q1000001-0000-0000-0000-000000000006', teks: 'Lonjakan trafik pengguna baru akan menurunkan akurasi model data science.', poin: 0, umpan_balik: 'Keliru. Ini bukan risiko utama premature scaling dalam konteks startup awal.', is_correct: false },
-  { id: 'o1-A6-4', question_id: 'q1000001-0000-0000-0000-000000000006', teks: 'Persentase kepemilikan saham pendiri akan terdilusi sebelum valuasi mencapai fase optimal.', poin: 0, umpan_balik: 'Keliru. Dilusi saham adalah pertimbangan finansial terpisah dari risiko operasional premature scaling.', is_correct: false },
+  { id: 'o1-A6-1', question_id: 'q1000001-0000-0000-0000-000000000006', teks: 'Market Research', poin: 0, umpan_balik: 'Keliru. Market research adalah aktivitas riset, bukan checkpoint kesesuaian solusi.', is_correct: false },
+  { id: 'o1-A6-2', question_id: 'q1000001-0000-0000-0000-000000000006', teks: 'Business Model', poin: 0, umpan_balik: 'Keliru. Model bisnis diskalakan setelah Problem-Solution Fit tercapai.', is_correct: false },
+  { id: 'o1-A6-3', question_id: 'q1000001-0000-0000-0000-000000000006', teks: 'Problem-Solution Fit', poin: 10, umpan_balik: 'Tepat! Problem-Solution Fit adalah checkpoint pertama sebelum menuju Product-Market Fit.', is_correct: true },
+  { id: 'o1-A6-4', question_id: 'q1000001-0000-0000-0000-000000000006', teks: 'Revenue Model', poin: 0, umpan_balik: 'Keliru. Checkpoint pertama berfokus pada kecocokan masalah dan solusi.', is_correct: false },
   // Q7-A
-  { id: 'o1-A7-1', question_id: 'q1000001-0000-0000-0000-000000000007', teks: 'Biaya kampanye iklan digital bertarget luas memiliki tarif per klik yang lebih fluktuatif.', poin: 0, umpan_balik: 'Keliru. Ini masalah biaya iklan, bukan alasan mendefinisikan "Who" secara spesifik.', is_correct: false },
-  { id: 'o1-A7-2', question_id: 'q1000001-0000-0000-0000-000000000007', teks: 'Perangkat analitik modern tidak sanggup mengelompokkan data aktivitas pengguna jika kriteria tidak dibatasi ketat.', poin: 0, umpan_balik: 'Keliru. Ini masalah teknis analitik, bukan alasan utama.', is_correct: false },
-  { id: 'o1-A7-3', question_id: 'q1000001-0000-0000-0000-000000000007', teks: 'Pengguna lintas generasi memiliki preferensi sistem operasi seluler yang berbeda-beda.', poin: 0, umpan_balik: 'Keliru. Ini masalah kompatibilitas teknis, bukan alasan segmentasi pengguna.', is_correct: false },
-  { id: 'o1-A7-4', question_id: 'q1000001-0000-0000-0000-000000000007', teks: 'Kebutuhan dan urgensi setiap kelompok pengguna berbeda; jika target ditujukan untuk semua orang, masalah menjadi kabur dan solusi tidak relevan bagi siapa pun.', poin: 10, umpan_balik: 'Tepat! "Who" harus spesifik agar masalah fokus dan solusi relevan.', is_correct: true },
+  { id: 'o1-A7-1', question_id: 'q1000001-0000-0000-0000-000000000007', teks: 'Mudah diselesaikan', poin: 0, umpan_balik: 'Keliru. Masalah yang mudah belum tentu dibutuhkan pasar.', is_correct: false },
+  { id: 'o1-A7-2', question_id: 'q1000001-0000-0000-0000-000000000007', teks: 'Sedang tren', poin: 0, umpan_balik: 'Keliru. Tren bersifat sementara dan belum tentu menjadi masalah mendesak.', is_correct: false },
+  { id: 'o1-A7-3', question_id: 'q1000001-0000-0000-0000-000000000007', teks: 'Mendesak dan benar-benar dialami pengguna', poin: 10, umpan_balik: 'Tepat! Masalah yang layak diselesaikan harus nyata dan mendesak bagi pengguna.', is_correct: true },
+  { id: 'o1-A7-4', question_id: 'q1000001-0000-0000-0000-000000000007', teks: 'Disukai investor', poin: 0, umpan_balik: 'Keliru. Validasi utama berasal dari pengguna yang mengalami masalah.', is_correct: false },
   // Q8-A
-  { id: 'o1-A8-1', question_id: 'q1000001-0000-0000-0000-000000000008', teks: 'Penyewa kos lebih merespons panggilan otomatis daripada notifikasi aplikasi.', poin: 0, umpan_balik: 'Keliru. Ini asumsi saluran komunikasi, bukan kelemahan fatal dari pendekatan 5 Whys.', is_correct: false },
-  { id: 'o1-A8-2', question_id: 'q1000001-0000-0000-0000-000000000008', teks: 'Pemilik kos hanya mengobati gejala luar (kelupaan), padahal akar masalah bisa berupa ketidaksesuaian siklus tanggal gajian atau friksi metode transfer perbankan.', poin: 10, umpan_balik: 'Tepat! 5 Whys membedah lapisan masalah hingga menemukan akar sejati, bukan sekadar menambal gejala.', is_correct: true },
-  { id: 'o1-A8-3', question_id: 'q1000001-0000-0000-0000-000000000008', teks: 'Pengiriman notifikasi alarm harian berisiko memicu resistensi psikologis penyewa.', poin: 0, umpan_balik: 'Keliru. Ini bukan kelemahan fatal dari pendekatan Why ke-1 dalam konteks 5 Whys.', is_correct: false },
-  { id: 'o1-A8-4', question_id: 'q1000001-0000-0000-0000-000000000008', teks: 'Pengelola kos belum menerapkan skema penalti denda keterlambatan yang cukup agresif.', poin: 0, umpan_balik: 'Keliru. Penalti adalah intervensi business, bukan jawaban atas pertanyaan 5 Whys.', is_correct: false },
+  { id: 'o1-A8-1', question_id: 'q1000001-0000-0000-0000-000000000008', teks: 'Tampilan UI yang indah', poin: 0, umpan_balik: 'Keliru. Estetika UI disempurnakan setelah solusi terbukti valid.', is_correct: false },
+  { id: 'o1-A8-2', question_id: 'q1000001-0000-0000-0000-000000000008', teks: 'Validasi solusi kepada pengguna', poin: 10, umpan_balik: 'Tepat! Prioritas utama tahap awal adalah memvalidasi apakah solusi benar-benar menjawab masalah.', is_correct: true },
+  { id: 'o1-A8-3', question_id: 'q1000001-0000-0000-0000-000000000008', teks: 'Logo perusahaan', poin: 0, umpan_balik: 'Keliru. Identitas visual bukan prioritas validasi tahap awal.', is_correct: false },
+  { id: 'o1-A8-4', question_id: 'q1000001-0000-0000-0000-000000000008', teks: 'Kampanye iklan', poin: 0, umpan_balik: 'Keliru. Iklan besar-besaran sebelum validasi berisiko memboroskan biaya.', is_correct: false },
   // Q9-A
-  { id: 'o1-A9-1', question_id: 'q1000001-0000-0000-0000-000000000009', teks: 'Pengguna hanya akan bersedia beralih ke produk baru jika produk tersebut menawarkan keunggulan nilai yang nyata dan melompati friksi dari solusi lama mereka.', poin: 10, umpan_balik: 'Tepat! The Gap mengidentifikasi celah ketidakpuasan dari alternatif saat ini yang memicu pengguna mau beralih.', is_correct: true },
-  { id: 'o1-A9-2', question_id: 'q1000001-0000-0000-0000-000000000009', teks: 'Pemahaman The Gap memberikan celah hukum hak cipta untuk membatasi ruang gerak kompetitor.', poin: 0, umpan_balik: 'Keliru. The Gap bukan konsep hukum, melainkan analisis kompetitif produk.', is_correct: false },
-  { id: 'o1-A9-3', question_id: 'q1000001-0000-0000-0000-000000000009', teks: 'Tim dapat langsung mereplikasi seluruh antarmuka kompetitor dan menambahkan beberapa filter tambahan.', poin: 0, umpan_balik: 'Keliru. Mereplikasi kompetitor tanpa inovasi nilai baru tidak menciptakan diferensiasi.', is_correct: false },
-  { id: 'o1-A9-4', question_id: 'q1000001-0000-0000-0000-000000000009', teks: 'The Gap menjadi indikator untuk menetapkan harga jual agar selalu berada di bawah harga kompetitor.', poin: 0, umpan_balik: 'Keliru. Strategi harga bukan tujuan analisis The Gap dalam Problem Statement Canvas.', is_correct: false },
+  { id: 'o1-A9-1', question_id: 'q1000001-0000-0000-0000-000000000009', teks: 'Hambatan bisnis', poin: 0, umpan_balik: 'Keliru. Keluhan pengguna justru membuka peluang perbaikan produk.', is_correct: false },
+  { id: 'o1-A9-2', question_id: 'q1000001-0000-0000-0000-000000000009', teks: 'Risiko operasional', poin: 0, umpan_balik: 'Keliru. Dalam mindset startup, keluhan adalah sumber wawasan inovasi.', is_correct: false },
+  { id: 'o1-A9-3', question_id: 'q1000001-0000-0000-0000-000000000009', teks: 'Bahan bakar inovasi startup', poin: 10, umpan_balik: 'Tepat! Keluhan dan frustrasi pengguna adalah bahan bakar utama inovasi startup.', is_correct: true },
+  { id: 'o1-A9-4', question_id: 'q1000001-0000-0000-0000-000000000009', teks: 'Ancaman kompetitor', poin: 0, umpan_balik: 'Keliru. Keluhan pengguna membantu startup menciptakan keunggulan dibanding kompetitor.', is_correct: false },
   // Q10-A
-  { id: 'o1-A10-1', question_id: 'q1000001-0000-0000-0000-000000000010', teks: 'Aplikasi kami menyediakan platform agregator terintegrasi dengan AI agar pengguna dapat memangkas pengeluaran bulanan hingga 30%.', poin: 0, umpan_balik: 'Keliru. Ini deskripsi solusi/promosi produk, bukan problem statement.', is_correct: false },
-  { id: 'o1-A10-2', question_id: 'q1000001-0000-0000-0000-000000000010', teks: 'Generasi muda Indonesia membutuhkan literasi keuangan modern karena tingkat tabungan darurat masih di bawah standar ideal.', poin: 0, umpan_balik: 'Keliru. Terlalu makro dan abstrak, tidak memenuhi format baku Canvas.', is_correct: false },
-  { id: 'o1-A10-3', question_id: 'q1000001-0000-0000-0000-000000000010', teks: '[Mahasiswa perantau] kesulitan [mengelola pengeluaran harian] saat [minggu pertama menerima kiriman uang] karena [ketiadaan sistem alokasi pos dana otomatis], yang mengakibatkan [kehabisan uang saku sebelum pertengahan bulan].', poin: 10, umpan_balik: 'Tepat! Format: [Who] kesulitan [konteks] karena [root cause], berakibat [dampak terukur].', is_correct: true },
-  { id: 'o1-A10-4', question_id: 'q1000001-0000-0000-0000-000000000010', teks: '[Tim engineering] terkendala [mengintegrasikan payment gateway] karena [dokumentasi teknis belum lengkap], yang berdampak pada [penundaan jadwal rilis dua minggu].', poin: 0, umpan_balik: 'Keliru. Ini kendala teknis internal tim, bukan problem statement pengguna eksternal.', is_correct: false },
+  { id: 'o1-A10-1', question_id: 'q1000001-0000-0000-0000-000000000010', teks: 'Membuat laporan keuangan', poin: 0, umpan_balik: 'Keliru. Problem Statement Canvas bukan alat akuntansi.', is_correct: false },
+  { id: 'o1-A10-2', question_id: 'q1000001-0000-0000-0000-000000000010', teks: 'Merumuskan masalah secara presisi', poin: 10, umpan_balik: 'Tepat! Problem Statement Canvas membantu membedah dan merumuskan masalah secara terstruktur dan presisi.', is_correct: true },
+  { id: 'o1-A10-3', question_id: 'q1000001-0000-0000-0000-000000000010', teks: 'Mendesain antarmuka aplikasi', poin: 0, umpan_balik: 'Keliru. Desain antarmuka dilakukan setelah masalah dirumuskan.', is_correct: false },
+  { id: 'o1-A10-4', question_id: 'q1000001-0000-0000-0000-000000000010', teks: 'Menentukan harga produk', poin: 0, umpan_balik: 'Keliru. Penetapan harga bukan fungsi Problem Statement Canvas.', is_correct: false },
 
-  // ─── SET B OPTIONS (Modul 1 Set B) ───
-  // Q1-B: AI Prompting Strategy
-  { id: 'o1-B1-1', question_id: 'q1000003-0000-0000-0000-000000000001', teks: 'Data Mining Otomatis', poin: 0, umpan_balik: 'Keliru. Data mining tidak merumuskan pain point secara langsung.', is_correct: false },
-  { id: 'o1-B1-2', question_id: 'q1000003-0000-0000-0000-000000000001', teks: 'Prompt Engineering terstruktur', poin: 10, umpan_balik: 'Tepat! Prompt engineering terstruktur membantu menggali pain point secara tajam.', is_correct: true },
-  { id: 'o1-B1-3', question_id: 'q1000003-0000-0000-0000-000000000001', teks: 'Web Hosting Serverless', poin: 0, umpan_balik: 'Keliru. Ini ranah infrastruktur cloud, bukan perumusan masalah.', is_correct: false },
+  // ─── SET B OPTIONS (PRD No. 11–20) ───
+  // Q11 (Set B #1)
+  { id: 'o1-B1-1', question_id: 'q1000003-0000-0000-0000-000000000001', teks: 'Data Mining', poin: 0, umpan_balik: 'Keliru. Data mining tidak merumuskan pain point secara langsung.', is_correct: false },
+  { id: 'o1-B1-2', question_id: 'q1000003-0000-0000-0000-000000000001', teks: 'Prompt Engineering', poin: 10, umpan_balik: 'Tepat! Prompt Engineering digunakan untuk menggali dan memetakan pain point pengguna dengan AI.', is_correct: true },
+  { id: 'o1-B1-3', question_id: 'q1000003-0000-0000-0000-000000000001', teks: 'Web Hosting', poin: 0, umpan_balik: 'Keliru. Ini ranah infrastruktur cloud, bukan perumusan masalah.', is_correct: false },
   { id: 'o1-B1-4', question_id: 'q1000003-0000-0000-0000-000000000001', teks: 'Cloud Computing', poin: 0, umpan_balik: 'Keliru. Cloud computing adalah teknologi komputasi awan.', is_correct: false },
-  // Q2-B: Analisis Kompetitor
-  { id: 'o1-B2-1', question_id: 'q1000003-0000-0000-0000-000000000002', teks: 'Harga produk termurah di pasar', poin: 0, umpan_balik: 'Keliru. Analisis kompetitor bukan semata-mata mencari harga termurah.', is_correct: false },
-  { id: 'o1-B2-2', question_id: 'q1000003-0000-0000-0000-000000000002', teks: 'Celah kebutuhan pengguna yang belum dipenuhi kompetitor', poin: 10, umpan_balik: 'Tepat! Tujuan utama analisis kompetitor adalah mencari The Gap (celah pasar).', is_correct: true },
-  { id: 'o1-B2-3', question_id: 'q1000003-0000-0000-0000-000000000002', teks: 'Total modal usaha terbesar', poin: 0, umpan_balik: 'Keliru. Modal usaha bukan tujuan analisis perumusan masalah.', is_correct: false },
-  { id: 'o1-B2-4', question_id: 'q1000003-0000-0000-0000-000000000002', teks: 'Cara menyalin kode sumber kompetitor', poin: 0, umpan_balik: 'Keliru. Menyalin kode bukan etika inovasi produk.', is_correct: false },
-  // Q3-B: UVP
+  // Q12 (Set B #2)
+  { id: 'o1-B2-1', question_id: 'q1000003-0000-0000-0000-000000000002', teks: 'Harga produk termurah', poin: 0, umpan_balik: 'Keliru. Analisis kompetitor bukan semata-mata mencari harga termurah.', is_correct: false },
+  { id: 'o1-B2-2', question_id: 'q1000003-0000-0000-0000-000000000002', teks: 'Celah yang belum dipenuhi kompetitor', poin: 10, umpan_balik: 'Tepat! Tujuan utama analisis kompetitor adalah menemukan celah (The Gap) yang belum dipenuhi.', is_correct: true },
+  { id: 'o1-B2-3', question_id: 'q1000003-0000-0000-0000-000000000002', teks: 'Modal usaha terbesar', poin: 0, umpan_balik: 'Keliru. Modal usaha bukan tujuan analisis perumusan masalah.', is_correct: false },
+  { id: 'o1-B2-4', question_id: 'q1000003-0000-0000-0000-000000000002', teks: 'Jumlah pelanggan kompetitor', poin: 0, umpan_balik: 'Keliru. Fokus utamanya adalah menemukan celah kebutuhan pengguna.', is_correct: false },
+  // Q13 (Set B #3)
   { id: 'o1-B3-1', question_id: 'q1000003-0000-0000-0000-000000000003', teks: 'User Validation Process', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
   { id: 'o1-B3-2', question_id: 'q1000003-0000-0000-0000-000000000003', teks: 'Unique Value Proposition', poin: 10, umpan_balik: 'Tepat! UVP adalah Unique Value Proposition, pembeda nilai unik produk dibanding alternatif lain.', is_correct: true },
   { id: 'o1-B3-3', question_id: 'q1000003-0000-0000-0000-000000000003', teks: 'User Value Product', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
   { id: 'o1-B3-4', question_id: 'q1000003-0000-0000-0000-000000000003', teks: 'Unique Verification Point', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
-  // Q4-B: Devil's Advocate
-  { id: 'o1-B4-1', question_id: 'q1000003-0000-0000-0000-000000000004', teks: 'Mendesain layout antarmuka', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
-  { id: 'o1-B4-2', question_id: 'q1000003-0000-0000-0000-000000000004', teks: 'Mengkritisi ide dan menguji asumsi secara skeptis', poin: 10, umpan_balik: 'Tepat! Devil’s Advocate bertugas mencari kelemahan dan lubang asumsi dari ide produk.', is_correct: true },
-  { id: 'o1-B4-3', question_id: 'q1000003-0000-0000-0000-000000000004', teks: 'Menjual produk ke konsumen', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
-  { id: 'o1-B4-4', question_id: 'q1000003-0000-0000-0000-000000000004', teks: 'Mengatur relasi database', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
-  // Q5-B: Unsur Who
-  { id: 'o1-B5-1', question_id: 'q1000003-0000-0000-0000-000000000005', teks: 'Penyandang dana (investor)', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
-  { id: 'o1-B5-2', question_id: 'q1000003-0000-0000-0000-000000000005', teks: 'Kompetitor terbesar', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
-  { id: 'o1-B5-3', question_id: 'q1000003-0000-0000-0000-000000000005', teks: 'Kelompok target pengguna spesifik', poin: 10, umpan_balik: 'Tepat! Who adalah target audiens spesifik yang paling menderita akibat masalah.', is_correct: true },
-  { id: 'o1-B5-4', question_id: 'q1000003-0000-0000-0000-000000000005', teks: 'Tim developer internal', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
-  // Q6-B: Target Pengguna
-  { id: 'o1-B6-1', question_id: 'q1000003-0000-0000-0000-000000000006', teks: 'Semua orang pengguna internet', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
-  { id: 'o1-B6-2', question_id: 'q1000003-0000-0000-0000-000000000006', teks: 'Kelompok spesifik yang paling merasakan dampak masalah', poin: 10, umpan_balik: 'Tepat! Segmentasi spesifik membuat solusi lebih tajam dan terfokus.', is_correct: true },
+  // Q14 (Set B #4)
+  { id: 'o1-B4-1', question_id: 'q1000003-0000-0000-0000-000000000004', teks: 'Membuat desain aplikasi', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
+  { id: 'o1-B4-2', question_id: 'q1000003-0000-0000-0000-000000000004', teks: 'Mengkritisi ide dan menguji asumsi', poin: 10, umpan_balik: "Tepat! Devil's Advocate bertugas mengkritisi ide dan menguji kelemahan asumsi.", is_correct: true },
+  { id: 'o1-B4-3', question_id: 'q1000003-0000-0000-0000-000000000004', teks: 'Menjual produk', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
+  { id: 'o1-B4-4', question_id: 'q1000003-0000-0000-0000-000000000004', teks: 'Membuat database', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
+  // Q15 (Set B #5)
+  { id: 'o1-B5-1', question_id: 'q1000003-0000-0000-0000-000000000005', teks: 'Investor', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
+  { id: 'o1-B5-2', question_id: 'q1000003-0000-0000-0000-000000000005', teks: 'Kompetitor', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
+  { id: 'o1-B5-3', question_id: 'q1000003-0000-0000-0000-000000000005', teks: 'Target pengguna', poin: 10, umpan_balik: 'Tepat! Who merujuk pada target pengguna spesifik yang mengalami masalah.', is_correct: true },
+  { id: 'o1-B5-4', question_id: 'q1000003-0000-0000-0000-000000000005', teks: 'Developer', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
+  // Q16 (Set B #6)
+  { id: 'o1-B6-1', question_id: 'q1000003-0000-0000-0000-000000000006', teks: 'Semua orang', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
+  { id: 'o1-B6-2', question_id: 'q1000003-0000-0000-0000-000000000006', teks: 'Kelompok spesifik yang paling merasakan masalah', poin: 10, umpan_balik: 'Tepat! Target pengguna harus spesifik agar solusi tepat sasaran.', is_correct: true },
   { id: 'o1-B6-3', question_id: 'q1000003-0000-0000-0000-000000000006', teks: 'Seluruh masyarakat Indonesia', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
   { id: 'o1-B6-4', question_id: 'q1000003-0000-0000-0000-000000000006', teks: 'Pengguna media sosial', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
-  // Q7-B: Pain Point
+  // Q17 (Set B #7)
   { id: 'o1-B7-1', question_id: 'q1000003-0000-0000-0000-000000000007', teks: 'Target pasar', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
-  { id: 'o1-B7-2', question_id: 'q1000003-0000-0000-0000-000000000007', teks: 'Biaya operasional', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
-  { id: 'o1-B7-3', question_id: 'q1000003-0000-0000-0000-000000000007', teks: 'Titik masalah atau frustrasi yang dialami pengguna', poin: 10, umpan_balik: 'Tepat! Pain point adalah kesulitan nyata atau frustrasi yang menghambat pengguna.', is_correct: true },
-  { id: 'o1-B7-4', question_id: 'q1000003-0000-0000-0000-000000000007', teks: 'Strategi harga jual', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
-  // Q8-B: JTBD
-  { id: 'o1-B8-1', question_id: 'q1000003-0000-0000-0000-000000000008', teks: 'Tugas spesifik yang ingin diselesaikan oleh pengguna', poin: 10, umpan_balik: 'Tepat! JTBD menjelaskan pekerjaan yang ingin dituntaskan pengguna dengan bantuan produk.', is_correct: true },
-  { id: 'o1-B8-2', question_id: 'q1000003-0000-0000-0000-000000000008', teks: 'Daftar tugas harian tim programmer', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
-  { id: 'o1-B8-3', question_id: 'q1000003-0000-0000-0000-000000000008', teks: 'Kewajiban investor kepada startup', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
-  { id: 'o1-B8-4', question_id: 'q1000003-0000-0000-0000-000000000008', teks: 'Rencana promosi pemasaran', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
-  // Q9-B: Konteks
-  { id: 'o1-B9-1', question_id: 'q1000003-0000-0000-0000-000000000009', teks: 'Alamat kantor pusat startup', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
-  { id: 'o1-B9-2', question_id: 'q1000003-0000-0000-0000-000000000009', teks: 'Situasi dan momen spesifik yang memicu timbulnya masalah', poin: 10, umpan_balik: 'Tepat! Konteks memetakan kondisi saat masalah tersebut terjadi.', is_correct: true },
-  { id: 'o1-B9-3', question_id: 'q1000003-0000-0000-0000-000000000009', teks: 'Lokasi pertemuan investor', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
-  { id: 'o1-B9-4', question_id: 'q1000003-0000-0000-0000-000000000009', teks: 'Tempat promosi baliho produk', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
-  // Q10-B: 5 Whys
-  { id: 'o1-B10-1', question_id: 'q1000003-0000-0000-0000-000000000010', teks: 'Analisis SWOT', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
+  { id: 'o1-B7-2', question_id: 'q1000003-0000-0000-0000-000000000007', teks: 'Strategi pemasaran', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
+  { id: 'o1-B7-3', question_id: 'q1000003-0000-0000-0000-000000000007', teks: 'Titik masalah yang dirasakan pengguna', poin: 10, umpan_balik: 'Tepat! Pain Point adalah titik masalah atau kesulitan nyata yang dialami pengguna.', is_correct: true },
+  { id: 'o1-B7-4', question_id: 'q1000003-0000-0000-0000-000000000007', teks: 'Biaya operasional', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
+  // Q18 (Set B #8)
+  { id: 'o1-B8-1', question_id: 'q1000003-0000-0000-0000-000000000008', teks: 'Tugas spesifik yang ingin diselesaikan pengguna', poin: 10, umpan_balik: 'Tepat! Jobs to be Done menjelaskan tugas spesifik yang ingin diselesaikan pengguna.', is_correct: true },
+  { id: 'o1-B8-2', question_id: 'q1000003-0000-0000-0000-000000000008', teks: 'Pekerjaan developer', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
+  { id: 'o1-B8-3', question_id: 'q1000003-0000-0000-0000-000000000008', teks: 'Kewajiban investor', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
+  { id: 'o1-B8-4', question_id: 'q1000003-0000-0000-0000-000000000008', teks: 'Strategi promosi', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
+  // Q19 (Set B #9)
+  { id: 'o1-B9-1', question_id: 'q1000003-0000-0000-0000-000000000009', teks: 'Lokasi kantor startup', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
+  { id: 'o1-B9-2', question_id: 'q1000003-0000-0000-0000-000000000009', teks: 'Situasi yang memicu masalah muncul', poin: 10, umpan_balik: 'Tepat! Konteks (When & Where) menjelaskan situasi yang memicu munculnya masalah.', is_correct: true },
+  { id: 'o1-B9-3', question_id: 'q1000003-0000-0000-0000-000000000009', teks: 'Lokasi investor', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
+  { id: 'o1-B9-4', question_id: 'q1000003-0000-0000-0000-000000000009', teks: 'Tempat pemasaran produk', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
+  // Q20 (Set B #10)
+  { id: 'o1-B10-1', question_id: 'q1000003-0000-0000-0000-000000000010', teks: 'SWOT', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
   { id: 'o1-B10-2', question_id: 'q1000003-0000-0000-0000-000000000010', teks: 'Lean Canvas', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
-  { id: 'o1-B10-3', question_id: 'q1000003-0000-0000-0000-000000000010', teks: 'Metode 5 Whys', poin: 10, umpan_balik: 'Tepat! 5 Whys menggali lapisan demi lapisan sebab hingga ke akar terdalam.', is_correct: true },
-  { id: 'o1-B10-4', question_id: 'q1000003-0000-0000-0000-000000000010', teks: 'Benchmarking visual', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
+  { id: 'o1-B10-3', question_id: 'q1000003-0000-0000-0000-000000000010', teks: '5 Whys', poin: 10, umpan_balik: 'Tepat! Metode 5 Whys digunakan untuk menggali hingga ke akar masalah.', is_correct: true },
+  { id: 'o1-B10-4', question_id: 'q1000003-0000-0000-0000-000000000010', teks: 'Benchmarking', poin: 0, umpan_balik: 'Keliru.', is_correct: false },
   ...modul1SetCOptions,
   ...modul2Options,
   ...modul3Options,
@@ -417,88 +428,88 @@ export const options = [
   ...modul10Options
 ];
 
-// ─── 6. ESSAY RUBRICS ─────────────────────────────────────────────────────────
+// ─── 6. ESSAY RUBRICS (Sesuai PRD Hal. 34–41) ─────────────────────────────────
 // Kolom: id, question_id, kunci_jawaban, kata_kunci, rubrik_skor, created_at
-// ⚠️ WAJIB DIJAGA DI SERVER — TIDAK PERNAH DIKIRIM KE CLIENT
 export const essay_rubrics = [
+  // ─── Set A Essay Rubrics (PRD Essay No. 1–5) ───
   {
     id: 'er-0000001-0000-0000-0000-000000000001',
     question_id: 'q1000002-0000-0000-0000-000000000001',
-    kunci_jawaban: '4 elemen pokok Problem Statement Canvas: 1. Who (Target Pengguna), 2. Context (Konteks kapan & di mana), 3. Root Cause (Akar Masalah), 4. The Gap (Celah kelemahan alternatif saat ini).',
-    kata_kunci: ['who', 'context', 'root cause', 'gap', 'pengguna', 'konteks', 'akar masalah', 'celah'],
-    rubrik_skor: { '10': 'Menyebutkan minimal 2+ elemen kunci dengan tepat', '8': 'Menyebutkan 1 elemen kunci', '0': 'Tidak relevan' },
+    kunci_jawaban: 'Value Driven adalah pola pikir startup yang berfokus pada penciptaan nilai (value) bagi pengguna dengan menyelesaikan masalah nyata yang mereka alami. Keputusan bisnis, fitur, dan inovasi dibuat berdasarkan manfaat yang diberikan kepada pengguna, bukan hanya teknologi atau keuntungan semata.',
+    kata_kunci: ['nilai', 'value', 'pengguna', 'customer', 'masalah nyata', 'manfaat', 'kebutuhan pengguna'],
+    rubrik_skor: { '10': 'Menjelaskan penciptaan nilai bagi pengguna dari penyelesaian masalah nyata', '9': 'Menyebutkan manfaat bagi pengguna namun belum mengaitkan penyelesaian masalah nyata', '8': 'Jawaban terlalu umum', '7': 'Hanya menyebut produk disukai pelanggan', '0': 'Tidak relevan' },
     created_at: now()
   },
   {
     id: 'er-0000001-0000-0000-0000-000000000002',
     question_id: 'q1000002-0000-0000-0000-000000000002',
-    kunci_jawaban: 'Tujuan utama teknik 5 Whys adalah untuk menemukan akar masalah terdalam (root cause), bukan sekadar mengobati gejala permukaan (symptom).',
-    kata_kunci: ['akar masalah', 'root cause', 'gejala', 'symptom'],
-    rubrik_skor: { '10': 'Menyebutkan konsep akar masalah / root cause', '8': 'Menyebutkan konsep mencari penyebab secara umum', '0': 'Tidak relevan' },
+    kunci_jawaban: 'Karena solusi dan teknologi dapat berubah, tetapi masalah pengguna tetap menjadi dasar kebutuhan pasar. Dengan memahami masalah terlebih dahulu, startup dapat menciptakan solusi yang relevan, dibutuhkan, dan memiliki peluang adopsi yang lebih tinggi.',
+    kata_kunci: ['masalah pengguna', 'solusi bisa berubah', 'kebutuhan pasar', 'relevan', 'validasi'],
+    rubrik_skor: { '10': 'Menjelaskan masalah sebagai dasar kebutuhan pasar & solusi relevan', '9': 'Menyebutkan pemahaman kebutuhan pengguna sebelum solusi', '8': 'Terlalu umum', '7': 'Hanya menyebut teknologi bukan terpenting', '0': 'Tidak relevan' },
     created_at: now()
   },
   {
     id: 'er-0000001-0000-0000-0000-000000000003',
     question_id: 'q1000002-0000-0000-0000-000000000003',
-    kunci_jawaban: 'Value-Driven berfokus pada manfaat nyata dan pemecahan masalah pengguna, sedangkan Feature-Driven hanya berfokus pada memperbanyak fitur atau kecanggihan teknologi.',
-    kata_kunci: ['manfaat', 'pengguna', 'fitur', 'masalah', 'nilai', 'value'],
-    rubrik_skor: { '10': 'Menyebutkan perbedaan value vs feature dengan konteks pengguna', '8': 'Menyebutkan salah satu konsep dengan benar', '0': 'Tidak relevan' },
+    kunci_jawaban: 'Agility adalah kemampuan startup untuk bergerak cepat, menerima feedback, beradaptasi terhadap perubahan, melakukan eksperimen, dan terus memperbaiki produk berdasarkan data serta kebutuhan pengguna.',
+    kata_kunci: ['bergerak cepat', 'adaptasi', 'feedback', 'eksperimen', 'perbaikan berkelanjutan'],
+    rubrik_skor: { '10': 'Menjelaskan bergerak cepat, adaptasi, feedback, dan eksperimen', '9': 'Menyebutkan adaptasi dan masukan pengguna', '8': 'Hanya menyebut fleksibel', '7': 'Hanya menyebut bekerja cepat', '0': 'Tidak relevan' },
     created_at: now()
   },
   {
     id: 'er-0000001-0000-0000-0000-000000000004',
     question_id: 'q1000002-0000-0000-0000-000000000004',
-    kunci_jawaban: '[Target Pengguna] kesulitan saat [Konteks] karena [Akar Masalah], yang berakibat [Dampak Terukur].',
-    kata_kunci: ['pengguna', 'konteks', 'akar masalah', 'dampak', 'kesulitan', 'akibat'],
-    rubrik_skor: { '10': 'Menyebutkan format lengkap dengan semua komponen', '8': 'Menyebutkan minimal 2-3 komponen format', '0': 'Tidak relevan' },
+    kunci_jawaban: 'Problem-Solution Fit adalah kondisi ketika solusi yang dibuat terbukti mampu menyelesaikan masalah penting yang dialami target pengguna. Tahapan ini penting karena mengurangi risiko membangun produk yang tidak dibutuhkan pasar.',
+    kata_kunci: ['solusi sesuai masalah', 'validasi', 'kebutuhan pengguna', 'mengurangi risiko', 'dibutuhkan pasar'],
+    rubrik_skor: { '10': 'Menjelaskan kecocokan solusi-masalah dan pengurangan risiko pasar', '9': 'Menyebutkan solusi terbukti sesuai kebutuhan pengguna', '8': 'Terlalu umum', '7': 'Hanya menyebut produk bekerja dengan baik', '0': 'Tidak relevan' },
     created_at: now()
   },
   {
     id: 'er-0000001-0000-0000-0000-000000000005',
     question_id: 'q1000002-0000-0000-0000-000000000005',
-    kunci_jawaban: 'Karena kegagalan awal memberikan umpan balik (feedback) dan data nyata untuk melakukan evaluasi, iterasi, serta perbaikan produk berikutnya.',
-    kata_kunci: ['feedback', 'umpan balik', 'iterasi', 'perbaikan', 'evaluasi', 'data'],
-    rubrik_skor: { '10': 'Menyebutkan konsep feedback/iterasi/data dalam konteks pembelajaran', '8': 'Menyebutkan bahwa kegagalan memberikan pelajaran secara umum', '0': 'Tidak relevan' },
+    kunci_jawaban: 'Karena startup harus memastikan masalah tersebut benar-benar dialami pengguna, cukup penting untuk diselesaikan, dan layak dijadikan peluang bisnis sehingga tidak membuang waktu, biaya, dan sumber daya untuk produk yang tidak dibutuhkan.',
+    kata_kunci: ['memastikan masalah nyata', 'kebutuhan pengguna', 'mengurangi risiko', 'efisiensi biaya', 'validasi'],
+    rubrik_skor: { '10': 'Menjelaskan kepastian masalah nyata dan efisiensi waktu/biaya/sumber daya', '9': 'Menyebutkan produk sesuai kebutuhan pengguna', '8': 'Terlalu umum', '7': 'Hanya menyebut urutan proses', '0': 'Tidak relevan' },
     created_at: now()
   },
-  // ─── Set B Essay Rubrics ───
+  // ─── Set B Essay Rubrics (PRD Essay No. 6–10) ───
   {
     id: 'er-0000001-0000-0000-0000-000000000006',
     question_id: 'q1000004-0000-0000-0000-000000000001',
-    kunci_jawaban: 'Keluhan pelanggan menunjukkan hambatan dan masalah nyata yang dialami pengguna saat memakai solusi yang ada. Data tersebut dapat diubah menjadi ide fitur baru, peningkatan kualitas produk, dan penemuan celah pasar yang belum dipenuhi kompetitor.',
-    kata_kunci: ['keluhan pelanggan', 'masalah nyata', 'peluang inovasi', 'kebutuhan pengguna', 'perbaikan produk', 'celah'],
+    kunci_jawaban: 'Keluhan pelanggan menunjukkan masalah dan hambatan yang benar-benar dialami pengguna. Data tersebut dapat menjadi sumber ide untuk menciptakan solusi baru, meningkatkan produk, atau menemukan peluang bisnis yang belum terpenuhi.',
+    kata_kunci: ['keluhan pelanggan', 'masalah nyata', 'peluang inovasi', 'kebutuhan pengguna', 'perbaikan produk'],
     rubrik_skor: { '10': 'Menyebutkan keluhan pelanggan dan perbaikan/inovasi', '8': 'Menyebutkan kebutuhan pengguna', '0': 'Tidak relevan' },
     created_at: now()
   },
   {
     id: 'er-0000001-0000-0000-0000-000000000007',
     question_id: 'q1000004-0000-0000-0000-000000000002',
-    kunci_jawaban: 'Problem Statement Canvas adalah alat untuk mendefinisikan, menganalisis, dan membedah masalah pengguna secara terstruktur sehingga tim dapat mengidentifikasi akar masalah, dampak terukur, konteks kejadian, dan peluang solusi yang tepat.',
-    kata_kunci: ['alat analisis', 'masalah pengguna', 'terstruktur', 'akar masalah', 'peluang solusi', 'canvas'],
+    kunci_jawaban: 'Problem Statement Canvas adalah alat untuk mendefinisikan, menganalisis, dan memahami masalah pengguna secara terstruktur sehingga tim dapat mengidentifikasi akar masalah, dampak, konteks, serta peluang solusi.',
+    kata_kunci: ['alat analisis', 'masalah pengguna', 'terstruktur', 'akar masalah', 'peluang solusi'],
     rubrik_skor: { '10': 'Menyebutkan alat analisis dan akar masalah terstruktur', '8': 'Menyebutkan analisis masalah umum', '0': 'Tidak relevan' },
     created_at: now()
   },
   {
     id: 'er-0000001-0000-0000-0000-000000000008',
     question_id: 'q1000004-0000-0000-0000-000000000003',
-    kunci_jawaban: 'Empat strategi AI Prompting yaitu: 1. AI sebagai Market Researcher (memetakan data tren pasar), 2. AI sebagai Interview Simulator (mensimulasikan calon responden), 3. AI sebagai Competitor Analyst (menganalisis kelebihan/kekurangan lawan), dan 4. AI sebagai Devil’s Advocate (menguji dan mengkritisi kelemahan asumsi tim).',
+    kunci_jawaban: "Empat strategi AI Prompting yaitu: 1. AI sebagai Market Researcher. 2. AI sebagai Interview Simulator. 3. AI sebagai Competitor Analyst. 4. AI sebagai Devil's Advocate.",
     kata_kunci: ['market researcher', 'interview simulator', 'competitor analyst', 'devil advocate'],
-    rubrik_skor: { '10': 'Menyebutkan minimal 2 strategi AI Prompting', '8': 'Menjelaskan 1 strategi', '0': 'Tidak relevan' },
+    rubrik_skor: { '10': 'Menyebutkan keempat strategi AI Prompting', '8': 'Menjelaskan sebagian strategi', '0': 'Tidak relevan' },
     created_at: now()
   },
   {
     id: 'er-0000001-0000-0000-0000-000000000009',
     question_id: 'q1000004-0000-0000-0000-000000000004',
-    kunci_jawaban: 'Pain Point adalah gejala, keluhan, atau kesulitan langsung yang dirasakan oleh pengguna di permukaan, sedangkan Root Cause adalah akar penyebab utama terdalam yang melahirkan timbulnya keluhan tersebut.',
-    kata_kunci: ['pain point', 'gejala masalah', 'root cause', 'penyebab utama', 'akar masalah', 'gejala', 'akar'],
-    rubrik_skor: { '10': 'Menjelaskan perbedaan pain point (gejala) dan root cause (akar)', '8': 'Menjelaskan salah satunya', '0': 'Tidak relevan' },
+    kunci_jawaban: 'Pain Point adalah keluhan atau masalah yang dirasakan pengguna, sedangkan Root Cause adalah penyebab utama yang menimbulkan masalah tersebut.',
+    kata_kunci: ['pain point', 'gejala masalah', 'root cause', 'penyebab utama'],
+    rubrik_skor: { '10': 'Menjelaskan perbedaan pain point dan root cause', '8': 'Menjelaskan salah satunya', '0': 'Tidak relevan' },
     created_at: now()
   },
   {
     id: 'er-0000001-0000-0000-0000-000000000010',
     question_id: 'q1000004-0000-0000-0000-000000000005',
-    kunci_jawaban: 'Karena kebutuhan dan masalah setiap kelompok pengguna berbeda. Target yang terlalu luas membuat solusi menjadi bias, tidak fokus, dan sulit divalidasi, sedangkan segmentasi spesifik membantu menciptakan solusi yang tajam dan tepat sasaran.',
-    kata_kunci: ['segmentasi', 'spesifik', 'fokus', 'kebutuhan berbeda', 'target pengguna', 'berbeda'],
+    kunci_jawaban: 'Karena tidak semua orang mengalami masalah yang sama. Target yang terlalu luas membuat solusi sulit fokus, sedangkan segmentasi yang spesifik membantu validasi dan pengembangan solusi yang lebih tepat.',
+    kata_kunci: ['segmentasi', 'spesifik', 'fokus', 'kebutuhan berbeda', 'target pengguna'],
     rubrik_skor: { '10': 'Menjelaskan alasan segmentasi dan kebutuhan yang berbeda', '8': 'Menjelaskan target pasar', '0': 'Tidak relevan' },
     created_at: now()
   },

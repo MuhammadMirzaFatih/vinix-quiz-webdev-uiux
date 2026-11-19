@@ -1,8 +1,6 @@
 /**
  * VINIX7 REST API Client
  * Mengikuti Kesepakatan Kontrak Data & Endpoint (PRD Bagian 11)
- * 
- * Beralih ke backend nyata semudah mengubah `USE_REAL_BACKEND = true`!
  */
 
 import {
@@ -14,8 +12,105 @@ import {
   saveStoredAttempts
 } from './mockData';
 
-export const USE_REAL_BACKEND = false;
-export const API_BASE_URL = 'http://localhost:5000/api';
+export const USE_REAL_BACKEND = true;
+export const API_BASE_URL = import.meta.env?.VITE_API_URL || 'http://localhost:5000/api';
+
+const DEMO_ACCOUNT = {
+  nama: 'Peserta Magang VINIX7',
+  email: 'intern@vinix7.com',
+  password: 'PasswordDemo123!'
+};
+
+let autoAuthPromise = null;
+
+/**
+ * Otomatis login / register akun demo jika belum memiliki token JWT
+ */
+async function ensureAuthToken() {
+  const existingToken = localStorage.getItem('vinix7_token');
+  if (existingToken && existingToken !== 'mock-jwt-token-vinix7') {
+    return existingToken;
+  }
+
+  if (autoAuthPromise) return autoAuthPromise;
+
+  autoAuthPromise = (async () => {
+    try {
+      // 1. Coba login dulu jika akun demo sudah pernah dibuat di Supabase
+      let res = await fetch(`${API_BASE_URL}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: DEMO_ACCOUNT.email,
+          password: DEMO_ACCOUNT.password
+        })
+      });
+
+      // 2. Jika belum terdaftar di Supabase, otomatis register akun demo
+      if (!res.ok) {
+        res = await fetch(`${API_BASE_URL}/auth/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(DEMO_ACCOUNT)
+        });
+      }
+
+      const data = await res.json();
+      if (data.token) {
+        localStorage.setItem('vinix7_token', data.token);
+        if (data.user) {
+          localStorage.setItem('vinix7_user', JSON.stringify(data.user));
+        }
+        return data.token;
+      }
+      return null;
+    } finally {
+      autoAuthPromise = null;
+    }
+  })();
+
+  return autoAuthPromise;
+}
+
+/**
+ * Wrapper fetch dengan otomatis menyisipkan Bearer Token & retry jika 401
+ */
+async function authFetch(url, options = {}) {
+  let token = await ensureAuthToken();
+
+  const buildHeaders = (t) => ({
+    ...(options.headers || {}),
+    ...(t ? { Authorization: `Bearer ${t}` } : {})
+  });
+
+  let res = await fetch(url, {
+    ...options,
+    headers: buildHeaders(token)
+  });
+
+  // Jika token lama kedaluwarsa (401), bersihkan lalu ambil token baru sekali lagi
+  if (res.status === 401) {
+    localStorage.removeItem('vinix7_token');
+    token = await ensureAuthToken();
+    res = await fetch(url, {
+      ...options,
+      headers: buildHeaders(token)
+    });
+  }
+
+  return res;
+}
+
+async function handleResponse(res) {
+  const data = await res.json();
+  if (!res.ok) {
+    const err = new Error(data.message || data.error || 'Terjadi kesalahan pada server');
+    err.code = data.error;
+    err.data = data;
+    throw err;
+  }
+  return data;
+}
 
 /** Helper text normalizer for mock essay evaluation */
 function normalize(str) {
@@ -23,9 +118,6 @@ function normalize(str) {
   return str.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
-/**
- * API Client Object
- */
 export const apiClient = {
   // 1. Auth: Login
   async login(email, password) {
@@ -35,10 +127,12 @@ export const apiClient = {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       });
-      return await res.json();
+      const data = await handleResponse(res);
+      if (data.token) localStorage.setItem('vinix7_token', data.token);
+      if (data.user) localStorage.setItem('vinix7_user', JSON.stringify(data.user));
+      return data;
     }
 
-    // Mock Login
     await new Promise(r => setTimeout(r, 400));
     const user = {
       id: 'u-123456',
@@ -58,7 +152,10 @@ export const apiClient = {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nama, email, password })
       });
-      return await res.json();
+      const data = await handleResponse(res);
+      if (data.token) localStorage.setItem('vinix7_token', data.token);
+      if (data.user) localStorage.setItem('vinix7_user', JSON.stringify(data.user));
+      return data;
     }
 
     await new Promise(r => setTimeout(r, 400));
@@ -75,8 +172,9 @@ export const apiClient = {
   // 3. Courses: Get All (with Progressive Gating Status)
   async getCourses() {
     if (USE_REAL_BACKEND) {
-      const res = await fetch(`${API_BASE_URL}/courses`);
-      return await res.json();
+      const res = await authFetch(`${API_BASE_URL}/courses`);
+      const data = await handleResponse(res);
+      return Array.isArray(data) ? data : (data.courses || data.data || []);
     }
 
     await new Promise(r => setTimeout(r, 200));
@@ -98,8 +196,9 @@ export const apiClient = {
   // 4. Course Detail & Sections
   async getCourseById(courseId) {
     if (USE_REAL_BACKEND) {
-      const res = await fetch(`${API_BASE_URL}/courses/${courseId}`);
-      return await res.json();
+      const res = await authFetch(`${API_BASE_URL}/courses/${courseId}`);
+      const data = await handleResponse(res);
+      return data.course || data;
     }
 
     await new Promise(r => setTimeout(r, 200));
@@ -120,10 +219,11 @@ export const apiClient = {
   // 5. Complete a Section
   async completeSection(courseId, sectionUrutan) {
     if (USE_REAL_BACKEND) {
-      const res = await fetch(`${API_BASE_URL}/courses/${courseId}/sections/${sectionUrutan}/complete`, {
-        method: 'POST'
+      const res = await authFetch(`${API_BASE_URL}/courses/${courseId}/sections/${sectionUrutan}/complete`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
       });
-      return await res.json();
+      return await handleResponse(res);
     }
 
     await new Promise(r => setTimeout(r, 150));
@@ -141,13 +241,21 @@ export const apiClient = {
     return { success: true, bagianSelesai: progressMap[courseId].bagianSelesai };
   },
 
-  // 6. Exam: Start Session (Validates 1-minute cooldown & returns 15 questions without answers)
+  // 6. Exam: Start Session
   async startExam(courseId) {
     if (USE_REAL_BACKEND) {
-      const res = await fetch(`${API_BASE_URL}/courses/${courseId}/exam/start`, {
-        method: 'POST'
+      const res = await authFetch(`${API_BASE_URL}/courses/${courseId}/exam/start`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
       });
-      return await res.json();
+      const data = await res.json();
+      if (res.status === 429 || data.error === 'COOLDOWN_ACTIVE') {
+        return data;
+      }
+      if (!res.ok) {
+        throw new Error(data.message || data.error || 'Gagal memulai ujian');
+      }
+      return data;
     }
 
     await new Promise(r => setTimeout(r, 300));
@@ -155,7 +263,6 @@ export const apiClient = {
     const courseAttempts = attempts.filter(a => a.courseId === courseId);
     const lastAttempt = courseAttempts[courseAttempts.length - 1];
 
-    // Check 1-minute Cooldown if failed previously
     if (lastAttempt && !lastAttempt.lulus && lastAttempt.cooldownUntil) {
       const remainingMs = new Date(lastAttempt.cooldownUntil).getTime() - Date.now();
       if (remainingMs > 0) {
@@ -169,7 +276,6 @@ export const apiClient = {
       }
     }
 
-    // Determine Set (Set A on attempt 1, Set B on attempt 2, Set C on attempt 3)
     const attemptNumber = courseAttempts.length + 1;
     let setPaket = 'A';
     if (attemptNumber === 2) setPaket = 'B';
@@ -180,7 +286,6 @@ export const apiClient = {
 
     const attemptId = 'att-' + Date.now();
 
-    // STRICT SECURITY: Strip out answer keys and explanations before sending to client!
     const clientQuestions = courseQuestions.map(q => ({
       id: q.id,
       urutan: q.urutan,
@@ -190,7 +295,6 @@ export const apiClient = {
       options: q.options ? q.options.map(opt => ({ id: opt.id, teks: opt.teks })) : null
     }));
 
-    // Save active session
     const newAttempt = {
       id: attemptId,
       courseId,
@@ -214,18 +318,18 @@ export const apiClient = {
     };
   },
 
-  // 7. Exam: Submit Answers (Server-Side Evaluation & Progressive Gating Unlock)
+  // 7. Exam: Submit Answers
   async submitExam(attemptId, courseId, submittedAnswers) {
     if (USE_REAL_BACKEND) {
-      const res = await fetch(`${API_BASE_URL}/attempts/${attemptId}/submit`, {
+      const res = await authFetch(`${API_BASE_URL}/attempts/${attemptId}/submit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ answers: submittedAnswers })
       });
-      return await res.json();
+      return await handleResponse(res);
     }
 
-    await new Promise(r => setTimeout(r, 600)); // Simulate grading computation
+    await new Promise(r => setTimeout(r, 600));
     const attempts = getStoredAttempts();
     const attemptIndex = attempts.findIndex(a => a.id === attemptId);
     if (attemptIndex === -1) throw new Error('Attempt tidak valid');
@@ -252,7 +356,6 @@ export const apiClient = {
         feedback = q.pembahasan || (isCorrect ? 'Jawaban Anda benar!' : 'Jawaban Anda kurang tepat.');
         totalPG += poin;
       } else if (q.tipe === 'essay') {
-        // Keyword matching according to PRD section 13
         const keywords = q.keywords || [];
         const normAns = normalize(studentAns);
         let matches = 0;
@@ -277,7 +380,6 @@ export const apiClient = {
         totalEssay += poin;
       }
 
-      // Group by topic for weak topics detection
       if (!topicStats[q.topik]) {
         topicStats[q.topik] = { earned: 0, possible: 0 };
       }
@@ -299,20 +401,15 @@ export const apiClient = {
       });
     }
 
-    // Formula: [ 0.60 * (Total_PG / 100) + 0.40 * (Total_Essay / 50) ] * 100
     const rawScore = ((0.60 * (totalPG / 100)) + (0.40 * (totalEssay / 50))) * 100;
     const finalScore = Math.round(rawScore);
     const isPassed = finalScore >= 80;
-
-    // Cooldown 1 menit (60 detik) jika gagal
     const cooldownUntil = !isPassed ? new Date(Date.now() + 60 * 1000).toISOString() : null;
 
-    // Detect weak topics (< 70% earned in that topic)
     const weakTopics = Object.entries(topicStats)
       .filter(([_, stats]) => (stats.earned / stats.possible) < 0.7)
       .map(([topik]) => topik);
 
-    // Update attempt
     attempt.selesai = new Date().toISOString();
     attempt.totalPG = totalPG;
     attempt.totalEssay = totalEssay;
@@ -325,21 +422,17 @@ export const apiClient = {
     attempts[attemptIndex] = attempt;
     saveStoredAttempts(attempts);
 
-    // ================= PROGRESSIVE GATING UNLOCK LOGIC =================
     const progressMap = getStoredProgress();
     if (!progressMap[courseId]) {
       progressMap[courseId] = { status: 'unlocked', bagianSelesai: [], nilaiTerbaik: 0 };
     }
 
-    // Track best score
     if (finalScore > (progressMap[courseId].nilaiTerbaik || 0)) {
       progressMap[courseId].nilaiTerbaik = finalScore;
     }
 
     if (isPassed) {
       progressMap[courseId].status = 'passed';
-
-      // Unlock next course (N+1)
       const currentCourse = INITIAL_COURSES.find(c => c.id === courseId);
       if (currentCourse) {
         const nextCourse = INITIAL_COURSES.find(c => c.urutan === currentCourse.urutan + 1);
@@ -367,8 +460,8 @@ export const apiClient = {
   // 8. Get Attempt Result
   async getAttemptResult(attemptId) {
     if (USE_REAL_BACKEND) {
-      const res = await fetch(`${API_BASE_URL}/attempts/${attemptId}/result`);
-      return await res.json();
+      const res = await authFetch(`${API_BASE_URL}/attempts/${attemptId}/result`);
+      return await handleResponse(res);
     }
 
     await new Promise(r => setTimeout(r, 200));
@@ -381,8 +474,8 @@ export const apiClient = {
   // 9. Get User Progress Summary
   async getUserProgress() {
     if (USE_REAL_BACKEND) {
-      const res = await fetch(`${API_BASE_URL}/me/progress`);
-      return await res.json();
+      const res = await authFetch(`${API_BASE_URL}/me/progress`);
+      return await handleResponse(res);
     }
 
     await new Promise(r => setTimeout(r, 200));

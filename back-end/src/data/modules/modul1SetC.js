@@ -1,107 +1,100 @@
-// back-end/src/data/modules/modul1SetC.js
+/**
+ * Modul 1 - Set C Options & Essay Rubrics (100% Sesuai Lampiran PRD Hal. 31-34 & 40-41)
+ */
 const now = () => new Date().toISOString();
 
 export const modul1SetCOptions = [
-  // Q1-C (q1000005-0000-0000-0000-000000000001)
-  { id: 'o1-C1-1', question_id: 'q1000005-0000-0000-0000-000000000001', teks: 'Segera menutup perusahaan jika produk versi pertama tidak langsung menghasilkan profit besar.', poin: 0, umpan_balik: 'Keliru. Fail fast bukan berarti menyerah, melainkan menguji asumsi secepat mungkin.', is_correct: false },
-  { id: 'o1-C1-2', question_id: 'q1000005-0000-0000-0000-000000000001', teks: 'Menguji hipotesis dan prototipe sederhana secepat mungkin untuk menemukan kekurangan sejak dini dan beradaptasi berdasarkan umpan balik nyata.', poin: 10, umpan_balik: 'Tepat! Fail fast, learn faster menekankan validasi cepat agar tim segera belajar dari data.', is_correct: true },
-  { id: 'o1-C1-3', question_id: 'q1000005-0000-0000-0000-000000000001', teks: 'Merilis aplikasi tanpa melalui proses pengujian kualitas (QA) agar menjadi yang pertama di pasar.', poin: 0, umpan_balik: 'Keliru. Mengabaikan kualitas merusak kepercayaan pengguna.', is_correct: false },
-  { id: 'o1-C1-4', question_id: 'q1000005-0000-0000-0000-000000000001', teks: 'Mengganti seluruh ide bisnis setiap minggu tanpa melakukan analisis akar masalah.', poin: 0, umpan_balik: 'Keliru. Perubahan tanpa arah bukan bagian dari pembelajaran tervalidasi.', is_correct: false },
-
-  // Q2-C (q1000005-0000-0000-0000-000000000002)
-  { id: 'o1-C2-1', question_id: 'q1000005-0000-0000-0000-000000000002', teks: 'Langsung memberikan diskon 50% di halaman checkout agar pengguna segera membayar.', poin: 0, umpan_balik: 'Keliru. Diskon hanya menutupi masalah sementara tanpa tahu penyebab pengguna batal.', is_correct: false },
-  { id: 'o1-C2-2', question_id: 'q1000005-0000-0000-0000-000000000002', teks: 'Menggali penyebab utama (root cause) mengapa pengguna batal checkout melalui observasi perilaku dan wawancara pengguna.', poin: 10, umpan_balik: 'Tepat! Problem-solving mindset selalu mencari akar penyebab sebelum merancang intervensi.', is_correct: true },
-  { id: 'o1-C2-3', question_id: 'q1000005-0000-0000-0000-000000000002', teks: 'Mengubah warna tombol checkout menjadi lebih mencolok dan menambah animasi.', poin: 0, umpan_balik: 'Keliru. Perubahan kosmetik tidak menyelesaikan hambatan alur pembayaran.', is_correct: false },
-  { id: 'o1-C2-4', question_id: 'q1000005-0000-0000-0000-000000000002', teks: 'Menghapus halaman ringkasan pesanan agar proses transaksi lebih singkat.', poin: 0, umpan_balik: 'Keliru. Menghapus informasi penting justru meningkatkan keraguan pengguna.', is_correct: false },
-
-  // Q3-C (q1000005-0000-0000-0000-000000000003)
-  { id: 'o1-C3-1', question_id: 'q1000005-0000-0000-0000-000000000003', teks: 'Melakukan wawancara mendalam dengan calon pengguna yang mengalami masalah tersebut.', poin: 0, umpan_balik: 'Keliru. Wawancara mendalam adalah metode validasi yang sah.', is_correct: false },
-  { id: 'o1-C3-2', question_id: 'q1000005-0000-0000-0000-000000000003', teks: 'Mengamati langsung bagaimana pengguna berupaya menyelesaikan masalahnya saat ini.', poin: 0, umpan_balik: 'Keliru. Observasi langsung adalah cara valid untuk menemukan pain point nyata.', is_correct: false },
-  { id: 'o1-C3-3', question_id: 'q1000005-0000-0000-0000-000000000003', teks: 'Mengandalkan asumsi pribadi tim pendiri dan pujian dari keluarga dekat tanpa data pengguna nyata.', poin: 10, umpan_balik: 'Tepat! Asumsi internal dan pujian keluarga (bias) bukan bukti validasi masalah.', is_correct: true },
-  { id: 'o1-C3-4', question_id: 'q1000005-0000-0000-0000-000000000003', teks: 'Menguji prototipe awal (MVP) kepada sekelompok kecil target pengguna spesifik.', poin: 0, umpan_balik: 'Keliru. Pengujian MVP kepada target audiens adalah metode validasi yang tepat.', is_correct: false },
-
-  // Q4-C (q1000005-0000-0000-0000-000000000004)
-  { id: 'o1-C4-1', question_id: 'q1000005-0000-0000-0000-000000000004', teks: 'Dokumen perencanaan kaku yang tidak boleh diubah selama satu tahun penuh.', poin: 0, umpan_balik: 'Keliru. Itu ciri pendekatan waterfall yang kaku.', is_correct: false },
-  { id: 'o1-C4-2', question_id: 'q1000005-0000-0000-0000-000000000004', teks: 'Iterasi cepat, responsif terhadap umpan balik pengguna, dan perbaikan berkelanjutan.', poin: 10, umpan_balik: 'Tepat! Agility mengutamakan kecepatan belajar dan adaptasi berbasis feedback.', is_correct: true },
-  { id: 'o1-C4-3', question_id: 'q1000005-0000-0000-0000-000000000004', teks: 'Penambahan fitur sebanyak mungkin sebelum peluncuran perdana.', poin: 0, umpan_balik: 'Keliru. Itu feature bloat, bukan agility.', is_correct: false },
-  { id: 'o1-C4-4', question_id: 'q1000005-0000-0000-0000-000000000004', teks: 'Pengurangan komunikasi antar tim agar masing-masing bekerja sendiri.', poin: 0, umpan_balik: 'Keliru. Agility justru membutuhkan kolaborasi erat.', is_correct: false },
-
-  // Q5-C (q1000005-0000-0000-0000-000000000005)
-  { id: 'o1-C5-1', question_id: 'q1000005-0000-0000-0000-000000000005', teks: 'Memetakan masalah pengguna secara terstruktur (target, konteks, akar masalah, dampak, dan celah solusi) sebelum merancang produk.', poin: 10, umpan_balik: 'Tepat! Problem Statement Canvas menyatukan pemahaman tim tentang anatomi masalah.', is_correct: true },
-  { id: 'o1-C5-2', question_id: 'q1000005-0000-0000-0000-000000000005', teks: 'Menghitung proyeksi pendapatan bersih perusahaan dalam lima tahun ke depan.', poin: 0, umpan_balik: 'Keliru. Itu bagian dari proyeksi finansial/business plan.', is_correct: false },
-  { id: 'o1-C5-3', question_id: 'q1000005-0000-0000-0000-000000000005', teks: 'Menentukan skema warna dan tipografi utama antarmuka aplikasi.', poin: 0, umpan_balik: 'Keliru. Itu bagian dari design system.', is_correct: false },
-  { id: 'o1-C5-4', question_id: 'q1000005-0000-0000-0000-000000000005', teks: 'Menyusun jadwal pembagian tugas coding antar anggota tim.', poin: 0, umpan_balik: 'Keliru. Itu bagian dari sprint planning.', is_correct: false },
-
-  // Q6-C (q1000005-0000-0000-0000-000000000006)
-  { id: 'o1-C6-1', question_id: 'q1000005-0000-0000-0000-000000000006', teks: 'Tim perlu membuat 15 fitur tambahan lagi agar variasi aplikasi semakin lengkap.', poin: 0, umpan_balik: 'Keliru. Menambah fitur yang tidak dipakai hanya membuang sumber daya.', is_correct: false },
-  { id: 'o1-C6-2', question_id: 'q1000005-0000-0000-0000-000000000006', teks: '14 fitur lainnya terbukti tidak memberikan nilai nyata bagi pengguna; tim harus fokus menyempurnakan 1 fitur inti yang paling menyelesaikan masalah.', poin: 10, umpan_balik: 'Tepat! Value-driven berfokus pada fitur inti yang benar-benar memberi nilai.', is_correct: true },
-  { id: 'o1-C6-3', question_id: 'q1000005-0000-0000-0000-000000000006', teks: 'Pengguna tidak memahami cara memakai 14 fitur tersebut sehingga perlu dibuatkan buku panduan tebal.', poin: 0, umpan_balik: 'Keliru. Produk yang baik tidak membutuhkan panduan tebal untuk menjelaskan fitur yang tidak dibutuhkan.', is_correct: false },
-  { id: 'o1-C6-4', question_id: 'q1000005-0000-0000-0000-000000000006', teks: 'Semua fitur harus tetap dipertahankan karena biaya pembuatannya sudah terlanjur keluar.', poin: 0, umpan_balik: 'Keliru. Itu adalah jebakan sunk cost fallacy.', is_correct: false },
-
-  // Q7-C (q1000005-0000-0000-0000-000000000007)
-  { id: 'o1-C7-1', question_id: 'q1000005-0000-0000-0000-000000000007', teks: 'Saat tim ingin memilih warna logo yang paling disukai oleh pendiri startup.', poin: 0, umpan_balik: 'Keliru. 5 Whys bukan untuk preferensi visual subjektif.', is_correct: false },
-  { id: 'o1-C7-2', question_id: 'q1000005-0000-0000-0000-000000000007', teks: 'Saat tim menemukan keluhan pengguna dan ingin menelusuri penyebab mendasar di balik gejala tersebut.', poin: 10, umpan_balik: 'Tepat! 5 Whys digunakan untuk menggali dari gejala permukaan menuju akar masalah.', is_correct: true },
-  { id: 'o1-C7-3', question_id: 'q1000005-0000-0000-0000-000000000007', teks: 'Saat tim ingin menghitung total kebutuhan server untuk satu juta pengguna.', poin: 0, umpan_balik: 'Keliru. Itu adalah capacity planning teknis.', is_correct: false },
-  { id: 'o1-C7-4', question_id: 'q1000005-0000-0000-0000-000000000007', teks: 'Saat tim ingin membandingkan harga langganan tiga penyedia layanan cloud.', poin: 0, umpan_balik: 'Keliru. Itu adalah perbandingan vendor.', is_correct: false },
-
-  // Q8-C (q1000005-0000-0000-0000-000000000008)
-  { id: 'o1-C8-1', question_id: 'q1000005-0000-0000-0000-000000000008', teks: 'Karena segmen yang spesifik memiliki masalah yang seragam sehingga lebih mudah divalidasi dan diselesaikan secara mendalam.', poin: 10, umpan_balik: 'Tepat! Niche yang spesifik memudahkan validasi tajam dan membangun basis pengguna loyal awal.', is_correct: true },
-  { id: 'o1-C8-2', question_id: 'q1000005-0000-0000-0000-000000000008', teks: 'Karena aplikasi versi awal tidak mampu menampung lebih dari 100 pengguna.', poin: 0, umpan_balik: 'Keliru. Alasannya adalah fokus validasi kebutuhan, bukan keterbatasan kapasitas.', is_correct: false },
-  { id: 'o1-C8-3', question_id: 'q1000005-0000-0000-0000-000000000008', teks: 'Karena investor melarang startup memiliki banyak pengguna pada tahun pertama.', poin: 0, umpan_balik: 'Keliru. Tidak ada larangan seperti itu.', is_correct: false },
-  { id: 'o1-C8-4', question_id: 'q1000005-0000-0000-0000-000000000008', teks: 'Karena segmen sempit tidak memerlukan proses riset pengguna sama sekali.', poin: 0, umpan_balik: 'Keliru. Riset pengguna tetap wajib dilakukan.', is_correct: false },
-
-  // Q9-C (q1000005-0000-0000-0000-000000000009)
-  { id: 'o1-C9-1', question_id: 'q1000005-0000-0000-0000-000000000009', teks: 'Karena wawancara selalu membutuhkan biaya yang lebih murah daripada membuat formulir online.', poin: 0, umpan_balik: 'Keliru. Keunggulannya bukan pada biaya formulir, melainkan kedalaman insight.', is_correct: false },
-  { id: 'o1-C9-2', question_id: 'q1000005-0000-0000-0000-000000000009', teks: 'Karena wawancara memungkinkan peneliti menggali alasan emosional, konteks nyata, dan tindak lanjut (follow-up) yang tidak tertangkap di pilihan ganda survei.', poin: 10, umpan_balik: 'Tepat! Wawancara menggali "mengapa" di balik perilaku pengguna secara mendalam.', is_correct: true },
-  { id: 'o1-C9-3', question_id: 'q1000005-0000-0000-0000-000000000009', teks: 'Karena survei kuesioner tidak dapat diisi menggunakan perangkat ponsel.', poin: 0, umpan_balik: 'Keliru. Survei online mudah diakses di ponsel.', is_correct: false },
-  { id: 'o1-C9-4', question_id: 'q1000005-0000-0000-0000-000000000009', teks: 'Karena wawancara otomatis menghasilkan data statistik untuk 10.000 responden.', poin: 0, umpan_balik: 'Keliru. Data statistik skala besar adalah fungsi riset kuantitatif.', is_correct: false },
-
-  // Q10-C (q1000005-0000-0000-0000-000000000010)
-  { id: 'o1-C10-1', question_id: 'q1000005-0000-0000-0000-000000000010', teks: 'Tim berisiko membangun solusi yang hanya menutupi gejala permukaan sehingga masalah utama terus berulang dan produk ditinggalkan.', poin: 10, umpan_balik: 'Tepat! Tanpa root cause analysis, solusi tidak menyentuh sumber masalah sebenarnya.', is_correct: true },
-  { id: 'o1-C10-2', question_id: 'q1000005-0000-0000-0000-000000000010', teks: 'Kode program aplikasi tidak akan bisa dikompilasi di server produksi.', poin: 0, umpan_balik: 'Keliru. Ini masalah relevansi produk, bukan error kompilasi.', is_correct: false },
-  { id: 'o1-C10-3', question_id: 'q1000005-0000-0000-0000-000000000010', teks: 'Ukuran file desain di Figma menjadi terlalu besar untuk dibuka.', poin: 0, umpan_balik: 'Keliru. Tidak berkaitan dengan ukuran file desain.', is_correct: false },
-  { id: 'o1-C10-4', question_id: 'q1000005-0000-0000-0000-000000000010', teks: 'Tim kehilangan hak untuk mendaftarkan nama domain website.', poin: 0, umpan_balik: 'Keliru. Tidak berhubungan dengan pendaftaran domain.', is_correct: false }
+  // Q21 (Set C #1): Contoh dampak masalah yang terukur
+  { id: 'o1-C1-1', question_id: 'q1000005-0000-0000-0000-000000000001', teks: 'Bosan', poin: 0, umpan_balik: 'Keliru. Bosan bersifat subjektif dan sulit diukur secara kuantitatif.', is_correct: false },
+  { id: 'o1-C1-2', question_id: 'q1000005-0000-0000-0000-000000000001', teks: 'Kehilangan waktu dan uang', poin: 10, umpan_balik: 'Tepat! Kehilangan waktu dan uang adalah contoh dampak masalah yang konkret dan terukur.', is_correct: true },
+  { id: 'o1-C1-3', question_id: 'q1000005-0000-0000-0000-000000000001', teks: 'Tidak nyaman', poin: 0, umpan_balik: 'Keliru. Ketidaknyamanan adalah perasaan umum, bukan metrik dampak yang terukur.', is_correct: false },
+  { id: 'o1-C1-4', question_id: 'q1000005-0000-0000-0000-000000000001', teks: 'Kurang motivasi', poin: 0, umpan_balik: 'Keliru. Kurang motivasi bukan indikator dampak masalah yang terukur.', is_correct: false },
+  // Q22 (Set C #2): Alternatives
+  { id: 'o1-C2-1', question_id: 'q1000005-0000-0000-0000-000000000002', teks: 'Cara pengguna mengatasi masalah saat ini', poin: 10, umpan_balik: 'Tepat! Alternatives menggambarkan solusi atau kebiasaan yang saat ini dipakai pengguna.', is_correct: true },
+  { id: 'o1-C2-2', question_id: 'q1000005-0000-0000-0000-000000000002', teks: 'Solusi masa depan', poin: 0, umpan_balik: 'Keliru. Alternatives merujuk pada kondisi dan alat yang digunakan saat ini.', is_correct: false },
+  { id: 'o1-C2-3', question_id: 'q1000005-0000-0000-0000-000000000002', teks: 'Strategi pemasaran', poin: 0, umpan_balik: 'Keliru. Alternatives bukan strategi pemasaran produk.', is_correct: false },
+  { id: 'o1-C2-4', question_id: 'q1000005-0000-0000-0000-000000000002', teks: 'Target pendapatan', poin: 0, umpan_balik: 'Keliru. Alternatives tidak membahas proyeksi pendapatan.', is_correct: false },
+  // Q23 (Set C #3): The Gap
+  { id: 'o1-C3-1', question_id: 'q1000005-0000-0000-0000-000000000003', teks: 'Jumlah pengguna', poin: 0, umpan_balik: 'Keliru. The Gap bukan ukuran jumlah pengguna.', is_correct: false },
+  { id: 'o1-C3-2', question_id: 'q1000005-0000-0000-0000-000000000003', teks: 'Selisih keuntungan', poin: 0, umpan_balik: 'Keliru. The Gap berfokus pada celah solusi, bukan selisih laba.', is_correct: false },
+  { id: 'o1-C3-3', question_id: 'q1000005-0000-0000-0000-000000000003', teks: 'Kekurangan solusi yang ada saat ini', poin: 10, umpan_balik: 'Tepat! The Gap adalah kelemahan atau celah pada solusi alternatif yang dipakai pengguna sekarang.', is_correct: true },
+  { id: 'o1-C3-4', question_id: 'q1000005-0000-0000-0000-000000000003', teks: 'Modal usaha', poin: 0, umpan_balik: 'Keliru. Modal usaha tidak termasuk definisi The Gap.', is_correct: false },
+  // Q24 (Set C #4): Rumusan akhir masalah
+  { id: 'o1-C4-1', question_id: 'q1000005-0000-0000-0000-000000000004', teks: 'Target, akar masalah, dampak', poin: 10, umpan_balik: 'Tepat! Rumusan akhir masalah menggabungkan target pengguna, konteks, akar masalah, dan dampak.', is_correct: true },
+  { id: 'o1-C4-2', question_id: 'q1000005-0000-0000-0000-000000000004', teks: 'Investor dan modal', poin: 0, umpan_balik: 'Keliru. Investor dan modal bukan komponen rumusan masalah pengguna.', is_correct: false },
+  { id: 'o1-C4-3', question_id: 'q1000005-0000-0000-0000-000000000004', teks: 'Harga dan keuntungan', poin: 0, umpan_balik: 'Keliru. Harga dan keuntungan termasuk model bisnis, bukan problem statement.', is_correct: false },
+  { id: 'o1-C4-4', question_id: 'q1000005-0000-0000-0000-000000000004', teks: 'Produk dan promosi', poin: 0, umpan_balik: 'Keliru. Rumusan masalah tidak berisi fitur produk maupun promosi.', is_correct: false },
+  // Q25 (Set C #5): Studi kasus kos-kosan - target pengguna
+  { id: 'o1-C5-1', question_id: 'q1000005-0000-0000-0000-000000000005', teks: 'Mahasiswa', poin: 0, umpan_balik: 'Keliru. Pada studi kasus ini, fokus masalah ada pada pengelolaan tagihan oleh pemilik kos.', is_correct: false },
+  { id: 'o1-C5-2', question_id: 'q1000005-0000-0000-0000-000000000005', teks: 'Pemilik kos dengan 10-30 kamar yang tidak tinggal di lokasi kos', poin: 10, umpan_balik: 'Tepat! Segmen spesifiknya adalah pemilik kos 10-30 kamar yang mengelola dari jarak jauh.', is_correct: true },
+  { id: 'o1-C5-3', question_id: 'q1000005-0000-0000-0000-000000000005', teks: 'Agen properti', poin: 0, umpan_balik: 'Keliru. Agen properti bukan target pengguna dalam studi kasus ini.', is_correct: false },
+  { id: 'o1-C5-4', question_id: 'q1000005-0000-0000-0000-000000000005', teks: 'Penjaga kos', poin: 0, umpan_balik: 'Keliru. Target penggunanya adalah pemilik kos yang tidak tinggal di lokasi.', is_correct: false },
+  // Q26 (Set C #6): Studi kasus kos-kosan - masalah utama
+  { id: 'o1-C6-1', question_id: 'q1000005-0000-0000-0000-000000000006', teks: 'Sulit membangun kos baru', poin: 0, umpan_balik: 'Keliru. Masalahnya berkaitan dengan operasional bulanan, bukan konstruksi.', is_correct: false },
+  { id: 'o1-C6-2', question_id: 'q1000005-0000-0000-0000-000000000006', teks: 'Kesulitan menagih sewa dan pencatatan masih manual', poin: 10, umpan_balik: 'Tepat! Penagihan dan pencatatan manual menjadi hambatan utama pemilik kos.', is_correct: true },
+  { id: 'o1-C6-3', question_id: 'q1000005-0000-0000-0000-000000000006', teks: 'Biaya listrik mahal', poin: 0, umpan_balik: 'Keliru. Bukan biaya listrik yang menjadi fokus studi kasus.', is_correct: false },
+  { id: 'o1-C6-4', question_id: 'q1000005-0000-0000-0000-000000000006', teks: 'Sulit mencari penyewa', poin: 0, umpan_balik: 'Keliru. Fokus kasus ini adalah pengelolaan pembayaran sewa bulanan.', is_correct: false },
+  // Q27 (Set C #7): Studi kasus kos-kosan - waktu muncul masalah
+  { id: 'o1-C7-1', question_id: 'q1000005-0000-0000-0000-000000000007', teks: 'Awal tahun', poin: 0, umpan_balik: 'Keliru. Siklus pembayaran sewa kos terjadi setiap bulan.', is_correct: false },
+  { id: 'o1-C7-2', question_id: 'q1000005-0000-0000-0000-000000000007', teks: 'Pertengahan bulan', poin: 0, umpan_balik: 'Keliru. Puncak penagihan terjadi pada akhir bulan.', is_correct: false },
+  { id: 'o1-C7-3', question_id: 'q1000005-0000-0000-0000-000000000007', teks: 'Akhir bulan', poin: 10, umpan_balik: 'Tepat! Masalah penagihan dan pengecekan pembayaran memuncak setiap akhir bulan.', is_correct: true },
+  { id: 'o1-C7-4', question_id: 'q1000005-0000-0000-0000-000000000007', teks: 'Setiap hari', poin: 0, umpan_balik: 'Keliru. Konteks waktunya adalah akhir bulan saat jatuh tempo sewa.', is_correct: false },
+  // Q28 (Set C #8): Studi kasus kos-kosan - dampak
+  { id: 'o1-C8-1', question_id: 'q1000005-0000-0000-0000-000000000008', teks: 'Pendapatan meningkat', poin: 0, umpan_balik: 'Keliru. Keterlambatan bayar justru menghambat arus kas.', is_correct: false },
+  { id: 'o1-C8-2', question_id: 'q1000005-0000-0000-0000-000000000008', teks: 'Arus kas tersendat dan memicu konflik', poin: 10, umpan_balik: 'Tepat! Keterlambatan pembayaran mengganggu arus kas dan berpotensi memicu konflik dengan penyewa.', is_correct: true },
+  { id: 'o1-C8-3', question_id: 'q1000005-0000-0000-0000-000000000008', teks: 'Penyewa bertambah', poin: 0, umpan_balik: 'Keliru. Masalah penagihan tidak otomatis menambah penyewa.', is_correct: false },
+  { id: 'o1-C8-4', question_id: 'q1000005-0000-0000-0000-000000000008', teks: 'Biaya internet naik', poin: 0, umpan_balik: 'Keliru. Dampak utamanya adalah arus kas tersendat dan potensi konflik.', is_correct: false },
+  // Q29 (Set C #9): Studi kasus kos-kosan - solusi saat ini
+  { id: 'o1-C9-1', question_id: 'q1000005-0000-0000-0000-000000000009', teks: 'ERP System', poin: 0, umpan_balik: 'Keliru. Pemilik kos belum menggunakan sistem terintegrasi seperti ERP.', is_correct: false },
+  { id: 'o1-C9-2', question_id: 'q1000005-0000-0000-0000-000000000009', teks: 'CRM System', poin: 0, umpan_balik: 'Keliru. Mereka masih memakai cara manual.', is_correct: false },
+  { id: 'o1-C9-3', question_id: 'q1000005-0000-0000-0000-000000000009', teks: 'Broadcast WhatsApp dan buku tulis', poin: 10, umpan_balik: 'Tepat! Pemilik kos mengandalkan broadcast WhatsApp untuk menagih dan buku tulis/catatan manual.', is_correct: true },
+  { id: 'o1-C9-4', question_id: 'q1000005-0000-0000-0000-000000000009', teks: 'AI Chatbot', poin: 0, umpan_balik: 'Keliru. Penagihan masih dilakukan secara manual lewat WhatsApp.', is_correct: false },
+  // Q30 (Set C #10): Studi kasus kos-kosan - celah pasar
+  { id: 'o1-C10-1', question_id: 'q1000005-0000-0000-0000-000000000010', teks: 'Harga kos terlalu mahal', poin: 0, umpan_balik: 'Keliru. Celah pasar berada pada ketidakefisienan proses penagihan dan verifikasi.', is_correct: false },
+  { id: 'o1-C10-2', question_id: 'q1000005-0000-0000-0000-000000000010', teks: 'Lokasi kos jauh', poin: 0, umpan_balik: 'Keliru. Itu kondisi pengguna, bukan celah dari solusi alternatif saat ini.', is_correct: false },
+  { id: 'o1-C10-3', question_id: 'q1000005-0000-0000-0000-000000000010', teks: 'WA sering diabaikan dan mutasi bank dicek manual', poin: 10, umpan_balik: 'Tepat! Pesan WA mudah terabaikan dan pengecekan mutasi manual rentan kesalahan.', is_correct: true },
+  { id: 'o1-C10-4', question_id: 'q1000005-0000-0000-0000-000000000010', teks: 'Jumlah kamar sedikit', poin: 0, umpan_balik: 'Keliru. Celah pasar muncul dari keterbatasan cara manual saat mengelola 10-30 kamar.', is_correct: false }
 ];
 
 export const modul1SetCRubrics = [
   {
     id: 'er-0000001-0000-0000-0000-000000000011',
     question_id: 'q1000006-0000-0000-0000-000000000001',
-    kunci_jawaban: 'Product-Market Fit adalah kondisi ketika produk terbukti memenuhi kebutuhan pasar yang kuat, ditandai dengan tingginya retensi dan pertumbuhan organik. Ini penting karena menjadi syarat mutlak sebelum startup melakukan ekspansi skala besar.',
-    kata_kunci: ['product-market fit', 'kebutuhan pasar', 'retensi', 'pertumbuhan', 'ekspansi', 'validasi'],
-    rubrik_skor: { '10': '>=80% kata kunci', '9': 'Konsep inti benar kurang 1 unsur', '8': '60% benar', '7': 'Ide umum', '0': 'Tidak relevan' },
+    kunci_jawaban: '5 Whys adalah metode menemukan akar masalah dengan mengajukan pertanyaan "Mengapa?" secara berulang hingga ditemukan penyebab paling mendasar dari suatu masalah.',
+    kata_kunci: ['5 whys', 'mengapa', 'akar masalah', 'berulang', 'penyebab'],
+    rubrik_skor: { '10': 'Menjelaskan metode 5 Whys dengan bertanya mengapa berulang untuk menemukan akar masalah', '8': 'Menjelaskan mencari penyebab masalah', '0': 'Tidak relevan' },
     created_at: now()
   },
   {
     id: 'er-0000001-0000-0000-0000-000000000012',
     question_id: 'q1000006-0000-0000-0000-000000000002',
-    kunci_jawaban: 'The Gap memetakan kelemahan atau celah dari solusi alternatif yang saat ini dipakai pengguna. Dengan memahami celah tersebut, tim dapat menciptakan nilai pembeda (diferensiasi) yang membuat pengguna bersedia beralih ke produk baru.',
-    kata_kunci: ['gap', 'celah', 'kelemahan solusi', 'diferensiasi', 'alternatif', 'beralih'],
-    rubrik_skor: { '10': '>=80% kata kunci', '9': 'Konsep inti benar kurang 1 unsur', '8': '60% benar', '7': 'Ide umum', '0': 'Tidak relevan' },
+    kunci_jawaban: 'The Gap adalah kekurangan atau kelemahan dari solusi yang saat ini digunakan pengguna. Gap ditemukan dengan membandingkan kebutuhan pengguna terhadap kemampuan solusi yang sudah ada.',
+    kata_kunci: ['gap', 'kelemahan solusi', 'kebutuhan pengguna', 'peluang inovasi', 'kekurangan'],
+    rubrik_skor: { '10': 'Menjelaskan definisi The Gap dan cara menemukannya dari perbandingan kebutuhan & solusi ada', '8': 'Menjelaskan kekurangan produk kompetitor', '0': 'Tidak relevan' },
     created_at: now()
   },
   {
     id: 'er-0000001-0000-0000-0000-000000000013',
     question_id: 'q1000006-0000-0000-0000-000000000003',
-    kunci_jawaban: 'Iterasi adalah siklus perbaikan produk secara bertahap dan berulang berdasarkan umpan balik pengguna. Iterasi cepat lebih baik karena meminimalkan risiko membuang waktu dan biaya pada asumsi yang keliru.',
-    kata_kunci: ['iterasi', 'perbaikan', 'berulang', 'umpan balik', 'risiko', 'cepat'],
-    rubrik_skor: { '10': '>=80% kata kunci', '9': 'Konsep inti benar kurang 1 unsur', '8': '60% benar', '7': 'Ide umum', '0': 'Tidak relevan' },
+    kunci_jawaban: 'Contoh: "Pemilik kos dengan 10-30 kamar kesulitan mengelola pembayaran sewa pada akhir bulan karena proses pencatatan dan pengecekan pembayaran masih manual, yang mengakibatkan keterlambatan pembayaran, konflik dengan penyewa, dan arus kas yang terganggu."',
+    kata_kunci: ['kesulitan', 'saat', 'karena', 'mengakibatkan', 'berakibat', 'manual', 'akhir bulan'],
+    rubrik_skor: { '10': 'Memuat seluruh elemen format: Target, Konteks, Akar Masalah, dan Dampak', '8': 'Memuat sebagian komponen format', '0': 'Tidak relevan' },
     created_at: now()
   },
   {
     id: 'er-0000001-0000-0000-0000-000000000014',
     question_id: 'q1000006-0000-0000-0000-000000000004',
-    kunci_jawaban: 'Dua cara konkret memvalidasi masalah: (1) Wawancara mendalam (user interview) tanpa pertanyaan mengarahkan kepada target pengguna, dan (2) Observasi langsung perilaku pengguna saat menghadapi hambatan tersebut.',
-    kata_kunci: ['wawancara', 'interview', 'observasi', 'perilaku', 'pengguna', 'validasi'],
-    rubrik_skor: { '10': '>=80% kata kunci', '9': 'Konsep inti benar kurang 1 unsur', '8': '60% benar', '7': 'Ide umum', '0': 'Tidak relevan' },
+    kunci_jawaban: 'Peluang inovasi yang dapat dibuat adalah sistem manajemen kos digital yang menyediakan pengingat otomatis, verifikasi pembayaran otomatis, dashboard keuangan, dan laporan real-time sehingga mengurangi pekerjaan manual serta keterlambatan pembayaran.',
+    kata_kunci: ['manajemen kos digital', 'otomatisasi', 'pembayaran', 'dashboard', 'efisiensi', 'pengingat otomatis'],
+    rubrik_skor: { '10': 'Menganalisis masalah kos dan menyebutkan solusi otomatisasi/dashboard/pembayaran', '8': 'Menyebutkan aplikasi kos secara umum', '0': 'Tidak relevan' },
     created_at: now()
   },
   {
     id: 'er-0000001-0000-0000-0000-000000000015',
     question_id: 'q1000006-0000-0000-0000-000000000005',
-    kunci_jawaban: 'Premature Scaling adalah tindakan memperbesar skala bisnis, tim, atau biaya pemasaran secara agresif sebelum mencapai Problem-Solution Fit. Dampaknya adalah pemborosan kas secara cepat karena pengguna baru langsung pergi akibat produk belum relevan.',
-    kata_kunci: ['premature scaling', 'ekspansi', 'problem-solution fit', 'kas', 'retensi', 'pemborosan'],
-    rubrik_skor: { '10': '>=80% kata kunci', '9': 'Konsep inti benar kurang 1 unsur', '8': '60% benar', '7': 'Ide umum', '0': 'Tidak relevan' },
+    kunci_jawaban: 'Feedback pengguna penting karena membantu startup memahami kebutuhan pasar, menemukan kekurangan produk, memvalidasi asumsi, mengurangi risiko kegagalan, dan meningkatkan kualitas solusi secara berkelanjutan.',
+    kata_kunci: ['feedback', 'kebutuhan pasar', 'validasi', 'perbaikan produk', 'mengurangi risiko'],
+    rubrik_skor: { '10': 'Menjelaskan peran feedback untuk validasi, perbaikan produk, dan mengurangi risiko', '8': 'Menjelaskan feedback untuk memperbaiki aplikasi', '0': 'Tidak relevan' },
     created_at: now()
   }
 ];
