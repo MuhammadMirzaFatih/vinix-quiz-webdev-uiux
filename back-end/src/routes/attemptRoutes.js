@@ -1,7 +1,8 @@
 /**
  * Attempt Routes
- * Menangani rute pengiriman jawaban dan perolehan hasil ujian
+ * Menangani rute riwayat percobaan, pengiriman jawaban, dan perolehan hasil ujian
  * Rute:
+ * - GET  /attempts
  * - POST /attempts/:id/submit
  * - GET  /attempts/:id/result
  */
@@ -19,6 +20,9 @@ const flexibleAuth = (req, res, next) => {
   }
   next();
 };
+
+// GET /attempts - Mengambil seluruh riwayat percobaan ujian peserta
+router.get('/', flexibleAuth, attemptController.getUserAttempts);
 
 // POST /attempts/:id/submit - Mengirim jawaban ujian untuk dinilai di server
 router.post('/:id/submit', flexibleAuth, validateSubmitExam, attemptController.submitExam);

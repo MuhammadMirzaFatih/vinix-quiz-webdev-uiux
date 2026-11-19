@@ -2,7 +2,7 @@
  * Progress Service (Dual-Store: memory & supabase)
  */
 
-import { courses, attempts, progress, initUserProgress } from '../data/memoryStore.js';
+import { courses, attempts, answers, progress, initUserProgress } from '../data/memoryStore.js';
 import { getSupabaseClient } from '../config/supabase.js';
 import { initUserProgressSupabase } from './courseService.js';
 
@@ -93,4 +93,132 @@ export async function getUserProgressSummary(userId) {
     totalAttempts: userAttempts.length,
     progressMap
   };
+}
+
+export async function unlockAllCoursesForUser(userId) {
+  const nowIso = new Date().toISOString();
+
+  if (isSupabase()) {
+    if (!isValidUuid(userId)) {
+      const err = new Error('Autentikasi diperlukan untuk membuka modul.');
+      err.status = 401;
+      throw err;
+    }
+
+    const supabase = getSupabaseClient();
+    await initUserProgressSupabase(userId);
+
+    const { error: updErr } = await supabase
+      .from('progress')
+      .update({
+        status: 'unlocked',
+        unlocked_at: nowIso,
+        updated_at: nowIso
+      })
+      .eq('user_id', userId)
+      .eq('status', 'locked');
+
+    if (updErr) throw updErr;
+    return await getUserProgressSummary(userId);
+  }
+
+  // Mode In-Memory
+  initUserProgress(userId);
+  progress.forEach(p => {
+    if (p.user_id === userId && p.status === 'locked') {
+      p.status = 'unlocked';
+      p.unlocked_at = nowIso;
+      p.updated_at = nowIso;
+    }
+  });
+
+  return await getUserProgressSummary(userId);
+}
+
+export async function resetUserProgress(userId) {
+  const nowIso = new Date().toISOString();
+
+  if (isSupabase()) {
+    if (!isValidUuid(userId)) {
+      const err = new Error('Autentikasi diperlukan untuk mereset progres.');
+      err.status = 401;
+      throw err;
+    }
+
+    const supabase = getSupabaseClient();
+
+    // 1. Hapus semua jawaban & riwayat ujian user
+    const { data: userAttempts, error: fetchAttErr } = await supabase
+      .from('attempts')
+      .select('id')
+      .eq('user_id', userId);
+    if (fetchAttErr) throw fetchAttErr;
+
+    const attemptIds = (userAttempts || []).map(a => a.id);
+    if (attemptIds.length > 0) {
+      const { error: delAnsErr } = await supabase
+        .from('answers')
+        .delete()
+        .in('attempt_id', attemptIds);
+      if (delAnsErr) throw delAnsErr;
+
+      const { error: delAttErr } = await supabase
+        .from('attempts')
+        .delete()
+        .eq('user_id', userId);
+      if (delAttErr) throw delAttErr;
+    }
+
+    // 2. Pastikan baris progress tersedia lalu kembalikan ke kondisi awal (Modul 1 terbuka, 2-10 terkunci, 0%)
+    await initUserProgressSupabase(userId);
+
+    const { data: allCourses, error: cErr } = await supabase
+      .from('courses')
+      .select('id, urutan');
+    if (cErr) throw cErr;
+
+    for (const c of (allCourses || [])) {
+      const isFirst = c.urutan === 1;
+      const { error: resetErr } = await supabase
+        .from('progress')
+        .update({
+          status: isFirst ? 'unlocked' : 'locked',
+          unlocked_at: isFirst ? nowIso : null,
+          passed_at: null,
+          bagian_selesai: [],
+          nilai_terbaik: 0,
+          updated_at: nowIso
+        })
+        .eq('user_id', userId)
+        .eq('course_id', c.id);
+
+      if (resetErr) throw resetErr;
+    }
+
+    return await getUserProgressSummary(userId);
+  }
+
+  // Mode In-Memory
+  const userAttemptIds = new Set(
+    attempts.filter(a => a.user_id === userId).map(a => a.id)
+  );
+
+  for (let i = answers.length - 1; i >= 0; i--) {
+    if (userAttemptIds.has(answers[i].attempt_id)) {
+      answers.splice(i, 1);
+    }
+  }
+  for (let i = attempts.length - 1; i >= 0; i--) {
+    if (attempts[i].user_id === userId) {
+      attempts.splice(i, 1);
+    }
+  }
+  for (let i = progress.length - 1; i >= 0; i--) {
+    if (progress[i].user_id === userId) {
+      progress.splice(i, 1);
+    }
+  }
+
+  initUserProgress(userId);
+  return await getUserProgressSummary(userId);
 }

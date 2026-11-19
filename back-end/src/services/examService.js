@@ -1,6 +1,6 @@
 /**
  * Exam Service (Dual-Store: memory & supabase)
- * Mengelola siklus ujian: start → submit → result
+ * Mengelola siklus ujian: start → submit → result → history
  */
 
 import { v4 as uuidv4 } from 'uuid';
@@ -103,7 +103,6 @@ export async function startExam(userId, courseId) {
     const pgIds = courseQuestions.filter(q => q.tipe === 'pilihan_ganda').map(q => q.id);
     let allOptions = [];
     if (pgIds.length > 0) {
-      // Hanya pilih kolom id, question_id, dan teks (is_correct & poin tidak diambil ke memori)
       const { data: optsData, error: oErr } = await supabase
         .from('options')
         .select('id, question_id, teks')
@@ -833,4 +832,79 @@ export async function getAttemptResult(attemptId, userId) {
     weakTopics,
     evaluatedQuestions
   };
+}
+
+export async function getUserAttempts(userId) {
+  if (isSupabase()) {
+    if (!isValidUuid(userId)) return [];
+    const supabase = getSupabaseClient();
+
+    const [{ data: userAttempts, error: aErr }, { data: allCourses, error: cErr }] = await Promise.all([
+      supabase
+        .from('attempts')
+        .select('*')
+        .eq('user_id', userId)
+        .not('selesai', 'is', null)
+        .order('selesai', { ascending: false }),
+      supabase
+        .from('courses')
+        .select('id, urutan, judul')
+    ]);
+
+    if (aErr) throw aErr;
+    if (cErr) throw cErr;
+
+    const courseMap = new Map((allCourses || []).map(c => [c.id, c]));
+
+    return (userAttempts || []).map(a => {
+      const course = courseMap.get(a.course_id);
+      const nilai = Number(a.nilai ?? 0);
+      return {
+        id: a.id,
+        attemptId: a.id,
+        courseId: a.course_id,
+        course_id: a.course_id,
+        courseUrutan: course?.urutan ?? 1,
+        courseJudul: course?.judul ?? 'Modul Pembelajaran',
+        attemptNumber: a.attempt_number,
+        attempt_number: a.attempt_number,
+        setPaket: a.set_paket,
+        set_paket: a.set_paket,
+        mulai: a.mulai,
+        selesai: a.selesai,
+        totalPG: Number(a.total_poin_pg || 0),
+        totalEssay: Number(a.total_poin_essay || 0),
+        nilai,
+        lulus: Boolean(a.lulus ?? nilai >= 80)
+      };
+    });
+  }
+
+  // Mode In-Memory
+  const courseMap = new Map(courses.map(c => [c.id, c]));
+  return attempts
+    .filter(a => a.user_id === userId && a.selesai)
+    .sort((a, b) => new Date(b.selesai) - new Date(a.selesai))
+    .map(a => {
+      const course = courseMap.get(a.course_id);
+      const nilai = Number(a.nilai ?? 0);
+      return {
+        id: a.id,
+        attemptId: a.id,
+        courseId: a.course_id,
+        course_id: a.course_id,
+        courseUrutan: course?.urutan ?? 1,
+        courseJudul: course?.judul ?? 'Modul Pembelajaran',
+        attemptNumber: a.attempt_number,
+        attempt_number: a.attempt_number,
+        setPaket: a.set_paket,
+        set_paket: a.set_paket,
+        mulai: a.mulai,
+        selesai: a.selesai,
+        totalPG: Number(a.total_poin_pg || 0),
+        totalEssay: Number(a.total_poin_essay || 0),
+        nilai,
+        lulus: Boolean(a.lulus ?? nilai >= 80)
+      };
+    });
 }

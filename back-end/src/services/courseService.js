@@ -105,6 +105,13 @@ export async function getAllCourses(userId) {
         nilai_terbaik: 0
       };
 
+      const bagianSelesai = Array.isArray(prog.bagian_selesai) ? prog.bagian_selesai : [];
+      const totalSections = (allSections || []).filter(s => s.course_id === course.id).length;
+      const readingPercentage = totalSections > 0
+        ? Math.min(100, Math.round((bagianSelesai.length / totalSections) * 100))
+        : 0;
+      const nilaiTerbaik = Number(prog.nilai_terbaik || 0);
+
       return {
         id: course.id,
         urutan: course.urutan,
@@ -112,15 +119,22 @@ export async function getAllCourses(userId) {
         ringkasan: course.ringkasan,
         kategori: course.kategori,
         estimasi_waktu: course.estimasi_waktu,
+        estimasiWaktu: course.estimasi_waktu,
         level: course.level,
         icon: course.icon,
         pdf_url: course.pdf_url,
+        pdfUrl: course.pdf_url,
         referensi_eksternal: course.referensi_eksternal,
         status: prog.status,
-        bagian_selesai: prog.bagian_selesai || [],
-        nilai_terbaik: Number(prog.nilai_terbaik || 0),
-        total_sections: (allSections || []).filter(s => s.course_id === course.id).length,
-        is_completed: prog.status === 'passed'
+        bagian_selesai: bagianSelesai,
+        bagianSelesai,
+        nilai_terbaik: nilaiTerbaik,
+        nilaiTerbaik,
+        total_sections: totalSections,
+        totalSections,
+        readingPercentage,
+        is_completed: prog.status === 'passed',
+        isCompleted: prog.status === 'passed'
       };
     });
   }
@@ -131,6 +145,13 @@ export async function getAllCourses(userId) {
     const prog = progress.find(p => p.user_id === userId && p.course_id === course.id)
       || { status: 'locked', bagian_selesai: [], nilai_terbaik: 0 };
 
+    const bagianSelesai = Array.isArray(prog.bagian_selesai) ? prog.bagian_selesai : [];
+    const totalSections = sections.filter(s => s.course_id === course.id).length;
+    const readingPercentage = totalSections > 0
+      ? Math.min(100, Math.round((bagianSelesai.length / totalSections) * 100))
+      : 0;
+    const nilaiTerbaik = Number(prog.nilai_terbaik || 0);
+
     return {
       id: course.id,
       urutan: course.urutan,
@@ -138,15 +159,22 @@ export async function getAllCourses(userId) {
       ringkasan: course.ringkasan,
       kategori: course.kategori,
       estimasi_waktu: course.estimasi_waktu,
+      estimasiWaktu: course.estimasi_waktu,
       level: course.level,
       icon: course.icon,
       pdf_url: course.pdf_url,
+      pdfUrl: course.pdf_url,
       referensi_eksternal: course.referensi_eksternal,
       status: prog.status,
-      bagian_selesai: prog.bagian_selesai,
-      nilai_terbaik: prog.nilai_terbaik,
-      total_sections: sections.filter(s => s.course_id === course.id).length,
-      is_completed: prog.status === 'passed'
+      bagian_selesai: bagianSelesai,
+      bagianSelesai,
+      nilai_terbaik: nilaiTerbaik,
+      nilaiTerbaik,
+      total_sections: totalSections,
+      totalSections,
+      readingPercentage,
+      is_completed: prog.status === 'passed',
+      isCompleted: prog.status === 'passed'
     };
   });
 }
@@ -199,12 +227,32 @@ export async function getCourseById(courseId, userId) {
       .order('urutan', { ascending: true });
     if (sErr) throw sErr;
 
+    const normalizedSections = (courseSections || []).map(s => ({
+      ...s,
+      pdfUrl: s.pdf_url,
+      pdfTitle: s.pdf_title
+    }));
+
+    const bagianSelesai = Array.isArray(prog.bagian_selesai) ? prog.bagian_selesai : [];
+    const totalSections = normalizedSections.length;
+    const readingPercentage = totalSections > 0
+      ? Math.min(100, Math.round((bagianSelesai.length / totalSections) * 100))
+      : 0;
+    const nilaiTerbaik = Number(prog.nilai_terbaik || 0);
+
     return {
       ...course,
+      estimasiWaktu: course.estimasi_waktu,
+      pdfUrl: course.pdf_url,
       status: prog.status,
-      bagian_selesai: prog.bagian_selesai || [],
-      nilai_terbaik: Number(prog.nilai_terbaik || 0),
-      sections: courseSections || []
+      bagian_selesai: bagianSelesai,
+      bagianSelesai,
+      nilai_terbaik: nilaiTerbaik,
+      nilaiTerbaik,
+      total_sections: totalSections,
+      totalSections,
+      readingPercentage,
+      sections: normalizedSections
     };
   }
 
@@ -231,19 +279,37 @@ export async function getCourseById(courseId, userId) {
     .filter(s => s.course_id === courseId)
     .sort((a, b) => a.urutan - b.urutan);
 
+  const normalizedSections = courseSections.map(s => ({
+    id: s.id,
+    urutan: s.urutan,
+    judul: s.judul,
+    isi: s.isi,
+    pdf_url: s.pdf_url,
+    pdfUrl: s.pdf_url,
+    pdf_title: s.pdf_title,
+    pdfTitle: s.pdf_title
+  }));
+
+  const bagianSelesai = Array.isArray(prog.bagian_selesai) ? prog.bagian_selesai : [];
+  const totalSections = normalizedSections.length;
+  const readingPercentage = totalSections > 0
+    ? Math.min(100, Math.round((bagianSelesai.length / totalSections) * 100))
+    : 0;
+  const nilaiTerbaik = Number(prog.nilai_terbaik || 0);
+
   return {
     ...course,
+    estimasiWaktu: course.estimasi_waktu,
+    pdfUrl: course.pdf_url,
     status: prog.status,
-    bagian_selesai: prog.bagian_selesai,
-    nilai_terbaik: prog.nilai_terbaik,
-    sections: courseSections.map(s => ({
-      id: s.id,
-      urutan: s.urutan,
-      judul: s.judul,
-      isi: s.isi,
-      pdf_url: s.pdf_url,
-      pdf_title: s.pdf_title
-    }))
+    bagian_selesai: bagianSelesai,
+    bagianSelesai,
+    nilai_terbaik: nilaiTerbaik,
+    nilaiTerbaik,
+    total_sections: totalSections,
+    totalSections,
+    readingPercentage,
+    sections: normalizedSections
   };
 }
 
@@ -305,7 +371,11 @@ export async function completeSectionForUser(userId, courseId, sectionUrutan) {
       if (updErr) throw updErr;
     }
 
-    return { success: true, bagian_selesai: currentList };
+    return {
+      success: true,
+      bagian_selesai: currentList,
+      bagianSelesai: currentList
+    };
   }
 
   // Mode In-Memory
@@ -338,5 +408,9 @@ export async function completeSectionForUser(userId, courseId, sectionUrutan) {
     prog.updated_at = new Date().toISOString();
   }
 
-  return { success: true, bagian_selesai: prog.bagian_selesai };
+  return {
+    success: true,
+    bagian_selesai: prog.bagian_selesai,
+    bagianSelesai: prog.bagian_selesai
+  };
 }

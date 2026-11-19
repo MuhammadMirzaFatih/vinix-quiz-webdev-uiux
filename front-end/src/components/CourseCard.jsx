@@ -38,8 +38,9 @@ export default function CourseCard({ course }) {
   const isUnlocked = course.status === 'unlocked';
 
   const IconComponent = ICON_MAP[course.icon] || BookOpen;
-  const sectionsRead = course.bagianSelesai?.length || 0;
-  const totalSections = course.sections?.length || 3;
+  const completedList = course.bagianSelesai || course.bagian_selesai || [];
+  const sectionsRead = completedList.length;
+  const totalSections = course.totalSections ?? course.total_sections ?? course.sections?.length ?? 3;
 
   return (
     <div
@@ -89,7 +90,7 @@ export default function CourseCard({ course }) {
             {isPassed && (
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-950/80 text-emerald-300 border border-emerald-800/80">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                Lulus ({course.nilaiTerbaik} Poin)
+                Lulus ({course.nilaiTerbaik ?? course.nilai_terbaik ?? 0} Poin)
               </span>
             )}
             {isUnlocked && (
@@ -110,7 +111,7 @@ export default function CourseCard({ course }) {
         <div className="flex items-center gap-4 text-[11px] font-medium text-slate-400 mb-4">
           <span className="flex items-center gap-1">
             <Clock className="w-3.5 h-3.5 text-slate-400" />
-            {course.estimasiWaktu || '45 Menit'}
+            {course.estimasiWaktu || course.estimasi_waktu || '45 Menit'}
           </span>
           <span className="px-2 py-0.5 bg-[#0D152A] border border-slate-800 rounded text-slate-300 font-semibold">
             {course.kategori}

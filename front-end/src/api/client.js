@@ -174,7 +174,26 @@ export const apiClient = {
     if (USE_REAL_BACKEND) {
       const res = await authFetch(`${API_BASE_URL}/courses`);
       const data = await handleResponse(res);
-      return Array.isArray(data) ? data : (data.courses || data.data || []);
+      const list = Array.isArray(data) ? data : (data.courses || data.data || []);
+      return list.map(course => {
+        const bagianSelesai = course.bagianSelesai || course.bagian_selesai || [];
+        const totalSections = course.totalSections ?? course.total_sections ?? (course.sections?.length || 0);
+        const readingPercentage = totalSections > 0
+          ? Math.min(100, Math.round((bagianSelesai.length / totalSections) * 100))
+          : 0;
+        return {
+          ...course,
+          estimasiWaktu: course.estimasiWaktu || course.estimasi_waktu,
+          pdfUrl: course.pdfUrl || course.pdf_url,
+          bagianSelesai,
+          bagian_selesai: bagianSelesai,
+          nilaiTerbaik: Number(course.nilaiTerbaik ?? course.nilai_terbaik ?? 0),
+          totalSections,
+          total_sections: totalSections,
+          readingPercentage,
+          isCompleted: course.status === 'passed'
+        };
+      });
     }
 
     await new Promise(r => setTimeout(r, 200));
@@ -182,12 +201,17 @@ export const apiClient = {
 
     return INITIAL_COURSES.map(course => {
       const prog = progressMap[course.id] || { status: 'locked', bagianSelesai: [], nilaiTerbaik: 0 };
+      const totalSections = course.sections.length;
+      const readingPercentage = totalSections > 0
+        ? Math.min(100, Math.round((prog.bagianSelesai.length / totalSections) * 100))
+        : 0;
       return {
         ...course,
         status: prog.status,
         bagianSelesai: prog.bagianSelesai,
         nilaiTerbaik: prog.nilaiTerbaik,
-        totalSections: course.sections.length,
+        totalSections,
+        readingPercentage,
         isCompleted: prog.status === 'passed'
       };
     });
@@ -198,7 +222,29 @@ export const apiClient = {
     if (USE_REAL_BACKEND) {
       const res = await authFetch(`${API_BASE_URL}/courses/${courseId}`);
       const data = await handleResponse(res);
-      return data.course || data;
+      const course = data.course || data;
+      const bagianSelesai = course.bagianSelesai || course.bagian_selesai || [];
+      const sections = (course.sections || []).map(sec => ({
+        ...sec,
+        pdfUrl: sec.pdfUrl || sec.pdf_url,
+        pdfTitle: sec.pdfTitle || sec.pdf_title
+      }));
+      const totalSections = sections.length;
+      const readingPercentage = totalSections > 0
+        ? Math.min(100, Math.round((bagianSelesai.length / totalSections) * 100))
+        : 0;
+
+      return {
+        ...course,
+        estimasiWaktu: course.estimasiWaktu || course.estimasi_waktu,
+        pdfUrl: course.pdfUrl || course.pdf_url,
+        bagianSelesai,
+        bagian_selesai: bagianSelesai,
+        nilaiTerbaik: Number(course.nilaiTerbaik ?? course.nilai_terbaik ?? 0),
+        totalSections,
+        readingPercentage,
+        sections
+      };
     }
 
     await new Promise(r => setTimeout(r, 200));
@@ -223,7 +269,13 @@ export const apiClient = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
       });
-      return await handleResponse(res);
+      const data = await handleResponse(res);
+      const bagianSelesai = data.bagianSelesai || data.bagian_selesai || [];
+      return {
+        ...data,
+        bagianSelesai,
+        bagian_selesai: bagianSelesai
+      };
     }
 
     await new Promise(r => setTimeout(r, 150));
@@ -238,7 +290,15 @@ export const apiClient = {
       saveStoredProgress(progressMap);
     }
 
-    return { success: true, bagianSelesai: progressMap[courseId].bagianSelesai };
+    return {
+      success: true,
+      bagianSelesai: progressMap[courseId].bagianSelesai,
+      bagian_selesai: progressMap[courseId].bagianSelesai
+    };
+  },
+
+  async markSectionComplete(courseId, sectionUrutan) {
+    return this.completeSection(courseId, sectionUrutan);
   },
 
   // 6. Exam: Start Session
@@ -471,6 +531,40 @@ export const apiClient = {
     return attempt;
   },
 
+  // 8b. Get All User Exam Attempts (History)
+  async getUserAttempts() {
+    if (USE_REAL_BACKEND) {
+      const res = await authFetch(`${API_BASE_URL}/attempts`);
+      const data = await handleResponse(res);
+      const list = Array.isArray(data) ? data : (data.attempts || data.data || []);
+      return list.map(a => ({
+        ...a,
+        id: a.id || a.attemptId,
+        courseId: a.courseId || a.course_id,
+        courseUrutan: a.courseUrutan ?? 1,
+        courseJudul: a.courseJudul || 'Modul Pembelajaran',
+        attemptNumber: a.attemptNumber ?? a.attempt_number ?? 1,
+        setPaket: a.setPaket || a.set_paket || 'A',
+        nilai: Number(a.nilai ?? 0),
+        lulus: Boolean(a.lulus ?? Number(a.nilai ?? 0) >= 80)
+      }));
+    }
+
+    await new Promise(r => setTimeout(r, 200));
+    const courseMap = new Map(INITIAL_COURSES.map(c => [c.id, c]));
+    return getStoredAttempts()
+      .filter(a => a.selesai)
+      .sort((a, b) => new Date(b.selesai).getTime() - new Date(a.selesai).getTime())
+      .map(a => {
+        const course = courseMap.get(a.courseId);
+        return {
+          ...a,
+          courseUrutan: course?.urutan ?? 1,
+          courseJudul: course?.judul ?? 'Modul Pembelajaran'
+        };
+      });
+  },
+
   // 9. Get User Progress Summary
   async getUserProgress() {
     if (USE_REAL_BACKEND) {
@@ -494,5 +588,43 @@ export const apiClient = {
       totalAttempts: attempts.length,
       progressMap
     };
+  },
+
+  // 10. Evaluator Control: Buka Semua Gembok Modul
+  async unlockAllCourses() {
+    if (USE_REAL_BACKEND) {
+      const res = await authFetch(`${API_BASE_URL}/me/progress/unlock-all`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      return await handleResponse(res);
+    }
+
+    const progressMap = getStoredProgress();
+    INITIAL_COURSES.forEach(c => {
+      if (!progressMap[c.id]) {
+        progressMap[c.id] = { status: 'unlocked', bagianSelesai: [], nilaiTerbaik: 0 };
+      } else if (progressMap[c.id].status === 'locked') {
+        progressMap[c.id].status = 'unlocked';
+      }
+    });
+    saveStoredProgress(progressMap);
+    return { success: true };
+  },
+
+  // 11. Evaluator Control: Reset Ulang Seluruh Progres ke Awal
+  async resetUserProgress() {
+    localStorage.removeItem('vinix7_progress_state');
+    localStorage.removeItem('vinix7_attempts_state');
+
+    if (USE_REAL_BACKEND) {
+      const res = await authFetch(`${API_BASE_URL}/me/progress/reset`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      return await handleResponse(res);
+    }
+
+    return { success: true };
   }
 };

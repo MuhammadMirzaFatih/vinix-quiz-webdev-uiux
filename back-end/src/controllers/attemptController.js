@@ -1,9 +1,19 @@
 /**
  * Attempt Controller
- * Menghubungkan endpoint submit jawaban dan hasil ujian ke examService
+ * Menghubungkan endpoint submit jawaban, hasil ujian, dan riwayat percobaan ke examService
  */
 
 import * as examService from '../services/examService.js';
+
+export async function getUserAttempts(req, res, next) {
+  try {
+    const userId = req.user?.id || req.query.userId || 'demo-student-01';
+    const history = await examService.getUserAttempts(userId);
+    return res.status(200).json(history);
+  } catch (err) {
+    next(err);
+  }
+}
 
 export async function submitExam(req, res, next) {
   try {

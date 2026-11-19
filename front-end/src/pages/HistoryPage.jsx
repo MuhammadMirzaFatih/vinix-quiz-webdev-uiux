@@ -1,29 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getStoredAttempts, INITIAL_COURSES } from '../api/mockData';
+import { apiClient } from '../api/client';
+import { INITIAL_COURSES } from '../api/mockData';
 import { 
   History, 
   CheckCircle2, 
   XCircle, 
   ArrowRight, 
   Clock, 
-  Award, 
   BookOpen,
   Calendar
 } from 'lucide-react';
 
 export default function HistoryPage() {
   const [attempts, setAttempts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const list = getStoredAttempts().filter(a => a.selesai);
-    // Sort descending by completion date
-    list.sort((a, b) => new Date(b.selesai).getTime() - new Date(a.selesai).getTime());
-    setAttempts(list);
+    let isMounted = true;
+
+    async function loadHistory() {
+      try {
+        setLoading(true);
+        const list = await apiClient.getUserAttempts();
+        const completed = (list || []).filter(a => a.selesai);
+        completed.sort((a, b) => new Date(b.selesai).getTime() - new Date(a.selesai).getTime());
+        if (isMounted) {
+          setAttempts(completed);
+        }
+      } catch (err) {
+        console.error('Failed to load exam history', err);
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    }
+
+    loadHistory();
+    return () => { isMounted = false; };
   }, []);
 
-  const getCourseInfo = (courseId) => {
-    return INITIAL_COURSES.find(c => c.id === courseId) || { judul: 'Modul Pembelajaran', urutan: 1 };
+  const getCourseInfo = (att) => {
+    if (att.courseJudul && att.courseUrutan) {
+      return { judul: att.courseJudul, urutan: att.courseUrutan };
+    }
+    return INITIAL_COURSES.find(c => c.id === att.courseId) || { judul: 'Modul Pembelajaran', urutan: 1 };
   };
 
   return (
@@ -43,7 +65,13 @@ export default function HistoryPage() {
         </p>
       </div>
 
-      {attempts.length === 0 ? (
+      {loading ? (
+        <div className="space-y-4 animate-pulse">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="h-28 bg-[#131D35] rounded-2xl border border-slate-800" />
+          ))}
+        </div>
+      ) : attempts.length === 0 ? (
         <div className="bg-[#131D35] rounded-3xl border border-slate-800 p-12 text-center max-w-md mx-auto shadow-xl">
           <div className="w-14 h-14 rounded-2xl bg-[#0D152A] text-sky-400 border border-slate-800 flex items-center justify-center mx-auto mb-4">
             <History className="w-7 h-7" />
@@ -65,7 +93,7 @@ export default function HistoryPage() {
       ) : (
         <div className="space-y-4">
           {attempts.map((att) => {
-            const course = getCourseInfo(att.courseId);
+            const course = getCourseInfo(att);
             const isPassed = att.nilai >= 80;
 
             return (
@@ -75,7 +103,7 @@ export default function HistoryPage() {
               >
                 <div className="flex items-start gap-4">
                   <div
-                    className={`w-14 h-14 rounded-2xl flex items-center justify-center font-black text-xl shrink-0 ${
+                    className={`w-14 h-14 rounded-2xl flex items-center justify-center font-black text-base shrink-0 ${
                       isPassed
                         ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-800'
                         : 'bg-rose-950/80 text-rose-300 border border-rose-800'

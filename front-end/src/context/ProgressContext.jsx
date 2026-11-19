@@ -34,21 +34,16 @@ export function ProgressProvider({ children }) {
     fetchProgress();
   }, [fetchProgress]);
 
-  // Reset Progress function for testing purposes (very useful for mentor/evaluators)
-  const resetProgress = () => {
-    localStorage.removeItem('vinix7_progress_state');
-    localStorage.removeItem('vinix7_attempts_state');
-    fetchProgress();
+  // Reset seluruh progres belajar & riwayat ujian ke kondisi awal (Modul 1 unlocked, 2-10 locked, 0%)
+  const resetProgress = async () => {
+    await apiClient.resetUserProgress();
+    await fetchProgress();
   };
 
-  // Instant unlock cheat for testing review purposes
-  const unlockAllForDemo = () => {
-    const map = {};
-    for (let i = 1; i <= 10; i++) {
-      map[`c${i}`] = { status: i <= 2 ? 'passed' : 'unlocked', bagianSelesai: [1, 2, 3], nilaiTerbaik: 85 };
-    }
-    localStorage.setItem('vinix7_progress_state', JSON.stringify(map));
-    fetchProgress();
+  // Membuka semua gembok modul yang masih terkunci untuk mode demo
+  const unlockAllForDemo = async () => {
+    await apiClient.unlockAllCourses();
+    await fetchProgress();
   };
 
   return (

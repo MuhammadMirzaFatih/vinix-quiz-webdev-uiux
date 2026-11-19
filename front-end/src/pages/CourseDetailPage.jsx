@@ -109,20 +109,34 @@ export default function CourseDetailPage() {
   const handleMarkComplete = async (sectionUrutan) => {
     try {
       setCompletingSection(true);
-      await apiClient.markSectionComplete(course.id, sectionUrutan);
+      const res = await apiClient.completeSection(course.id, sectionUrutan);
+
+      // Update state lokal secara instan agar progress bar & tombol langsung berubah
+      const prevList = course.bagianSelesai || course.bagian_selesai || [];
+      const nextList = Array.isArray(res?.bagianSelesai)
+        ? res.bagianSelesai
+        : Array.from(new Set([...prevList, sectionUrutan])).sort((a, b) => a - b);
+
+      setCourse(prev => (prev ? {
+        ...prev,
+        bagianSelesai: nextList,
+        bagian_selesai: nextList
+      } : prev));
+
       setToastMessage(`Bagian ${sectionUrutan} berhasil ditandai selesai!`);
-      
+
+      // Sinkronkan ulang dengan data server & konteks global
       const updated = await apiClient.getCourseById(id);
       setCourse(updated);
       refreshProgress();
-
+    } catch (err) {
+      console.error('Failed to complete section', err);
+      setToastMessage(err.message || 'Gagal menyimpan progres membaca.');
+    } finally {
+      setCompletingSection(false);
       setTimeout(() => {
         setToastMessage('');
       }, 3500);
-    } catch (err) {
-      console.error('Failed to complete section', err);
-    } finally {
-      setCompletingSection(false);
     }
   };
 
@@ -154,9 +168,10 @@ export default function CourseDetailPage() {
   const isPassed = course.status === 'passed';
   const sections = course.sections || [];
   const currentSection = sections[activeSectionIndex] || sections[0];
-  const isCurrentSectionCompleted = course.bagianSelesai?.includes(currentSection.urutan);
+  const completedList = course.bagianSelesai || course.bagian_selesai || [];
+  const isCurrentSectionCompleted = currentSection ? completedList.includes(currentSection.urutan) : false;
   const totalSections = sections.length;
-  const sectionsRead = course.bagianSelesai?.length || 0;
+  const sectionsRead = completedList.length;
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 pb-20">
@@ -191,7 +206,7 @@ export default function CourseDetailPage() {
               <span className="text-xs font-medium text-slate-600">&bull;</span>
               <span className="text-xs font-semibold text-slate-400 flex items-center gap-1">
                 <Clock className="w-3.5 h-3.5 text-slate-400" />
-                {course.estimasiWaktu || '45 Menit'}
+                {course.estimasiWaktu || course.estimasi_waktu || '45 Menit'}
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
@@ -207,7 +222,7 @@ export default function CourseDetailPage() {
             {isPassed ? (
               <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-emerald-950/80 text-emerald-300 border border-emerald-800/80">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                Lulus Evaluasi ({course.nilaiTerbaik} Poin)
+                Lulus Evaluasi ({course.nilaiTerbaik ?? course.nilai_terbaik ?? 0} Poin)
               </span>
             ) : isLocked ? (
               <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-slate-800/80 text-slate-400 border border-slate-700/80">
@@ -269,7 +284,7 @@ export default function CourseDetailPage() {
           <div className="space-y-2">
             {sections.map((sec, idx) => {
               const isSelected = activeSectionIndex === idx;
-              const isDone = course.bagianSelesai?.includes(sec.urutan);
+              const isDone = completedList.includes(sec.urutan);
 
               return (
                 <button
@@ -349,7 +364,7 @@ export default function CourseDetailPage() {
               <div>
                 <span className="text-xs font-bold text-sky-400 uppercase tracking-wider flex items-center gap-1.5 mb-1">
                   <FileText className="w-4 h-4" />
-                  {currentSection.judul}
+                  {currentSection?.judul}
                 </span>
                 <p className="text-xs text-slate-400">
                   {viewMode === 'pdf' ? 'Tampilan Dokumen Slide Asli' : 'Tampilan Rangkuman Poin Kunci'}
@@ -394,7 +409,7 @@ export default function CourseDetailPage() {
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                     <span className="text-xs font-bold tracking-wide">
-                      {currentSection.pdfTitle || 'Dokumen Slide PPT / PDF Modul'}
+                      {currentSection?.pdfTitle || 'Dokumen Slide PPT / PDF Modul'}
                     </span>
                   </div>
 
@@ -420,7 +435,7 @@ export default function CourseDetailPage() {
                       src={getPdfEmbedUrl(activePdfUrl)}
                       className="w-full h-[650px] border-0 rounded-2xl bg-white shadow-xs"
                       allow="autoplay"
-                      title={currentSection.judul}
+                      title={currentSection?.judul}
                     />
                   ) : (
                     <object
@@ -431,7 +446,7 @@ export default function CourseDetailPage() {
                       <iframe
                         src={`${activePdfUrl}#toolbar=1`}
                         className="w-full h-[640px] border-0"
-                        title={currentSection.judul}
+                        title={currentSection?.judul}
                       >
                         <div className="flex flex-col items-center justify-center p-8 bg-[#0D152A] text-center space-y-4 h-full">
                           <div className="w-14 h-14 rounded-2xl bg-[#0052CC]/20 text-sky-400 border border-[#0052CC]/40 flex items-center justify-center">
@@ -475,7 +490,7 @@ export default function CourseDetailPage() {
             ) : (
               /* Text / Markdown Mode */
               <div className="prose prose-invert max-w-none text-sm text-slate-300 leading-relaxed space-y-4">
-                {currentSection.isi.split('\n\n').map((paragraph, pIdx) => {
+                {(currentSection?.isi || '').split('\n\n').map((paragraph, pIdx) => {
                   if (paragraph.startsWith('### ')) {
                     return (
                       <h3 key={pIdx} className="text-lg font-bold text-white pt-2 border-b border-slate-800 pb-2">
@@ -525,7 +540,7 @@ export default function CourseDetailPage() {
               <div className="flex items-center gap-3">
                 <button
                   type="button"
-                  onClick={() => handleMarkComplete(currentSection.urutan)}
+                  onClick={() => currentSection && handleMarkComplete(currentSection.urutan)}
                   disabled={completingSection || isCurrentSectionCompleted}
                   className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all shadow-sm ${
                     isCurrentSectionCompleted
@@ -534,7 +549,13 @@ export default function CourseDetailPage() {
                   }`}
                 >
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>{isCurrentSectionCompleted ? 'Sudah Ditandai Selesai' : 'Tandai Selesai Dibaca'}</span>
+                  <span>
+                    {isCurrentSectionCompleted
+                      ? 'Sudah Ditandai Selesai'
+                      : completingSection
+                        ? 'Menyimpan...'
+                        : 'Tandai Selesai Dibaca'}
+                  </span>
                 </button>
 
                 {activeSectionIndex < sections.length - 1 && (
