@@ -8,10 +8,6 @@
  * - KKM: 80 (>= 80 Lulus, <= 79 Belum Lulus)
  */
 
-/**
- * Normalisasi teks untuk pencocokan kata kunci essay
- * (lowercase, menghapus tanda baca, merapikan spasi berlebih)
- */
 export function normalizeText(text) {
   if (!text) return '';
   return text
@@ -21,51 +17,50 @@ export function normalizeText(text) {
     .trim();
 }
 
-/**
- * Evaluasi jawaban Essay berdasarkan pencocokan kata kunci
- * @param {string} studentAnswer - Jawaban yang diketik peserta
- * @param {string[]} keywords - Daftar kata kunci dari tabel essay_rubrics
- * @returns {{ poin: number, label: 'Tepat'|'Kurang Tepat'|'Salah', matchedCount: number, totalKeywords: number }}
- */
 export function evaluateEssay(studentAnswer, keywords = []) {
   if (!studentAnswer || keywords.length === 0) {
-    return { poin: 0, label: 'Salah', matchedCount: 0, totalKeywords: keywords.length };
+    return {
+      poin: 0,
+      label: 'Salah',
+      matchedCount: 0,
+      totalKeywords: keywords.length,
+      missingKeywords: [...keywords]
+    };
   }
 
   const normalized = normalizeText(studentAnswer);
   let matched = 0;
+  const missingKeywords = [];
 
   for (const kw of keywords) {
     const normalizedKw = normalizeText(kw);
     if (normalized.includes(normalizedKw)) {
       matched++;
+    } else {
+      missingKeywords.push(kw);
     }
   }
 
   const ratio = matched / keywords.length;
 
-  // Evaluasi Simpel & Key-Point Friendly:
-  // Nilai 10 -> Poin kunci utama terpenuhi (matched >= 2 atau rasio >= 35%)
-  // Nilai 8  -> Konsep dasar ada namun kurang lengkap (matched >= 1 atau rasio >= 20%)
-  // Nilai 0  -> Tidak relevan atau kata kunci tidak ditemukan
-  if (matched >= 2 || ratio >= 0.35) {
-    return { poin: 10, label: 'Tepat', matchedCount: matched, totalKeywords: keywords.length };
-  } else if (matched >= 1 || ratio >= 0.2) {
-    return { poin: 8, label: 'Kurang Tepat', matchedCount: matched, totalKeywords: keywords.length };
+  // Skala Rubrik PRD Bagian 6 & 13: 10 (Tepat), 9/8/7 (Kurang Tepat), 0 (Salah)
+  if (ratio >= 0.75 || matched >= 4) {
+    return { poin: 10, label: 'Tepat', matchedCount: matched, totalKeywords: keywords.length, missingKeywords };
+  } else if (ratio >= 0.55 || matched === 3) {
+    return { poin: 9, label: 'Kurang Tepat', matchedCount: matched, totalKeywords: keywords.length, missingKeywords };
+  } else if (ratio >= 0.35 || matched === 2) {
+    return { poin: 8, label: 'Kurang Tepat', matchedCount: matched, totalKeywords: keywords.length, missingKeywords };
+  } else if (matched >= 1) {
+    return { poin: 7, label: 'Kurang Tepat', matchedCount: matched, totalKeywords: keywords.length, missingKeywords };
   } else {
-    return { poin: 0, label: 'Salah', matchedCount: matched, totalKeywords: keywords.length };
+    return { poin: 0, label: 'Salah', matchedCount: 0, totalKeywords: keywords.length, missingKeywords };
   }
 }
 
-/**
- * Hitung Nilai Akhir & Analisis Topik Lemah
- * @param {Array} evaluatedAnswers - Array objek evaluasi setiap soal
- * @returns {{ nilaiAkhir: number, lulus: boolean, totalPG: number, totalEssay: number, weakTopics: string[] }}
- */
 export function calculateFinalScore(evaluatedAnswers) {
   let totalPG = 0;
   let totalEssay = 0;
-  const topicScores = {}; // { [topik]: { totalPoin: number, maxPoin: number } }
+  const topicScores = {};
 
   for (const item of evaluatedAnswers) {
     const { topik, tipe, poin } = item;
@@ -83,15 +78,13 @@ export function calculateFinalScore(evaluatedAnswers) {
     topicScores[topik].possible += 10;
   }
 
-  // Formula Nilai Akhir: [0.60 * (Total_PG / 100) + 0.40 * (Total_Essay / 50)] * 100
   const pgComponent = 0.60 * (totalPG / 100);
   const essayComponent = 0.40 * (totalEssay / 50);
   const rawScore = (pgComponent + essayComponent) * 100;
-  const nilaiAkhir = Math.round(rawScore * 100) / 100; // Pembulatan 2 desimal
+  const nilaiAkhir = Math.round(rawScore * 100) / 100;
 
   const lulus = nilaiAkhir >= 80;
 
-  // Analisis Topik Lemah: Topik dengan persentase perolehan poin < 70%
   const weakTopics = Object.entries(topicScores)
     .filter(([_, score]) => (score.earned / score.possible) < 0.7)
     .map(([topik]) => topik);

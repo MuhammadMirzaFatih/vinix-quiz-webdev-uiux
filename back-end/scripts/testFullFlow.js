@@ -19,6 +19,7 @@
 
 import app from '../src/server.js';
 import { attempts } from '../src/data/memoryStore.js';
+import { getSupabaseClient } from '../src/config/supabase.js';
 
 process.env.NODE_ENV = 'test';
 
@@ -60,7 +61,7 @@ async function run() {
     });
   });
   const baseUrl = `http://127.0.0.1:${port}/api`;
-  info(`Server pengujian berjalan di port dinamis: ${port}`);
+  info(`Server pengujian berjalan di port dinamis: ${port} (Store: ${process.env.DATA_STORE || 'memory'})`);
 
   const testUser = {
     nama: 'Peserta Uji Otomatis',
@@ -68,6 +69,7 @@ async function run() {
     password: 'Password123!'
   };
 
+  let testUserId = '';
   let token = '';
   let attempt1Id = '';
   let attempt1Questions = [];
@@ -87,7 +89,8 @@ async function run() {
     if (regRes.status !== 201 || !regData.success) {
       fail(1, `Gagal register user baru (Status: ${regRes.status})`, regData);
     }
-    pass(1, `Berhasil register user baru: ${regData.user.email} (ID: ${regData.user.id})`);
+    testUserId = regData.user.id;
+    pass(1, `Berhasil register user baru: ${regData.user.email} (ID: ${testUserId})`);
 
     // ───────────────────────────────────────────────────────────────────────────
     // LANGKAH 2: Login
@@ -152,7 +155,7 @@ async function run() {
     }
 
     // Pastikan kunci jawaban tidak bocor ke client
-    const hasLeak = attempt1Questions.some(q => 
+    const hasLeak = attempt1Questions.some(q =>
       q.poin !== undefined || q.is_correct !== undefined || q.kunciJawaban !== undefined || q.options?.some(o => o.is_correct !== undefined)
     );
     if (hasLeak) {
@@ -165,7 +168,6 @@ async function run() {
     // LANGKAH 5: Submit Jawaban Nilai < 80
     // ───────────────────────────────────────────────────────────────────────────
     console.log(`\n${colors.yellow}--- LANGKAH 5: POST /attempts/:id/submit (Nilai Rendah & Cooldown) ---${colors.reset}`);
-    // Jawaban sengaja dikosongkan/salah agar nilai = 0 (< 80)
     const wrongAnswers = {};
     for (const q of attempt1Questions) {
       wrongAnswers[q.id] = q.tipe === 'pilihan_ganda' ? 'opt-salah' : 'jawaban salah tidak relevan';
@@ -241,9 +243,18 @@ async function run() {
     } else {
       // Fast-forward cooldown timestamp di store untuk simulasi otomatis cepat
       info(`Simulasi fast-forward: 1 menit cooldown telah berlalu.`);
-      const currentAttempt = attempts.find(a => a.id === attempt1Id);
-      if (currentAttempt) {
-        currentAttempt.cooldown_until = new Date(Date.now() - 5000).toISOString();
+      const pastIso = new Date(Date.now() - 5000).toISOString();
+      if (process.env.DATA_STORE === 'supabase') {
+        const supabase = getSupabaseClient();
+        await supabase
+          .from('attempts')
+          .update({ cooldown_until: pastIso })
+          .eq('id', attempt1Id);
+      } else {
+        const currentAttempt = attempts.find(a => a.id === attempt1Id);
+        if (currentAttempt) {
+          currentAttempt.cooldown_until = pastIso;
+        }
       }
     }
 
@@ -264,20 +275,17 @@ async function run() {
     pass(6, `Sesi ujian ke-2 berhasil dimulai (Attempt: 2, Set Paket: B, Total Soal: ${exam2StartData.questions.length})`);
 
     // Siapkan jawaban bernilai tinggi (>= 80) untuk Set B
-    // Berdasarkan data di memoryStore:
     const passAnswers = {
-      // 10 PG Set B (jawaban opsi benar)
-      'q1000003-0000-0000-0000-000000000001': 'o1-B1-2', // Prompt Engineering terstruktur
-      'q1000003-0000-0000-0000-000000000002': 'o1-B2-2', // Celah kebutuhan pengguna yang belum dipenuhi kompetitor
-      'q1000003-0000-0000-0000-000000000003': 'o1-B3-2', // Unique Value Proposition
-      'q1000003-0000-0000-0000-000000000004': 'o1-B4-2', // Mengkritisi ide dan menguji asumsi secara skeptis
-      'q1000003-0000-0000-0000-000000000005': 'o1-B5-3', // Kelompok target pengguna spesifik
-      'q1000003-0000-0000-0000-000000000006': 'o1-B6-2', // Kelompok spesifik yang paling merasakan dampak masalah
-      'q1000003-0000-0000-0000-000000000007': 'o1-B7-3', // Titik masalah atau frustrasi yang dialami pengguna
-      'q1000003-0000-0000-0000-000000000008': 'o1-B8-1', // Tugas spesifik yang ingin diselesaikan oleh pengguna
-      'q1000003-0000-0000-0000-000000000009': 'o1-B9-2', // Situasi dan momen spesifik yang memicu timbulnya masalah
-      'q1000003-0000-0000-0000-000000000010': 'o1-B10-3', // Metode 5 Whys
-      // 5 Essay Set B (lengkap dengan kata kunci)
+      'q1000003-0000-0000-0000-000000000001': 'o1-B1-2',
+      'q1000003-0000-0000-0000-000000000002': 'o1-B2-2',
+      'q1000003-0000-0000-0000-000000000003': 'o1-B3-2',
+      'q1000003-0000-0000-0000-000000000004': 'o1-B4-2',
+      'q1000003-0000-0000-0000-000000000005': 'o1-B5-3',
+      'q1000003-0000-0000-0000-000000000006': 'o1-B6-2',
+      'q1000003-0000-0000-0000-000000000007': 'o1-B7-3',
+      'q1000003-0000-0000-0000-000000000008': 'o1-B8-1',
+      'q1000003-0000-0000-0000-000000000009': 'o1-B9-2',
+      'q1000003-0000-0000-0000-000000000010': 'o1-B10-3',
       'q1000004-0000-0000-0000-000000000001': 'Keluhan pelanggan menunjukkan masalah nyata pengguna yang membuka peluang inovasi dan perbaikan produk.',
       'q1000004-0000-0000-0000-000000000002': 'Problem Statement Canvas adalah alat analisis terstruktur untuk membedah masalah pengguna dan menemukan akar masalah serta peluang solusi.',
       'q1000004-0000-0000-0000-000000000003': 'Strategi riset AI meliputi market researcher, interview simulator, competitor analyst, dan devil advocate.',
@@ -337,6 +345,26 @@ async function run() {
   } catch (err) {
     fail('Global', 'Terjadi error tidak terduga selama pengujian alur:', err);
   } finally {
+    if (process.env.DATA_STORE === 'supabase' && testUserId) {
+      try {
+        const supabase = getSupabaseClient();
+        const { data: userAttempts } = await supabase
+          .from('attempts')
+          .select('id')
+          .eq('user_id', testUserId);
+
+        const attemptIds = (userAttempts || []).map(a => a.id);
+        if (attemptIds.length > 0) {
+          await supabase.from('answers').delete().in('attempt_id', attemptIds);
+        }
+        await supabase.from('attempts').delete().eq('user_id', testUserId);
+        await supabase.from('progress').delete().eq('user_id', testUserId);
+        await supabase.from('users').delete().eq('id', testUserId);
+        info('Data akun uji sementara telah dibersihkan dari Supabase.');
+      } catch (_cleanupErr) {
+        // Abaikan jika gagal cleanup
+      }
+    }
     server.close();
   }
 }
