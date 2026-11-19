@@ -3,7 +3,7 @@
 #
 # Persiapan:
 #   1. Salin back-end/.env.example menjadi back-end/.env, lalu isi nilainya
-#      (SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, DATABASE_URL, JWT_SECRET, dst).
+#      (SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, JWT_SECRET, JWT_EXPIRES_IN).
 #   2. File .env TIDAK boleh di-commit ke GitHub.
 # Jalankan dari folder devops/:
 #   docker compose up --build -d
@@ -21,6 +21,7 @@ services:
     environment:
       PORT: 5000
       NODE_ENV: production
+      DATA_STORE: supabase   # wajib: tanpa ini backend memakai data memori, bukan Supabase
       FRONTEND_URL: http://localhost:5173
     ports:
       - "5000:5000"
