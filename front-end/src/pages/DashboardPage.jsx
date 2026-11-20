@@ -41,7 +41,7 @@ export default function DashboardPage() {
               </div>
               <div>
                 <p className="text-xs text-blue-200 font-medium flex items-center gap-1.5">
-                  Selamat datang kembali 👋
+                  Selamat datang kembali
                 </p>
                 <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">
                   {user?.nama || 'Peserta VINIX7'}

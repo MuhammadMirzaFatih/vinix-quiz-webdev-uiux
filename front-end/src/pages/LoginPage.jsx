@@ -105,7 +105,7 @@ export default function LoginPage() {
           <div className="mb-6 p-4 rounded-2xl bg-emerald-950/70 border border-emerald-500/50 text-emerald-200 text-xs animate-in fade-in slide-in-from-top-2">
             <div className="flex items-center gap-2 font-bold text-emerald-300 mb-1">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Pendaftaran Berhasil!</span>
+              <span>Pendaftaran Berhasil</span>
             </div>
             <p className="text-[11px] text-emerald-200/90 leading-relaxed">
               Akun atas nama <strong className="text-white underline">{registeredSuccess}</strong> sudah terdaftar. Nama/Email dan Kata Sandi Anda <strong>sudah terisi otomatis</strong> di bawah. Silakan langsung klik tombol <strong>"Masuk ke Platform"</strong>.
