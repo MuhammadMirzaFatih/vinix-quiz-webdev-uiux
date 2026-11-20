@@ -6,6 +6,48 @@
 
 ---
 
+## ⚡ Panduan Cepat Menjalankan Proyek (Bagi yang Baru Clone)
+
+Bagi siapa pun yang baru saja meng-clone repositori ini ke laptop/komputer lokal, ikuti **3 langkah ringkas** berikut:
+
+### 1. Install Dependensi (Hanya 1 Kali Saat Pertama Clone)
+Buka terminal di root repositori:
+```bash
+# Install paket Front-End
+cd front-end
+npm install
+cd ..
+
+# Install paket Back-End
+cd back-end
+npm install
+cd ..
+```
+
+### 2. Jalankan Aplikasi (Buka 2 Jendela Terminal)
+* **Terminal 1 — Jalankan Back-End:**
+  ```bash
+  cd back-end
+  npm start
+  ```
+  *(Server REST API aktif di `http://localhost:5000` &mdash; otomatis siap pakai dengan In-Memory Store)*
+
+* **Terminal 2 — Jalankan Front-End:**
+  ```bash
+  cd front-end
+  npm run dev
+  ```
+  *(Aplikasi Web Vite aktif di `http://localhost:5173`)*
+
+### 3. Buka di Browser
+Buka browser favorit Anda (Chrome, Edge, dll) lalu buka link:
+👉 **[http://localhost:5173](http://localhost:5173)**
+
+> 💡 **Alur Coba Akun Baru:**
+> Anda bisa langsung membuka menu **Daftar** di navbar, isi Nama Lengkap & Password (bisa intip sandi dengan ikon mata 👁️), lalu klik Daftar. Sistem otomatis mengarahkan ke halaman **Masuk (Login)** dengan data yang **sudah terisi otomatis**, tinggal klik **"Masuk ke Platform"**! Nama Anda akan otomatis terpampang di halaman Dashboard.
+
+---
+
 ## 🌟 1. Ringkasan Eksekutif & Fitur Inti (*Progressive Gating*)
 
 Platform ini dibangun untuk mengatasi kendala pembelajar mandiri pemula (*"Si Penonton Tutorial"*) yang sering mengalami pemahaman terfragmentasi karena belajar tanpa urutan terstruktur dan tanpa ujian validasi objektif.
